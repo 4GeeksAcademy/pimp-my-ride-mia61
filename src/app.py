@@ -28,6 +28,7 @@ if db_url is not None:
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
+app.config["JWT_SECRET_KEY"] = os.environ.get("FLASK_APP_KEY")
 jwt = JWTManager(app)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
