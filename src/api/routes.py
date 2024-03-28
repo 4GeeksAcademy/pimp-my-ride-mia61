@@ -5,11 +5,28 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from flask_jwt_extended import create_access_token
 
 api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
 CORS(api)
+
+@api.route('/log-ins', methods=['POST'])
+def handle_logins():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    if email is None or password is None:
+        return jsonify({"msg": "No email or password"}), 400
+    user = User.query.filter_by(email=email).one_or_none()
+    if user is None:
+        return jsonify({"msg": "no such user"}), 404
+    print(">>> password vs incoming password", user.password, password )
+    if user.password != password:
+        return jsonify({"msg": "Bad email or password"}), 401
+
+    access_token = create_access_token(identity=user.id)
+    return jsonify(access_token=access_token), 201
 
 
 @api.route('/hello', methods=['POST', 'GET'])
