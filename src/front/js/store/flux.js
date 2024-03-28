@@ -32,6 +32,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				);
 				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				setStore({
+					token: responseBody.access_token
+				});
+				localStorage.setItem("token", responseBody.access_token);
 
 				return true;
 			},
