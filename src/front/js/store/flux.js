@@ -21,6 +21,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
+			logIn: async (body) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "api/log-ins",
+				)
+			},
+
 			getMessage: async () => {
 				try{
 					// fetching data from the backend

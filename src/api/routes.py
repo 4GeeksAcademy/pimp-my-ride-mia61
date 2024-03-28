@@ -11,6 +11,9 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
+@api.route('/log-ins', methods=['POST'])
+def handle_logins():
+
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
