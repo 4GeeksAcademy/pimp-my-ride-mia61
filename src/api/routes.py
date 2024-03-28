@@ -21,13 +21,12 @@ def handle_logins():
     user = User.query.filter_by(email=email).one_or_none()
     if user is None:
         return jsonify({"msg": "no such user"}), 404
+    print(">>> password vs incoming password", user.password, password )
     if user.password != password:
-        return jsonify({"msg": "Bad username or password"}), 401
-
-    
+        return jsonify({"msg": "Bad email or password"}), 401
 
     access_token = create_access_token(identity=user.id)
-    return jsonify(access_token=access_token)
+    return jsonify(access_token=access_token), 201
 
 
 @api.route('/hello', methods=['POST', 'GET'])

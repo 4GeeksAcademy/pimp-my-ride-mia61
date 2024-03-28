@@ -14,7 +14,11 @@ export const Login = () => {
 			email: email,
 			password: password
 		});
-		if (success) Navigate("/profile")
+		if (success) {
+			Navigate("/profile");
+		} else {
+			alert("something went wrong");
+		}
 
 	}
 
@@ -23,12 +27,12 @@ export const Login = () => {
 			<form>
 				<input 
 				type="text" 
-				placeholder="email"
+				placeholder="Email"
 				value={email}
 				onChange={(event) => setEmail(event.target.value)}/>
 				<input 
 				type="text" 
-				placeholder="email"
+				placeholder="Password"
 				value={password}
 				onChange={(event) => setPassword(event.target.value)}/>
 				<button type="button" onClick={handleLogIn}>submit</button>
