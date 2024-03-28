@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+	const navigate = useNavigate();
 	const { store, actions } = useContext(Context);
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
@@ -15,7 +16,7 @@ export const Login = () => {
 			password: password
 		});
 		if (success) {
-			Navigate("/profile");
+			navigate("/profile");
 		} else {
 			alert("something went wrong");
 		}
