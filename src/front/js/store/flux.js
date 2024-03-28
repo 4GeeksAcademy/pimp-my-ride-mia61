@@ -13,7 +13,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			token: undefined,
+			localStorageChecked: undefined
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -30,7 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Content-Type": "application/json"
 						}
 					}
-				);
+				);   
 				if (response.status !== 201) return false;
 				const responseBody = await response.json();
 				setStore({
@@ -39,6 +41,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.setItem("token", responseBody.access_token);
 
 				return true;
+			},
+
+			checkIfTokenInLocalStorage: () => {
+				if (localStorage.getItem("token")) {
+					setStore({
+						token: localStorage.getItem("token")
+					});
+				};
+				setStore({
+					localStorageChecked: true
+				});
 			},
 
 			getMessage: async () => {
