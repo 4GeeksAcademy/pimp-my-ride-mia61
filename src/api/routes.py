@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 
 api = Blueprint('api', __name__)
 
@@ -29,10 +29,11 @@ def handle_logins():
     return jsonify(access_token=access_token), 201
 
 @api.route("/private", methods=["GET"])
+@jwt_required()
 def handle_private_data():
     message = "Oh these are all my recent secrets"
     return jsonify(message), 200
-
+  
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
