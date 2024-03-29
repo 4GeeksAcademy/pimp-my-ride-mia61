@@ -54,6 +54,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
+			fetchPrivateEndpoint: async () => {
+				const store = getStore();
+				const response = await fetch (
+					process.env.BACKEND_URL + "/api/private", {
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": "Bearer " + store.token
+						}
+					}
+				);
+				const body = await response.json();
+				setStore({
+					privateData: body
+				});
+			},
+
+			logUserOut: () => {
+				setStore({
+					token: undefined
+				});
+				if (localStorage.getItem("token")) {
+					localStorage.removeItem("token");
+				}
+				console.log(getStore().token)
+			},
+
 			getMessage: async () => {
 				try{
 					// fetching data from the backend
