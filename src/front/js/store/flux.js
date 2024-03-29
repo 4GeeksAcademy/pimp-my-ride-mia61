@@ -75,7 +75,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					token: undefined
 				});
 				if (localStorage.getItem("token")) {
-					localStoreage.getItem("token");
+					localStorage.removeItem("token");
 				}
 				console.log(getStore().token)
 			},
