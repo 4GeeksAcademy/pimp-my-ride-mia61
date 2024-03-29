@@ -70,6 +70,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
+			logUserOut: () => {
+				setStore({
+					token: undefined
+				});
+				if (localStorage.getItem("token")) {
+					localStoreage.getItem("token");
+				}
+				console.log(getStore().token)
+			},
+
 			getMessage: async () => {
 				try{
 					// fetching data from the backend
