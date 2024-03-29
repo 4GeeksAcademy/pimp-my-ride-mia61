@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token, jwt_required
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 api = Blueprint('api', __name__)
 
@@ -28,10 +28,12 @@ def handle_logins():
     access_token = create_access_token(identity=user.id)
     return jsonify(access_token=access_token), 201
 
-@api.route("/private", methods=["GET"])
+@api.route('/private', methods=['GET'])
 @jwt_required()
 def handle_private_data():
-    message = "Oh these are all my recent secrets"
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    message = f"of these are all my recent secrets, I use {user.email} and have a {user.id}"
     return jsonify(message), 200
   
 
