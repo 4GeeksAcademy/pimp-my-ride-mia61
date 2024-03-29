@@ -28,6 +28,11 @@ def handle_logins():
     access_token = create_access_token(identity=user.id)
     return jsonify(access_token=access_token), 201
 
+@api.route("/private", methods=["GET"])
+def handle_private_data():
+    message = "Oh these are all my recent secrets"
+    return jsonify(message), 200
+
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():

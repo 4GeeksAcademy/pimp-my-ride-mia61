@@ -54,6 +54,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 
+			fetchPrivateEndpoint: async () => {
+				const response = await fetch (
+					process.env.BACKEND_URL + "/api/private"
+				);
+			},
+
 			getMessage: async () => {
 				try{
 					// fetching data from the backend
