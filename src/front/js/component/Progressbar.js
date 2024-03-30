@@ -35,7 +35,15 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '2.0rem' }}
+                                    style={{
+                                        width: '2rem',
+                                        height: '2rem',
+                                        background: 'linear-gradient(to right, green, green, green, black)',
+                                        color: 'white',
+                                        border: 'none', // Remove border for a cleaner look
+                                        cursor: 'pointer', // Change cursor to pointer on hover
+                                        boxShadow: '0 0 25px yellow', // Add yellow shadow
+                                    }}
                                 >
                                 </span>
                                 <button
