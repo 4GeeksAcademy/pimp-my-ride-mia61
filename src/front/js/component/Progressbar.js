@@ -5,7 +5,7 @@ import { Context } from "../store/appContext";
 
 export const Progressbar = () => {
 	const {store, actions} =useContext(Context);
-    const [ active, setActive ] = useState("")
+    const [spanStyleOne, setSpanStyleOne] = useState(baseSpanStyles);
 
     const activeStyles = {
         width: '2rem',
@@ -17,17 +17,18 @@ export const Progressbar = () => {
         boxShadow: '0 0 25px yellow', // Add yellow shadow
     };
     
-    const inactiveStyles = { 
-        height: '2.0rem', 
-    };
-    
     const baseButtonStyles = { 
         width: '2rem', 
         height: '2rem',
     };
 
-    const baseSpanStyles = { 
-        height: '2.0rem' 
+    const baseSpanStyles = {
+        height: '2.0rem',
+        background: 'black', // Add black background
+    };
+
+    const handleClick = () => {
+        setSpanStyleOne(activeStyles);
     };
 
 	return (
@@ -39,24 +40,23 @@ export const Progressbar = () => {
                         <div className="container-fluid p-2 align-items-center">
                             <div className="d-flex justify-content-around">
                                 <button
-                                    className="btn bg-dark  text-white btn-sm rounded-pill"
+                                    className="btn bg-dark text-white btn-sm rounded-pill"
                                     style={ baseButtonStyles }
+                                    id="1"
                                    
-                                    // onClick="stepFunction(event)"
-                                    // onClick={() => {setActive("power")}}
-                                    // onClick={() => {setActive("red")}} 
-                                    // style={color == "red" ? "light red lit" : "light red" }
                                 >
-                                1
+                                2
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    className="w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={ spanStyleOne }
+                                    id="11"
                                 >
                                 </span>
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
                                     style={ baseButtonStyles }
+                                    id="2"
                                    
                                 >
                                 2
@@ -64,6 +64,7 @@ export const Progressbar = () => {
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ baseSpanStyles }
+                                    id="22"
                                 >
                                 </span>
                                 <button
@@ -180,7 +181,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClick("setter1")}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
