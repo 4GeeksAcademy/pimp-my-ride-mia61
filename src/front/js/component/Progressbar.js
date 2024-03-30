@@ -41,9 +41,13 @@ export const Progressbar = () => {
         background: 'green',
     };
 
-    const progressbarOff = {
+    const displayNoneStyles = {
         display: "none",
-      };
+    };
+
+    const completedCarStyles ={
+        width: '100%',
+    };
 
     const [spanStyleOne, setSpanStyleOne] = useState(baseSpanStyles);
     const [buttonStyleOne, setButtonStyleOne] = useState(baseButtonStyles);
@@ -61,6 +65,7 @@ export const Progressbar = () => {
     const [buttonStyleSeven, setButtonStyleSeven] = useState(baseButtonStyles);
     const [spanStyleEight, setSpanStyleEight] = useState(baseSpanStyles);
     const [buttonStyleEight, setButtonStyleEight] = useState(baseButtonStyles);
+    const [CarCompleted, setCarCompleted] = useState(displayNoneStyles);
 
     const handleClickOne = () => {
         setSpanStyleOne(activeStyles);
@@ -102,30 +107,33 @@ export const Progressbar = () => {
         setButtonStyleEight(completedButtonStyles);
     };
     const handleClickNine = () => {
-        setSpanStyleOne(progressbarOff);
-        setButtonStyleOne(progressbarOff);
-        setSpanStyleTwo(progressbarOff);
-        setButtonStyleTwo(progressbarOff);
-        setSpanStyleThree(progressbarOff);
-        setButtonStyleThree(progressbarOff);
-        setSpanStyleFour(progressbarOff);
-        setButtonStyleFour(progressbarOff);
-        setSpanStyleFive(progressbarOff);
-        setButtonStyleFive(progressbarOff);
-        setSpanStyleSix(progressbarOff);
-        setButtonStyleSix(progressbarOff);
-        setSpanStyleSeven(progressbarOff);
-        setButtonStyleSeven(progressbarOff);
-        setSpanStyleEight(progressbarOff);
-        setButtonStyleEight(progressbarOff);
+        setSpanStyleOne(displayNoneStyles);
+        setButtonStyleOne(displayNoneStyles);
+        setSpanStyleTwo(displayNoneStyles);
+        setButtonStyleTwo(displayNoneStyles);
+        setSpanStyleThree(displayNoneStyles);
+        setButtonStyleThree(displayNoneStyles);
+        setSpanStyleFour(displayNoneStyles);
+        setButtonStyleFour(displayNoneStyles);
+        setSpanStyleFive(displayNoneStyles);
+        setButtonStyleFive(displayNoneStyles);
+        setSpanStyleSix(displayNoneStyles);
+        setButtonStyleSix(displayNoneStyles);
+        setSpanStyleSeven(displayNoneStyles);
+        setButtonStyleSeven(displayNoneStyles);
+        setSpanStyleEight(displayNoneStyles);
+        setButtonStyleEight(displayNoneStyles);
+        setCarCompleted(completedCarStyles);
     };
 
 	return (
         <>	
             
             <div className="container-fluid">
+                <button type="button" class="btn btn-warning btn-lg btn-block"style={ CarCompleted }>Your car is Completed! </button>
                 <div className="row">
                     <div className="col-md-12">
+                        
                         <div className="container-fluid p-2 align-items-center">
                             <div className="d-flex justify-content-around">
                                 <button
@@ -134,7 +142,7 @@ export const Progressbar = () => {
                                     id="1"
                                    
                                 >
-                                2
+                                1
                                 </button>
                                 <span
                                     className="w-25 rounded mt-auto mb-auto me-1 ms-1"
