@@ -13,12 +13,71 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			token: undefined,
+			localStorageChecked: undefined
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
+			},
+
+			logIn: async (body) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "/api/log-ins", {
+						method: "POST",
+						body: JSON.stringify(body),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);   
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				setStore({
+					token: responseBody.access_token
+				});
+				localStorage.setItem("token", responseBody.access_token);
+
+				return true;
+			},
+
+			checkIfTokenInLocalStorage: () => {
+				if (localStorage.getItem("token")) {
+					setStore({
+						token: localStorage.getItem("token")
+					});
+				};
+				setStore({
+					localStorageChecked: true
+				});
+			},
+
+			fetchPrivateEndpoint: async () => {
+				const store = getStore();
+				const response = await fetch (
+					process.env.BACKEND_URL + "/api/private", {
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": "Bearer " + store.token
+						}
+					}
+				);
+				const body = await response.json();
+				setStore({
+					privateData: body
+				});
+			},
+
+			logUserOut: () => {
+				setStore({
+					token: undefined
+				});
+				if (localStorage.getItem("token")) {
+					localStorage.removeItem("token");
+				}
+				console.log(getStore().token)
 			},
 
 			getMessage: async () => {
