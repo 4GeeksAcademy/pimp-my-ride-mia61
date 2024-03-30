@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, render_template, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
@@ -78,3 +78,22 @@ def serve_any_other_file(path):
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    # Retrieve form data
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    email = request.form['email']
+    phone_number = request.form['phone_number']
+    vin_number = request.form['vin_number']
+    licence_plate = request.form['licence_plate']
+    text_area = request.form['text_area']
+
+    # Process the form data here
+
+    # Return a response (confirmation message)
+    return jsonify({'message': 'Form submitted successfully'})
+
+if __name__ == '__main__':
+    app.run(debug=True)

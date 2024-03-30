@@ -12,6 +12,7 @@ import { Profile } from "./pages/Profile";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+// import { NewWorkOrder} from "./component/NewWorkOrder";
 
 //create your first component
 const Layout = () => {
@@ -31,7 +32,9 @@ const Layout = () => {
                         <Route element={<Login />} path="/log-in" />
                         <Route element={<Profile />} path="/profile" />
                     
+                        
                         <Route element={<Demo />} path="/demo" />
+                        {/* <Route element={<NewWorkOrder />} path="/submit" /> */}
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
