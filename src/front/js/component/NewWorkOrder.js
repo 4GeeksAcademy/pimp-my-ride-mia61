@@ -1,12 +1,22 @@
 import React, {useEffect, useState} from 'react'
 
 const NewWorkOrder =() => {
+    const [formData, setFormData] = useState({
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone_number: '',
+        vin_number: '',
+        licence_plate: '',
+        text_area: ''
+    });
     const [makes, setMakes] = useState([]);
     const [models, setModels] = useState([]);
     const [selectedMake, setSelectedMake] = useState('');
     const [selectedModel, setSelectedModel] = useState('');
     const [selectedYear, setSelectedYear] = useState('');
-
+    const [uploadedImages, setUploadedImages] = useState([]);
+    
 
 // Defining vechicle models for each make:
     const vechicleModels ={
@@ -56,48 +66,50 @@ const NewWorkOrder =() => {
 
 
     useEffect(() => {
-        const fetchedMakes = ["Acura",
-        "Alfa Romeo",
-        "Aston Martin",
-        "Audi",
-        "Bentley",
-        "BMW",
-        "Buick",
-        "Cadillac",
-        "Chevrolet",
-        "Chrysler",
-        "Dodge",
-        "Ferrari",
-        "Fiat",
-        "Ford",
-        "Genesis",
-        "GMC",
-        "Honda",
-        "Hyundai",
-        "Infiniti",
-        "Jaguar",
-        "Jeep",
-        "Kia",
-        "Lamborghini",
-        "Land Rover",
-        "Lexus",
-        "Lincoln",
-        "Lotus",
-        "Maserati",
-        "Mazda",
-        "McLaren",
-        "Mercedes-Benz",
-        "MINI",
-        "Mitsubishi",
-        "Nissan",
-        "Porsche",
-        "Ram",
-        "Rolls-Royce",
-        "Subaru",
-        "Tesla",
-        "Toyota",
-        "Volkswagen",
-        "Volvo"];
+        const fetchedMakes = [
+            "Acura",
+            "Alfa Romeo",
+            "Aston Martin",
+            "Audi",
+            "Bentley",
+            "BMW",
+            "Buick",
+            "Cadillac",
+            "Chevrolet",
+            "Chrysler",
+            "Dodge",
+            "Ferrari",
+            "Fiat",
+            "Ford",
+            "Genesis",
+            "GMC",
+            "Honda",
+            "Hyundai",
+            "Infiniti",
+            "Jaguar",
+            "Jeep",
+            "Kia",
+            "Lamborghini",
+            "Land Rover",
+            "Lexus",
+            "Lincoln",
+            "Lotus",
+            "Maserati",
+            "Mazda",
+            "McLaren",
+            "Mercedes-Benz",
+            "MINI",
+            "Mitsubishi",
+            "Nissan",
+            "Porsche",
+            "Ram",
+            "Rolls-Royce",
+            "Subaru",
+            "Tesla",
+            "Toyota",
+            "Volkswagen",
+            "Volvo"
+        ];
         setMakes(fetchedMakes);
     }, []);
 
@@ -116,23 +128,99 @@ const NewWorkOrder =() => {
         setSelectedYear('');
     };
 
-    const handleYearChange = (e) => {
-        selectedYear(e.target.value)
+
+    // Function to handle form submission
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Send form data to backend using fetch
+        fetch('/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message); // Log the server response
+            // You can add code here to handle the response from the server (e.g., display a confirmation message to the user)
+        })
+        .catch(error => {
+            console.error('Error:', error); // Log any errors that occur during the request
+        });
     };
 
-    const years = Array.from({ length: 30 }, (_, index) => (new Date().getFullYear() - index).toString()); // Array of years from current year to 30 years ago
+    const handleYearChange = (e) => {
+        setSelectedYear(e.target.value)
+    };
 
+    const years = Array.from({ length: 30 }, (_, index) => ((new Date().getFullYear()+1) - index).toString());
+
+    // const [uploadedImage, setUploadedImage] = useState('');
+    
+    // const handleImageUpload = (event) => {
+    //     const file = event.target.files[0];
+    //     const reader = new FileReader();
+    
+    //     reader.onloadend = () => {
+    //         setUploadedImage(reader.result);
+    //     };
+    
+    //     if (file) {
+    //         reader.readAsDataURL(file);
+    //     }
+    // };
+
+    const handleImageUpload = (event) => {
+        const files = event.target.files;
+        const newImages = [];
+        console.log (files);
+        for (let i=0; i<files.length; i++){
+            const reader = new FileReader();
+            reader.onload = () => {
+                newImages.push(reader.result);
+                    if (newImages.length === files.length){
+                        setUploadedImages([...uploadedImages, ...newImages.slice(0, 12 - uploadedImages.length)]);
+                     }
+                };
+            reader.readAsDataURL(files[i]);
+         }
+        // const [uploadedImages, setUploadedImages] = useState([]);
+
+        // const handleUploadImages = (event) =>{
+        //     const files = event.target.files;
+        //     const imageArray = [];
+
+        //     for (let i=0; i<files.length; i++){
+        //         const reader = new FileReader( );
+        //         reader.onload = () => {
+        //             imagesArray.push(reader.result);
+        //             if (imagesArray.lenght === files.length){
+        //                 setUploadedImages([...uploadedImages, ...imagesArray]);
+        //             }
+        //         };
+        //         reader.readAsDataURL(files[i]);
+        //     }
+        // }
+    };
+
+    // Function to handle input changes
+    const handleChange = (event) => {
+        setFormData({...formData,
+            [event.target.name]: event.target.value
+        });
+    };
 
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <div className="input-group mb-3">
-                <input type="text" className="form-control" placeholder="First name *" aria-label="Fristname" aria-describedby="basic-addon1"/>
-                <input type="text" className="form-control" placeholder="Last name *" aria-label="Lastname" aria-describedby="basic-addon1"/>
+            <input type="text" className="form-control" name="first_name" placeholder="First name *" onChange={handleChange} required />
+                <input type="text" className="form-control" name="last_name" placeholder="Last name *" onChange={handleChange} required />
             </div>
 
             <div className="input-group mb-3">
-                <input type="email" className="form-control" placeholder="Email *" aria-label="Email" aria-describedby="basic-addon1"/>
-                <input type="text" className="form-control" placeholder="Phone number *" aria-label="Phone number" maxLength={10} aria-describedby="basic-addon1"/>
+                <input type="email" className="form-control" name="email" placeholder="Email *" onChange={handleChange} required />
+                <input type="text" className="form-control" name="phone_number" placeholder="Phone number *" onChange={handleChange} required />
             </div>
         
             <div className="input-group mb-3">
@@ -157,24 +245,87 @@ const NewWorkOrder =() => {
                     ))}
                 </select>
 
-                {/* <input type="text" className="form-control" placeholder="" aria-label="Make" aria-describedby="basic-addon2"/>
-                <input type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-                <input type="text" className="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"/> */}
             </div>
 
             <div className="input-group mb-3">
-                <input type="text" className="form-control" placeholder="VIN Number *" aria-label="VIN" aria-describedby="basic-addon1" maxLength={17} onInput={(e) => { e.target.value = e.target.value.toUpperCase(); }}/>
-                <input type="text" className="form-control" placeholder="Licence plate *" aria-label="Licence plate" aria-describedby="basic-addon1"/>
+                <input type="text" className="form-control" name="vin_number" placeholder="VIN Number *" maxLength={17} onInput={(e) => { e.target.value = e.target.value.toUpperCase(); }} onChange={handleChange} required />
+                <input type="text" className="form-control" name="licence_plate" placeholder="Licence plate *" onChange={handleChange} required />
             </div>
 
-            <div class="input-group">
-                <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload"/>
-                <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload</button>
+
+            {/* <div>
+                <img style={{ maxWidth: '300px', maxHeight: '300px' }} src={uploadedImages || ''} alt="Empty" />
             </div>
+
+            <div>
+                <div className="input-group">
+                    <input
+                        type="file"
+                        className="form-control"
+                        id="inputGroupFile04"
+                        aria-describedby="inputGroupFileAddon04"
+                        aria-label="Upload"
+                        multiple
+                        onChange={handleImageUpload}
+                    />
+                    <button className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">
+                        Upload
+                    </button>
+                </div>
+                <div className="d-flex flex-wrap">
+                    {uploadedImages.map((image, index) => (
+                        <img
+                            key={index}
+                            style={{ maxWidth: '100px', maxHeight: '100px', margin: '5px' }}
+                            src={image}
+                            alt={`Uploaded Preview ${index}`}
+                        />
+                    ))}
+                </div>
+            </div> */}
+
+            <div className="input-group">
+                <input
+                    type="file"
+                    className="form-control"
+                    id="inputGroupFile04"
+                    aria-describedby="inputGroupFileAddon04"
+                    aria-label="Upload"
+                    multiple
+                    onChange={handleImageUpload}
+                />
+                <button className="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">
+                    Upload
+                </button>
+                </div>
+                {/* Conditionally render the preview section */}
+                {uploadedImages.length && (
+                    <div className="d-flex flex-wrap">
+                        {uploadedImages.map((image, index) => (
+                            <div className = "position-relative">
+                                <img
+                                    key={index}
+                                    style={{ maxWidth: '100px', maxHeight: '100px', margin: '5px' }}
+                                    src={image}
+                                    alt={`Uploaded Preview ${index}`}
+                                />
+                            <button onClick ={() => setUploadedImages(imageList => imageList.filter((image, imageIndex) => imageIndex != index))} className = "position-absolute top-50 start-50 translate-middle">X</button>
+                            </div>
+                        ))}
+                        {/* Render empty preview placeholders if less than 12 images */}
+                        {[...Array(Math.max(12 - uploadedImages.length, 0))].map((_, index) => (
+                            <div key={index} style={{ width: '100px', height: '100px', border: '1px solid #ccc', margin: '5px' }} />
+                        ))}
+                    </div>
+                )}
 
             <div className="input-group">
                 <span className="input-group-text">Notes:</span>
-                <textarea className="form-control" aria-label="With textarea"></textarea>
+                <textarea className="form-control" name="text_area" placeholder="Enter text" onChange={handleChange}></textarea>
+            </div>
+
+            <div>
+                <input className="btn btn-primary" type="button" value="Create new order"/>
             </div>
         </form>
         
