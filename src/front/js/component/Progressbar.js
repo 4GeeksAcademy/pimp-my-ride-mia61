@@ -41,12 +41,9 @@ export const Progressbar = () => {
                                 <button
                                     className="btn bg-dark  text-white btn-sm rounded-pill"
                                     style={ baseButtonStyles }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company1"
-                                    aria-expanded="true"
-                                    aria-controls="company1"
+                                   
                                     // onClick="stepFunction(event)"
-                                    onClick={() => {setActive("power")}}
+                                    // onClick={() => {setActive("power")}}
                                     // onClick={() => {setActive("red")}} 
                                     // style={color == "red" ? "light red lit" : "light red" }
                                 >
@@ -60,11 +57,7 @@ export const Progressbar = () => {
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
                                     style={ baseButtonStyles }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company1"
-                                    aria-expanded="true"
-                                    aria-controls="company1"
-                                    onClick="stepFunction(event)"
+                                   
                                 >
                                 2
                                 </button>
@@ -185,19 +178,95 @@ export const Progressbar = () => {
                     </div>
                 </div>
             </div>
-            <div>
-                <h1>1: Car Accepted</h1>
-                <h1>2: Payment or Insurance accepted</h1>
-                <h1>3: Payment or Insurance check recieved</h1>
-                <h1>4: Parts Ordered</h1>
-                <h1>5: Parts Delivered</h1>
-                <h1>6: Labor Begin Date</h1>
-                <h1>7: Car Repair Complete</h1>
-                <h1>8: Car Being Prepared For Pickup</h1>
-                <h1>9: Car Ready For Pickup</h1>
-
-
-
+            <div className="row" >
+                <div className="col-auto">
+                    <button className="btn btn-primary">Hello</button>
+                </div>
+                <div className="col">
+                    <div>
+                        <h1>1: Car Accepted</h1>
+                    </div>
+                </div>
+            </div>
+            <div className="row" >
+                <div className="col-auto">
+                    <button className="btn btn-primary">Hello</button>
+                </div>
+                <div className="col">
+                    <div>
+                        <h1>2: Payment or Insurance accepted</h1>
+                    </div>
+                </div>
+            </div>
+            <div className="row" >
+                <div className="col-auto">
+                    <button className="btn btn-primary">Hello</button>
+                </div>
+                <div className="col">
+                    <div>
+                        <h1>3: Payment or Insurance check recieved</h1>
+                    </div>
+                </div>
+            </div>
+            <div className="row" >
+                <div className="col-auto">
+                    <button className="btn btn-primary">Hello</button>
+                </div>
+                <div className="col">
+                    <div>
+                        <h1>4: Parts Ordered</h1>
+                    </div>
+                </div>
+            </div>
+            <div className="row" >
+                <div className="col-auto">
+                    <button className="btn btn-primary">Hello</button>
+                </div>
+                <div className="col">
+                    <div>
+                        <h1>5: Parts Delivered</h1>
+                    </div>
+                </div>
+            </div>
+            <div className="row" >
+                <div className="col-auto">
+                    <button className="btn btn-primary">Hello</button>
+                </div>
+                <div className="col">
+                    <div>
+                        <h1>6: Labor Begin Date</h1>
+                    </div>
+                </div>
+            </div>
+            <div className="row" >
+                <div className="col-auto">
+                    <button className="btn btn-primary">Hello</button>
+                </div>
+                <div className="col">
+                    <div>
+                        <h1>7: Car Repair Complete</h1>
+                    </div>
+                </div>
+            </div>
+            <div className="row" >
+                <div className="col-auto">
+                    <button className="btn btn-primary">Hello</button>
+                </div>
+                <div className="col">
+                    <div>
+                        <h1>8: Car Being Prepared For Pickup</h1>
+                    </div>
+                </div>
+            </div>
+            <div className="row" >
+                <div className="col-auto">
+                    <button className="btn btn-primary">Hello</button>
+                </div>
+                <div className="col">
+                    <div>
+                        <h1>9: Car Ready For Pickup</h1>
+                    </div>
+                </div>
             </div>
 	    </>
 	);
