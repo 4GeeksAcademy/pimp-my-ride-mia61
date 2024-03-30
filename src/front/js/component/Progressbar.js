@@ -1,54 +1,65 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 
 export const Progressbar = () => {
 	const {store, actions} =useContext(Context);
+    const [ active, setActive ] = useState("")
+
+    const activeStyles = {
+        width: '2rem',
+        height: '2rem',
+        background: 'linear-gradient(to right, green, green, green, black)',
+        color: 'white',
+        border: 'none', // Remove border for a cleaner look
+        cursor: 'pointer', // Change cursor to pointer on hover
+        boxShadow: '0 0 25px yellow', // Add yellow shadow
+    };
+    
+    const inactiveStyles = { 
+        height: '2.0rem', 
+    };
+    
+    const baseButtonStyles = { 
+        width: '2rem', 
+        height: '2rem',
+    };
+
+    const baseSpanStyles = { 
+        height: '2.0rem' 
+    };
+
 	return (
         <>	
-            <div className="form-check form-switch mx-4">
-                <input
-                    className="form-check-input p-2"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckChecked"
-                    checked
-                    onClick="myFunction()"
-                />
-            </div>
+            
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="container-fluid p-2 align-items-center">
                             <div className="d-flex justify-content-around">
                                 <button
-                                    className="btn bg-success text-white btn-sm rounded-pill"
-                                    style={{ width: '2rem', height: '2rem' }}
+                                    className="btn bg-dark  text-white btn-sm rounded-pill"
+                                    style={ baseButtonStyles }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company1"
                                     aria-expanded="true"
                                     aria-controls="company1"
-                                    onClick="stepFunction(event)"
+                                    // onClick="stepFunction(event)"
+                                    onClick={() => {setActive("power")}}
+                                    // onClick={() => {setActive("red")}} 
+                                    // style={color == "red" ? "light red lit" : "light red" }
                                 >
                                 1
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{
-                                        width: '2rem',
-                                        height: '2rem',
-                                        background: 'linear-gradient(to right, green, green, green, black)',
-                                        color: 'white',
-                                        border: 'none', // Remove border for a cleaner look
-                                        cursor: 'pointer', // Change cursor to pointer on hover
-                                        boxShadow: '0 0 25px yellow', // Add yellow shadow
-                                    }}
+                                    style={ baseSpanStyles }
                                 >
                                 </span>
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={{ width: '2rem', height: '2rem' }}
+                                    style={ baseButtonStyles }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company1"
                                     aria-expanded="true"
@@ -59,12 +70,12 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '2.0rem' }}
+                                    style={ baseSpanStyles }
                                 >
                                 </span>
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={{ width: '2rem', height: '2rem' }}
+                                    style={ baseButtonStyles }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company2"
                                     aria-expanded="false"
@@ -75,12 +86,12 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '2.0rem' }}
+                                    style={ baseSpanStyles }
                                 >
                                 </span>
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={{ width: '2rem', height: '2rem' }}
+                                    style={ baseButtonStyles }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company3"
                                     aria-expanded="false"
@@ -91,12 +102,12 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '2.0rem' }}
+                                    style={ baseSpanStyles }
                                 >
                                 </span>
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={{ width: '2rem', height: '2rem' }}
+                                    style={ baseButtonStyles }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
@@ -107,12 +118,12 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '2.0rem' }}
+                                    style={ baseSpanStyles }
                                 >
                                 </span>
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={{ width: '2rem', height: '2rem' }}
+                                    style={ baseButtonStyles }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
@@ -123,12 +134,12 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '2.0rem' }}
+                                    style={ baseSpanStyles }
                                 >
                                 </span>
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={{ width: '2rem', height: '2rem' }}
+                                    style={ baseButtonStyles }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
@@ -139,12 +150,12 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '2.0rem' }}
+                                    style={ baseSpanStyles }
                                 >
                                 </span>
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={{ width: '2rem', height: '2rem' }}
+                                    style={ baseButtonStyles }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
@@ -155,12 +166,12 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '2.0rem' }}
+                                    style={ baseSpanStyles }
                                 >
                                 </span>
                                 <button
                                     className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={{ width: '2rem', height: '2rem' }}
+                                    style={ baseButtonStyles }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
