@@ -31,7 +31,7 @@ export const Progressbar = () => {
                                     aria-controls="company1"
                                     onClick="stepFunction(event)"
                                 >
-                                0
+                                1
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
@@ -47,11 +47,11 @@ export const Progressbar = () => {
                                     aria-controls="company1"
                                     onClick="stepFunction(event)"
                                 >
-                                1
+                                2
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '0.2rem' }}
+                                    style={{ height: '2.0rem' }}
                                 >
                                 </span>
                                 <button
@@ -63,11 +63,11 @@ export const Progressbar = () => {
                                     aria-controls="company3"
                                     onClick="stepFunction(event)"
                                 >
-                                    2
+                                3
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '0.2rem' }}
+                                    style={{ height: '2.0rem' }}
                                 >
                                 </span>
                                 <button
@@ -79,11 +79,11 @@ export const Progressbar = () => {
                                     aria-controls="company3"
                                     onClick="stepFunction(event)"
                                 >
-                                    3
+                                4
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '0.2rem' }}
+                                    style={{ height: '2.0rem' }}
                                 >
                                 </span>
                                 <button
@@ -95,7 +95,71 @@ export const Progressbar = () => {
                                     aria-controls="company4"
                                     onClick="stepFunction(event)"
                                 >
-                                    4
+                                    5
+                                </button>
+                                <span
+                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={{ height: '2.0rem' }}
+                                >
+                                </span>
+                                <button
+                                    className="btn bg-dark text-white btn-sm rounded-pill"
+                                    style={{ width: '2rem', height: '2rem' }}
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#company4"
+                                    aria-expanded="false"
+                                    aria-controls="company4"
+                                    onClick="stepFunction(event)"
+                                >
+                                    6
+                                </button>
+                                <span
+                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={{ height: '2.0rem' }}
+                                >
+                                </span>
+                                <button
+                                    className="btn bg-dark text-white btn-sm rounded-pill"
+                                    style={{ width: '2rem', height: '2rem' }}
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#company4"
+                                    aria-expanded="false"
+                                    aria-controls="company4"
+                                    onClick="stepFunction(event)"
+                                >
+                                    7
+                                </button>
+                                <span
+                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={{ height: '2.0rem' }}
+                                >
+                                </span>
+                                <button
+                                    className="btn bg-dark text-white btn-sm rounded-pill"
+                                    style={{ width: '2rem', height: '2rem' }}
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#company4"
+                                    aria-expanded="false"
+                                    aria-controls="company4"
+                                    onClick="stepFunction(event)"
+                                >
+                                    8
+                                </button>
+                                <span
+                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={{ height: '2.0rem' }}
+                                >
+                                </span>
+                                <button
+                                    className="btn bg-dark text-white btn-sm rounded-pill"
+                                    style={{ width: '2rem', height: '2rem' }}
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#company4"
+                                    aria-expanded="false"
+                                    aria-controls="company4"
+                                    onClick="stepFunction(event)"
+                                >
+                                    9
                                 </button>
                             </div>
                         </div>
@@ -103,15 +167,15 @@ export const Progressbar = () => {
                 </div>
             </div>
             <div>
-                <h1>Car Accepted</h1>
-                <h1>Payment or Insurance accepted</h1>
-                <h1>Payment or Insurance check recieved</h1>
-                <h1>Parts Ordered</h1>
-                <h1>Parts Delivered</h1>
-                <h1>Labor Begin Date</h1>
-                <h1>Car Repair Complete</h1>
-                <h1>Car Being Prepared For Pickup</h1>
-                <h1>Car Ready For Pickup</h1>
+                <h1>1: Car Accepted</h1>
+                <h1>2: Payment or Insurance accepted</h1>
+                <h1>3: Payment or Insurance check recieved</h1>
+                <h1>4: Parts Ordered</h1>
+                <h1>5: Parts Delivered</h1>
+                <h1>6: Labor Begin Date</h1>
+                <h1>7: Car Repair Complete</h1>
+                <h1>8: Car Being Prepared For Pickup</h1>
+                <h1>9: Car Ready For Pickup</h1>
 
 
 
