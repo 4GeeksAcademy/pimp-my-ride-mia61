@@ -14,7 +14,7 @@ export const Progressbar = () => {
                     role="switch"
                     id="flexSwitchCheckChecked"
                     checked
-                    onclick="myFunction()"
+                    onClick="myFunction()"
                 />
             </div>
             <div className="container-fluid">
@@ -24,60 +24,76 @@ export const Progressbar = () => {
                             <div className="d-flex justify-content-around">
                                 <button
                                     className="btn bg-success text-white btn-sm rounded-pill"
-                                    style="width: 2rem; height: 2rem"
+                                    style={{ width: '2rem', height: '2rem' }}
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company1"
                                     aria-expanded="true"
                                     aria-controls="company1"
-                                    onclick="stepFunction(event)"
+                                    onClick="stepFunction(event)"
+                                >
+                                0
+                                </button>
+                                <span
+                                    className="bg-success w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={{ height: '0.2rem' }}
+                                >
+                                </span>
+                                <button
+                                    className="btn bg-success text-white btn-sm rounded-pill"
+                                    style={{ width: '2rem', height: '2rem' }}
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#company1"
+                                    aria-expanded="true"
+                                    aria-controls="company1"
+                                    onClick="stepFunction(event)"
                                 >
                                 1
                                 </button>
                                 <span
                                     className="bg-success w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style="height: 0.2rem"
+                                    style={{ height: '0.2rem' }}
                                 >
                                 </span>
                                 <button
                                     className="btn bg-success text-white btn-sm rounded-pill"
-                                    style="width: 2rem; height: 2rem"
+                                    style={{ width: '2rem', height: '2rem' }}
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company2"
                                     aria-expanded="false"
                                     aria-controls="company3"
-                                    onclick="stepFunction(event)"
+                                    onClick="stepFunction(event)"
                                 >
                                     2
                                 </button>
                                 <span
                                     className="bg-success w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style="height: 0.2rem"
+                                    style={{ height: '0.2rem' }}
                                 >
                                 </span>
                                 <button
                                     className="btn bg-success text-white btn-sm rounded-pill"
-                                    style="width: 2rem; height: 2rem"
+                                    style={{ width: '2rem', height: '2rem' }}
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company3"
                                     aria-expanded="false"
                                     aria-controls="company3"
-                                    onclick="stepFunction(event)"
+                                    onClick="stepFunction(event)"
                                 >
                                     3
                                 </button>
                                 <span
                                     className="bg-success w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style="height: 0.2rem"
+                                    style={{ height: '0.2rem' }}
                                 >
                                 </span>
                                 <button
                                     className="btn bg-success text-white btn-sm rounded-pill"
-                                    style="width: 2rem; height: 2rem"
+                                    style={{ width: '2rem', height: '2rem' }}
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
                                     aria-controls="company4"
-                                    onclick="stepFunction(event)"
+                                    onClick="stepFunction(event)"
                                 >
                                     4
                                 </button>
@@ -85,6 +101,9 @@ export const Progressbar = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+
             </div>
 	    </>
 	);
