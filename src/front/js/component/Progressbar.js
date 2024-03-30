@@ -103,7 +103,17 @@ export const Progressbar = () => {
                 </div>
             </div>
             <div>
-                
+                <h1>Car Accepted</h1>
+                <h1>Payment or Insurance accepted</h1>
+                <h1>Payment or Insurance check recieved</h1>
+                <h1>Parts Ordered</h1>
+                <h1>Parts Delivered</h1>
+                <h1>Labor Begin Date</h1>
+                <h1>Car Repair Complete</h1>
+                <h1>Car Being Prepared For Pickup</h1>
+                <h1>Car Ready For Pickup</h1>
+
+
 
             </div>
 	    </>
