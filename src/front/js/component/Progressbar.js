@@ -5,7 +5,8 @@ import { Context } from "../store/appContext";
 
 export const Progressbar = () => {
 	const {store, actions} =useContext(Context);
-    const [spanStyleOne, setSpanStyleOne] = useState(baseSpanStyles);
+    
+    
 
     const activeStyles = {
         width: '2rem',
@@ -27,8 +28,38 @@ export const Progressbar = () => {
         background: 'black', // Add black background
     };
 
-    const handleClick = () => {
+    const [spanStyleOne, setSpanStyleOne] = useState(baseSpanStyles);
+    const [spanStyleTwo, setSpanStyleTwo] = useState(baseSpanStyles);
+    const [spanStyleThree, setSpanStyleThree] = useState(baseSpanStyles);
+    const [spanStyleFour, setSpanStyleFour] = useState(baseSpanStyles);
+    const [spanStyleFive, setSpanStyleFive] = useState(baseSpanStyles);
+    const [spanStyleSix, setSpanStyleSix] = useState(baseSpanStyles);
+    const [spanStyleSeven, setSpanStyleSeven] = useState(baseSpanStyles);
+    const [spanStyleEight, setSpanStyleEight] = useState(baseSpanStyles);
+
+    const handleClickOne = () => {
         setSpanStyleOne(activeStyles);
+    };
+    const handleClickTwo = () => {
+        setSpanStyleTwo(activeStyles);
+    };
+    const handleClickThree = () => {
+        setSpanStyleThree(activeStyles);
+    };
+    const handleClickFour = () => {
+        setSpanStyleFour(activeStyles);
+    };
+    const handleClickFive = () => {
+        setSpanStyleFive(activeStyles);
+    };
+    const handleClickSix = () => {
+        setSpanStyleSix(activeStyles);
+    };
+    const handleClickSeven = () => {
+        setSpanStyleSeven(activeStyles);
+    };
+    const handleClickEight = () => {
+        setSpanStyleEight(activeStyles);
     };
 
 	return (
@@ -48,7 +79,7 @@ export const Progressbar = () => {
                                 2
                                 </button>
                                 <span
-                                    className="w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ spanStyleOne }
                                     id="11"
                                 >
@@ -63,7 +94,7 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    style={ spanStyleTwo }
                                     id="22"
                                 >
                                 </span>
@@ -80,7 +111,7 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    style={ spanStyleThree }
                                 >
                                 </span>
                                 <button
@@ -96,7 +127,7 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    style={ spanStyleFour }
                                 >
                                 </span>
                                 <button
@@ -112,7 +143,7 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    style={ spanStyleFive }
                                 >
                                 </span>
                                 <button
@@ -128,7 +159,7 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    style={ spanStyleSix }
                                 >
                                 </span>
                                 <button
@@ -144,7 +175,7 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    style={ spanStyleSeven }
                                 >
                                 </span>
                                 <button
@@ -160,7 +191,7 @@ export const Progressbar = () => {
                                 </button>
                                 <span
                                     className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    style={ spanStyleEight }
                                 >
                                 </span>
                                 <button
@@ -184,7 +215,7 @@ export const Progressbar = () => {
                     <button
                         className="btn btn-primary"
                         id="setter1"
-                        onClick={() => handleClick("setter1")}
+                        onClick={() => handleClickOne()}
                     >
                         Hello
                     </button>
@@ -197,7 +228,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickTwo()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -207,7 +244,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickThree()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -217,7 +260,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickFour()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -227,7 +276,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickFive()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -237,7 +292,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickSix()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -247,7 +308,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickSeven()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -257,7 +324,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickEight()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -267,7 +340,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickNine()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
