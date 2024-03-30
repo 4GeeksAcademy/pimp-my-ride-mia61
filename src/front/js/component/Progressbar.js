@@ -41,6 +41,10 @@ export const Progressbar = () => {
         background: 'green',
     };
 
+    const progressbarOff = {
+        display: "none",
+      };
+
     const [spanStyleOne, setSpanStyleOne] = useState(baseSpanStyles);
     const [buttonStyleOne, setButtonStyleOne] = useState(baseButtonStyles);
     const [spanStyleTwo, setSpanStyleTwo] = useState(baseSpanStyles);
@@ -64,35 +68,56 @@ export const Progressbar = () => {
     };
     const handleClickTwo = () => {
         setSpanStyleTwo(activeStyles);
+        setSpanStyleOne(completedSpanStyles);
         setButtonStyleTwo(completedButtonStyles);
     };
     const handleClickThree = () => {
         setSpanStyleThree(activeStyles);
+        setSpanStyleTwo(completedSpanStyles);
         setButtonStyleThree(completedButtonStyles);
     };
     const handleClickFour = () => {
         setSpanStyleFour(activeStyles);
+        setSpanStyleThree(completedSpanStyles);
         setButtonStyleFour(completedButtonStyles);
     };
     const handleClickFive = () => {
         setSpanStyleFive(activeStyles);
+        setSpanStyleFour(completedSpanStyles);
         setButtonStyleFive(completedButtonStyles);
     };
     const handleClickSix = () => {
         setSpanStyleSix(activeStyles);
+        setSpanStyleFive(completedSpanStyles);
         setButtonStyleSix(completedButtonStyles);
     };
     const handleClickSeven = () => {
         setSpanStyleSeven(activeStyles);
+        setSpanStyleSix(completedSpanStyles);
         setButtonStyleSeven(completedButtonStyles);
     };
     const handleClickEight = () => {
         setSpanStyleEight(activeStyles);
+        setSpanStyleSeven(completedSpanStyles);
         setButtonStyleEight(completedButtonStyles);
     };
     const handleClickNine = () => {
-        setSpanStyleNine(activeStyles);
-        setButtonStyleNine(completedButtonStyles);
+        setSpanStyleOne(progressbarOff);
+        setButtonStyleOne(progressbarOff);
+        setSpanStyleTwo(progressbarOff);
+        setButtonStyleTwo(progressbarOff);
+        setSpanStyleThree(progressbarOff);
+        setButtonStyleThree(progressbarOff);
+        setSpanStyleFour(progressbarOff);
+        setButtonStyleFour(progressbarOff);
+        setSpanStyleFive(progressbarOff);
+        setButtonStyleFive(progressbarOff);
+        setSpanStyleSix(progressbarOff);
+        setButtonStyleSix(progressbarOff);
+        setSpanStyleSeven(progressbarOff);
+        setButtonStyleSeven(progressbarOff);
+        setSpanStyleEight(progressbarOff);
+        setButtonStyleEight(progressbarOff);
     };
 
 	return (
