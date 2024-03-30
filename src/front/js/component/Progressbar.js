@@ -21,6 +21,7 @@ export const Progressbar = () => {
     const baseButtonStyles = { 
         width: '2rem', 
         height: '2rem',
+        background: 'black', // Add black background
     };
 
     const baseSpanStyles = {
@@ -28,7 +29,14 @@ export const Progressbar = () => {
         background: 'black', // Add black background
     };
 
+    const completedButtonStyles = { 
+        width: '2rem', 
+        height: '2rem',
+        background: 'green',
+    };
+
     const [spanStyleOne, setSpanStyleOne] = useState(baseSpanStyles);
+    const [buttonStyleOne, setButtonStyleOne] = useState(baseButtonStyles);
     const [spanStyleTwo, setSpanStyleTwo] = useState(baseSpanStyles);
     const [spanStyleThree, setSpanStyleThree] = useState(baseSpanStyles);
     const [spanStyleFour, setSpanStyleFour] = useState(baseSpanStyles);
@@ -39,6 +47,7 @@ export const Progressbar = () => {
 
     const handleClickOne = () => {
         setSpanStyleOne(activeStyles);
+        setButtonStyleOne(completedButtonStyles);
     };
     const handleClickTwo = () => {
         setSpanStyleTwo(activeStyles);
@@ -71,15 +80,15 @@ export const Progressbar = () => {
                         <div className="container-fluid p-2 align-items-center">
                             <div className="d-flex justify-content-around">
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn text-white btn-sm rounded-pill"
+                                    style={ buttonStyleOne }
                                     id="1"
                                    
                                 >
                                 2
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className="w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ spanStyleOne }
                                     id="11"
                                 >
