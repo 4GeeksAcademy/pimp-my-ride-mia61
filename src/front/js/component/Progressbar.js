@@ -35,15 +35,28 @@ export const Progressbar = () => {
         background: 'green',
     };
 
+    const completedSpanStyles = { 
+        width: '2rem', 
+        height: '2rem',
+        background: 'green',
+    };
+
     const [spanStyleOne, setSpanStyleOne] = useState(baseSpanStyles);
     const [buttonStyleOne, setButtonStyleOne] = useState(baseButtonStyles);
     const [spanStyleTwo, setSpanStyleTwo] = useState(baseSpanStyles);
+    const [buttonStyleTwo, setButtonStyleTwo] = useState(baseButtonStyles);
     const [spanStyleThree, setSpanStyleThree] = useState(baseSpanStyles);
+    const [buttonStyleThree, setButtonStyleThree] = useState(baseButtonStyles);
     const [spanStyleFour, setSpanStyleFour] = useState(baseSpanStyles);
+    const [buttonStyleFour, setButtonStyleFour] = useState(baseButtonStyles);
     const [spanStyleFive, setSpanStyleFive] = useState(baseSpanStyles);
+    const [buttonStyleFive, setButtonStyleFive] = useState(baseButtonStyles);
     const [spanStyleSix, setSpanStyleSix] = useState(baseSpanStyles);
+    const [buttonStyleSix, setButtonStyleSix] = useState(baseButtonStyles);
     const [spanStyleSeven, setSpanStyleSeven] = useState(baseSpanStyles);
+    const [buttonStyleSeven, setButtonStyleSeven] = useState(baseButtonStyles);
     const [spanStyleEight, setSpanStyleEight] = useState(baseSpanStyles);
+    const [buttonStyleEight, setButtonStyleEight] = useState(baseButtonStyles);
 
     const handleClickOne = () => {
         setSpanStyleOne(activeStyles);
@@ -51,24 +64,35 @@ export const Progressbar = () => {
     };
     const handleClickTwo = () => {
         setSpanStyleTwo(activeStyles);
+        setButtonStyleTwo(completedButtonStyles);
     };
     const handleClickThree = () => {
         setSpanStyleThree(activeStyles);
+        setButtonStyleThree(completedButtonStyles);
     };
     const handleClickFour = () => {
         setSpanStyleFour(activeStyles);
+        setButtonStyleFour(completedButtonStyles);
     };
     const handleClickFive = () => {
         setSpanStyleFive(activeStyles);
+        setButtonStyleFive(completedButtonStyles);
     };
     const handleClickSix = () => {
         setSpanStyleSix(activeStyles);
+        setButtonStyleSix(completedButtonStyles);
     };
     const handleClickSeven = () => {
         setSpanStyleSeven(activeStyles);
+        setButtonStyleSeven(completedButtonStyles);
     };
     const handleClickEight = () => {
         setSpanStyleEight(activeStyles);
+        setButtonStyleEight(completedButtonStyles);
+    };
+    const handleClickNine = () => {
+        setSpanStyleNine(activeStyles);
+        setButtonStyleNine(completedButtonStyles);
     };
 
 	return (
@@ -94,22 +118,22 @@ export const Progressbar = () => {
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleTwo }
                                     id="2"
                                    
                                 >
                                 2
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ spanStyleTwo }
                                     id="22"
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleThree }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company2"
                                     aria-expanded="false"
@@ -119,13 +143,13 @@ export const Progressbar = () => {
                                 3
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ spanStyleThree }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleFour }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company3"
                                     aria-expanded="false"
@@ -135,13 +159,13 @@ export const Progressbar = () => {
                                 4
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ spanStyleFour }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleFive }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
@@ -151,13 +175,13 @@ export const Progressbar = () => {
                                     5
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ spanStyleFive }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleSix }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
@@ -167,13 +191,13 @@ export const Progressbar = () => {
                                     6
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ spanStyleSix }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleSeven }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
@@ -183,13 +207,13 @@ export const Progressbar = () => {
                                     7
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ spanStyleSeven }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleEight }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
@@ -199,13 +223,13 @@ export const Progressbar = () => {
                                     8
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={ spanStyleEight }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleEight }
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
                                     aria-expanded="false"
