@@ -34,12 +34,12 @@ export const Progressbar = () => {
                                 0
                                 </button>
                                 <span
-                                    className="bg-success w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={{ height: '0.2rem' }}
+                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={{ height: '2.0rem' }}
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-success text-white btn-sm rounded-pill"
+                                    className="btn bg-dark text-white btn-sm rounded-pill"
                                     style={{ width: '2rem', height: '2rem' }}
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company1"
@@ -50,12 +50,12 @@ export const Progressbar = () => {
                                 1
                                 </button>
                                 <span
-                                    className="bg-success w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={{ height: '0.2rem' }}
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-success text-white btn-sm rounded-pill"
+                                    className="btn bg-dark text-white btn-sm rounded-pill"
                                     style={{ width: '2rem', height: '2rem' }}
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company2"
@@ -66,12 +66,12 @@ export const Progressbar = () => {
                                     2
                                 </button>
                                 <span
-                                    className="bg-success w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={{ height: '0.2rem' }}
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-success text-white btn-sm rounded-pill"
+                                    className="btn bg-dark text-white btn-sm rounded-pill"
                                     style={{ width: '2rem', height: '2rem' }}
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company3"
@@ -82,12 +82,12 @@ export const Progressbar = () => {
                                     3
                                 </button>
                                 <span
-                                    className="bg-success w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
                                     style={{ height: '0.2rem' }}
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-success text-white btn-sm rounded-pill"
+                                    className="btn bg-dark text-white btn-sm rounded-pill"
                                     style={{ width: '2rem', height: '2rem' }}
                                     data-bs-toggle="collapse"
                                     data-bs-target="#company4"
@@ -103,6 +103,7 @@ export const Progressbar = () => {
                 </div>
             </div>
             <div>
+                
 
             </div>
 	    </>
