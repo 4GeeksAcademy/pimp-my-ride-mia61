@@ -1,6 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NewWorkOrder =() => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -8,6 +11,7 @@ const NewWorkOrder =() => {
         phone_number: '',
         vin_number: '',
         licence_plate: '',
+        color: '',
         text_area: ''
     });
     const [makes, setMakes] = useState([]);
@@ -25,7 +29,7 @@ const NewWorkOrder =() => {
         "Aston Martin": ["DB11", "DBS Superleggera", "Vantage"],
         "Audi": ["A3", "A4", "A5", "A6", "A7", "A8", "Q3", "Q5", "Q7", "Q8", "TT", "R8"],
         "Bentley": ["Bentayga","Continental GT", "Flying Spur", "Mulsanne"],
-        "BMW": ["2 Series", "3 Series", "4 Series", "5 Series", "7 Series", "X1", "X3", "X5", "X6", "Z4"],
+        "BMW": ["2 Series", "3 Series", "4 Series", "5 Series", "7 Series", "8 Series", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "Z4", "iX", "i4", "i5", "i7", "XM"],
         "Buick": ["Enclave", "Encore", "Encore GX", "Envision", "LaCrosse", "Regal"],
         "Cadillac": ["CT4", "CT5", "CT6", "Escalade", "XT4", "XT5", "XT6",],
         "Chevrolet": ["Camaro", "Corvette", "Malibu", "Silverado", "Suburban", "Tahoe", "Traverse"],
@@ -50,7 +54,7 @@ const NewWorkOrder =() => {
         "Maserati": ["Ghibli", "Levante", "Quattroporte", "GranTurismo", "GranCabrio"],
         "Mazda": ["Mazda2", "Mazda3", "Mazda6", "MX-5 Miata", "CX-3", "CX-30", "CX-5", "CX-9"],
         "McLaren": ["GT", "570S", "570GT", "600LT", "720S", "Speedtail"],
-        "Mercedes-Benz": ["A-className", "C-className", "E-className", "S-className", "GLA", "GLC", "GLE", "GLS"],
+        "Mercedes-Benz": ["A-class", "C-class", "E-class", "S-class", "GLA", "GLC", "GLE", "GLS"],
         "MINI": ["Cooper", "Cooper S", "Clubman", "Countryman", "Convertible", "Hardtop", "John Cooper Works"],
         "Mitsubishi": ["Eclipse Cross", "Mirage", "Outlander", "Outlander Sport", "Lancer"],
         "Nissan": ["Altima", "Armada", "Frontier", "Kicks", "Leaf", "Maxima", "Murano", "Pathfinder", "Rogue", "Sentra", "Titan", "Versa"],
@@ -58,12 +62,11 @@ const NewWorkOrder =() => {
         "Ram": ["1500", "2500", "3500"],
         "Rolls-Royce": ["Phantom", "Ghost", "Wraith", "Dawn", "Cullinan"],
         "Subaru": ["Ascent", "Crosstrek", "Forester", "Impreza", "Legacy", "Outback", "WRX"],
-        "Tesla": ["Model S", "Model 3", "Model X", "Model Y", "Roadster", "Cybertrack"],
-        "Toyota": ["4Runner", "Avalon", "Camry", "Corolla", "Highlander", "Prius", "RAV4", "Sienna", "Tacoma", "Tundra"],
+        "Tesla": ["Model S", "Model 3", "Model X", "Model Y", "Roadster", "Cybertruck"],
+        "Toyota": ["4Runner", "Avalon", "Camry", "Corolla", "Crown", "GR86", "Highlander", "Prius", "RAV4", "Sequoia", "Sienna", "Tacoma", "Tundra"],
         "Volkswagen": ["Arteon", "Atlas", "Beetle", "Golf", "Jetta", "Passat", "Taos", "Tiguan", "Touareg"],
         "Volvo": ["S60", "S90", "V60", "V90", "XC40", "XC60", "XC90"],
         };
-
 
     useEffect(() => {
         const fetchedMakes = [
@@ -139,14 +142,24 @@ const NewWorkOrder =() => {
             },
             body: JSON.stringify(formData)
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.message);
-            // We can add code here to handle the response from the server, for example display a confirmation message to the user
-        })
-        .catch(error => {
-            console.error('Error:', error); // Log any errors that occur during the request
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                // We can add code here to handle the response from the server, for example display a confirmation message to the user
+            })
+            .catch(error => {
+                console.error('Error:', error); // Log any errors that occur during the request
+            });
+            history.push('/progressbar');
+        createNewWorkOrder();
+    };
+
+    const createNewWorkOrder = () => {
+        // Here you can implement the logic to create a new work order
+        // For demonstration purposes, let's just log a message
+        console.log("New work order created!");
+        // Navigate to the order history page
+        navigate('/order-history');
     };
 
     const handleYearChange = (e) => {
@@ -212,7 +225,7 @@ const NewWorkOrder =() => {
                     <div className="col-md-4">
                         <select className="form-select" aria-label="Model" disabled={!selectedMake}>
                         <option value="" selected disabled>Select Model</option>
-                        {models.map((model, index) => (
+                        {models.sort().map((model, index) => (
                             <option key={index} value={model}>{model}</option>
                         ))}
                         </select>
@@ -229,15 +242,19 @@ const NewWorkOrder =() => {
                 </div>
 
                 <div className="row input-group mb-3">
-                    <div className = "col-md-8">
+                    <div className = "col-md-6">
                         <input type="text" className="form-control" name="vin_number" placeholder="VIN Number *" maxLength={17} onInput={(e) => { e.target.value = e.target.value.toUpperCase(); }} onChange={handleChange} required />
                     </div>
-                    <div className = "col-md-4">
+                    <div className = "col-md-3">
                         <input type="text" className="form-control" name="licence_plate" placeholder="Licence plate *" onChange={handleChange} required />
+                    </div>
+                    <div className = "col-md-3">
+                        <input type="text" className="form-control" name="color" placeholder="Color *" onChange={handleChange} required />
                     </div>
                 </div>
 
                 <div className="input-group">
+                    <div></div>
                     <input
                         type="file"
                         className="form-control"
@@ -252,7 +269,7 @@ const NewWorkOrder =() => {
                     </button>
                     </div>
                     {/* Conditionally render the preview section */}
-                    {uploadedImages.length && (
+                    {uploadedImages.length > 0 && (
                         <div className="d-flex flex-wrap">
                             {uploadedImages.map((image, index) => (
                                 <div className = "position-relative d-inline-block">
@@ -262,7 +279,7 @@ const NewWorkOrder =() => {
                                         src={image}
                                         alt={`Uploaded Preview ${index}`}
                                     />
-                                    <button onClick ={() => setUploadedImages(imageList => imageList.filter((image, imageIndex) => imageIndex != index))} className="bbtn btn-outline-danger position-absolute top-0 end-0 m-2"
+                                    <button onClick ={() => setUploadedImages(imageList => imageList.filter((_, imageIndex) => imageIndex !== index))} className="btn btn-outline-danger position-absolute top-0 end-0 m-2"
                                         style={{ borderRadius: '15%', padding: '0.25rem 0.5rem', fontSize: '0.75rem' }}>x
                                     </button>
                                 </div>
@@ -280,7 +297,7 @@ const NewWorkOrder =() => {
                 </div>
 
                 <div>
-                    <input className="btn btn-primary" type="button" value="Create new order"/>
+                    <button type="submit" className="btn btn-primary">Create new order</button>
                 </div>
             </form>
         </div>
