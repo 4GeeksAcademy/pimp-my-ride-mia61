@@ -5,7 +5,8 @@ import { Context } from "../store/appContext";
 
 export const Progressbar = () => {
 	const {store, actions} =useContext(Context);
-    const [spanStyleOne, setSpanStyleOne] = useState(baseSpanStyles);
+    
+    
 
     const activeStyles = {
         width: '2rem',
@@ -20,6 +21,7 @@ export const Progressbar = () => {
     const baseButtonStyles = { 
         width: '2rem', 
         height: '2rem',
+        background: 'black', // Add black background
     };
 
     const baseSpanStyles = {
@@ -27,25 +29,120 @@ export const Progressbar = () => {
         background: 'black', // Add black background
     };
 
-    const handleClick = () => {
+    const completedButtonStyles = { 
+        width: '2rem', 
+        height: '2rem',
+        background: 'green',
+    };
+
+    const completedSpanStyles = { 
+        width: '2rem', 
+        height: '2rem',
+        background: 'green',
+    };
+
+    const displayNoneStyles = {
+        display: "none",
+    };
+
+    const completedCarStyles ={
+        width: '100%',
+    };
+
+    const [spanStyleOne, setSpanStyleOne] = useState(baseSpanStyles);
+    const [buttonStyleOne, setButtonStyleOne] = useState(baseButtonStyles);
+    const [spanStyleTwo, setSpanStyleTwo] = useState(baseSpanStyles);
+    const [buttonStyleTwo, setButtonStyleTwo] = useState(baseButtonStyles);
+    const [spanStyleThree, setSpanStyleThree] = useState(baseSpanStyles);
+    const [buttonStyleThree, setButtonStyleThree] = useState(baseButtonStyles);
+    const [spanStyleFour, setSpanStyleFour] = useState(baseSpanStyles);
+    const [buttonStyleFour, setButtonStyleFour] = useState(baseButtonStyles);
+    const [spanStyleFive, setSpanStyleFive] = useState(baseSpanStyles);
+    const [buttonStyleFive, setButtonStyleFive] = useState(baseButtonStyles);
+    const [spanStyleSix, setSpanStyleSix] = useState(baseSpanStyles);
+    const [buttonStyleSix, setButtonStyleSix] = useState(baseButtonStyles);
+    const [spanStyleSeven, setSpanStyleSeven] = useState(baseSpanStyles);
+    const [buttonStyleSeven, setButtonStyleSeven] = useState(baseButtonStyles);
+    const [spanStyleEight, setSpanStyleEight] = useState(baseSpanStyles);
+    const [buttonStyleEight, setButtonStyleEight] = useState(baseButtonStyles);
+    const [CarCompleted, setCarCompleted] = useState(displayNoneStyles);
+
+    const handleClickOne = () => {
         setSpanStyleOne(activeStyles);
+        setButtonStyleOne(completedButtonStyles);
+    };
+    const handleClickTwo = () => {
+        setSpanStyleTwo(activeStyles);
+        setSpanStyleOne(completedSpanStyles);
+        setButtonStyleTwo(completedButtonStyles);
+    };
+    const handleClickThree = () => {
+        setSpanStyleThree(activeStyles);
+        setSpanStyleTwo(completedSpanStyles);
+        setButtonStyleThree(completedButtonStyles);
+    };
+    const handleClickFour = () => {
+        setSpanStyleFour(activeStyles);
+        setSpanStyleThree(completedSpanStyles);
+        setButtonStyleFour(completedButtonStyles);
+    };
+    const handleClickFive = () => {
+        setSpanStyleFive(activeStyles);
+        setSpanStyleFour(completedSpanStyles);
+        setButtonStyleFive(completedButtonStyles);
+    };
+    const handleClickSix = () => {
+        setSpanStyleSix(activeStyles);
+        setSpanStyleFive(completedSpanStyles);
+        setButtonStyleSix(completedButtonStyles);
+    };
+    const handleClickSeven = () => {
+        setSpanStyleSeven(activeStyles);
+        setSpanStyleSix(completedSpanStyles);
+        setButtonStyleSeven(completedButtonStyles);
+    };
+    const handleClickEight = () => {
+        setSpanStyleEight(activeStyles);
+        setSpanStyleSeven(completedSpanStyles);
+        setButtonStyleEight(completedButtonStyles);
+    };
+    const handleClickNine = () => {
+        setSpanStyleOne(displayNoneStyles);
+        setButtonStyleOne(displayNoneStyles);
+        setSpanStyleTwo(displayNoneStyles);
+        setButtonStyleTwo(displayNoneStyles);
+        setSpanStyleThree(displayNoneStyles);
+        setButtonStyleThree(displayNoneStyles);
+        setSpanStyleFour(displayNoneStyles);
+        setButtonStyleFour(displayNoneStyles);
+        setSpanStyleFive(displayNoneStyles);
+        setButtonStyleFive(displayNoneStyles);
+        setSpanStyleSix(displayNoneStyles);
+        setButtonStyleSix(displayNoneStyles);
+        setSpanStyleSeven(displayNoneStyles);
+        setButtonStyleSeven(displayNoneStyles);
+        setSpanStyleEight(displayNoneStyles);
+        setButtonStyleEight(displayNoneStyles);
+        setCarCompleted(completedCarStyles);
     };
 
 	return (
         <>	
             
             <div className="container-fluid">
+                <button type="button" class="btn btn-warning btn-lg btn-block"style={ CarCompleted }>Your car is Completed! </button>
                 <div className="row">
                     <div className="col-md-12">
+                        
                         <div className="container-fluid p-2 align-items-center">
                             <div className="d-flex justify-content-around">
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn text-white btn-sm rounded-pill"
+                                    style={ buttonStyleOne }
                                     id="1"
                                    
                                 >
-                                2
+                                1
                                 </button>
                                 <span
                                     className="w-25 rounded mt-auto mb-auto me-1 ms-1"
@@ -54,123 +151,88 @@ export const Progressbar = () => {
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleTwo }
                                     id="2"
                                    
                                 >
                                 2
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={ spanStyleTwo }
                                     id="22"
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company2"
-                                    aria-expanded="false"
-                                    aria-controls="company3"
-                                    onClick="stepFunction(event)"
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleThree }
                                 >
                                 3
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={ spanStyleThree }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company3"
-                                    aria-expanded="false"
-                                    aria-controls="company3"
-                                    onClick="stepFunction(event)"
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleFour }
                                 >
                                 4
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={ spanStyleFour }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleFive }
                                 >
                                     5
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={ spanStyleFive }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleSix }
                                 >
                                     6
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={ spanStyleSix }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleSeven }
                                 >
                                     7
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={ spanStyleSeven }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleEight }
                                 >
                                     8
                                 </button>
                                 <span
-                                    className="bg-dark w-25 rounded mt-auto mb-auto me-1 ms-1"
-                                    style={ baseSpanStyles }
+                                    className=" w-25 rounded mt-auto mb-auto me-1 ms-1"
+                                    style={ spanStyleEight }
                                 >
                                 </span>
                                 <button
-                                    className="btn bg-dark text-white btn-sm rounded-pill"
-                                    style={ baseButtonStyles }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
+                                    className="btn  text-white btn-sm rounded-pill"
+                                    style={ buttonStyleEight }
                                 >
                                     9
                                 </button>
@@ -184,7 +246,7 @@ export const Progressbar = () => {
                     <button
                         className="btn btn-primary"
                         id="setter1"
-                        onClick={() => handleClick("setter1")}
+                        onClick={() => handleClickOne()}
                     >
                         Hello
                     </button>
@@ -197,7 +259,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickTwo()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -207,7 +275,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickThree()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -217,7 +291,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickFour()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -227,7 +307,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickFive()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -237,7 +323,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickSix()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -247,7 +339,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickSeven()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -257,7 +355,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickEight()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
@@ -267,7 +371,13 @@ export const Progressbar = () => {
             </div>
             <div className="row" >
                 <div className="col-auto">
-                    <button className="btn btn-primary">Hello</button>
+                    <button
+                        className="btn btn-primary"
+                        id="setter1"
+                        onClick={() => handleClickNine()}
+                    >
+                        Hello
+                    </button>
                 </div>
                 <div className="col">
                     <div>
