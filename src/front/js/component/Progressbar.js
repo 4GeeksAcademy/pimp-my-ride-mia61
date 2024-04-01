@@ -167,11 +167,6 @@ export const Progressbar = () => {
                                 <button
                                     className="btn  text-white btn-sm rounded-pill"
                                     style={ buttonStyleThree }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company2"
-                                    aria-expanded="false"
-                                    aria-controls="company3"
-                                    onClick="stepFunction(event)"
                                 >
                                 3
                                 </button>
@@ -183,11 +178,6 @@ export const Progressbar = () => {
                                 <button
                                     className="btn  text-white btn-sm rounded-pill"
                                     style={ buttonStyleFour }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company3"
-                                    aria-expanded="false"
-                                    aria-controls="company3"
-                                    onClick="stepFunction(event)"
                                 >
                                 4
                                 </button>
@@ -199,11 +189,6 @@ export const Progressbar = () => {
                                 <button
                                     className="btn  text-white btn-sm rounded-pill"
                                     style={ buttonStyleFive }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
                                 >
                                     5
                                 </button>
@@ -215,11 +200,6 @@ export const Progressbar = () => {
                                 <button
                                     className="btn  text-white btn-sm rounded-pill"
                                     style={ buttonStyleSix }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
                                 >
                                     6
                                 </button>
@@ -231,11 +211,6 @@ export const Progressbar = () => {
                                 <button
                                     className="btn  text-white btn-sm rounded-pill"
                                     style={ buttonStyleSeven }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
                                 >
                                     7
                                 </button>
@@ -247,11 +222,6 @@ export const Progressbar = () => {
                                 <button
                                     className="btn  text-white btn-sm rounded-pill"
                                     style={ buttonStyleEight }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
                                 >
                                     8
                                 </button>
@@ -263,11 +233,6 @@ export const Progressbar = () => {
                                 <button
                                     className="btn  text-white btn-sm rounded-pill"
                                     style={ buttonStyleEight }
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#company4"
-                                    aria-expanded="false"
-                                    aria-controls="company4"
-                                    onClick="stepFunction(event)"
                                 >
                                     9
                                 </button>
