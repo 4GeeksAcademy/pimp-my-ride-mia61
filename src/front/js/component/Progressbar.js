@@ -5,8 +5,6 @@ import { Context } from "../store/appContext";
 
 export const Progressbar = () => {
 	const {store, actions} =useContext(Context);
-    
-    
 
     const activeStyles = {
         width: '2rem',
@@ -117,8 +115,6 @@ export const Progressbar = () => {
         setSpanStyleTwo(completedSpanStyles);
 
         setSpanStyleThree(activeStyles);
-
-        setSpanStyleTwo(completedSpanStyles);
 
         setButtonStyleOne(completedButtonStyles);
         setButtonStyleTwo(completedButtonStyles);
