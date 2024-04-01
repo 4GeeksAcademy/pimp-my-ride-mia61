@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+// import Progressbar from "./component/Progressbar"
 
 const NewWorkOrder =() => {
     const navigate = useNavigate();
@@ -155,11 +156,9 @@ const NewWorkOrder =() => {
     };
 
     const createNewWorkOrder = () => {
-        // Here you can implement the logic to create a new work order
-        // For demonstration purposes, let's just log a message
         console.log("New work order created!");
         // Navigate to the order history page
-        navigate('/order-history');
+        navigate('/business-owner-profile');
     };
 
     const handleYearChange = (e) => {
@@ -189,6 +188,12 @@ const NewWorkOrder =() => {
         setFormData({...formData,
             [event.target.name]: event.target.value
         });
+    };
+
+    const [progressbarSteps, setProgressbarSteps] = useState('');
+
+    const handleProgressbarChange = (event) => {
+        setProgressbarSteps(event.target.value)
     };
 
     return (
@@ -294,6 +299,17 @@ const NewWorkOrder =() => {
                 <div className="input-group">
                     <span className="input-group-text">Notes:</span>
                     <textarea className="form-control" name="text_area" placeholder="Enter text" onChange={handleChange}></textarea>
+                </div>
+
+                <div>
+                    <label htmlFor='progressbar'>Repair stages/Generate Progressbar:</label>
+                    <textarea
+                        id="progressbar"
+                        name="progressbar"
+                        onChange={handleProgressbarChange}
+                        value={progressbarSteps}
+                        required
+                    />
                 </div>
 
                 <div>
