@@ -70,44 +70,128 @@ export const Progressbar = () => {
     const handleClickOne = () => {
         setSpanStyleOne(activeStyles);
         setButtonStyleOne(completedButtonStyles);
+
+        setSpanStyleTwo(baseSpanStyles);
+        setButtonStyleTwo(baseButtonStyles);
+        setSpanStyleThree(baseSpanStyles);
+        setButtonStyleThree(baseButtonStyles);
+        setSpanStyleFour(baseSpanStyles);
+        setButtonStyleFour(baseButtonStyles);
+        setSpanStyleFive(baseSpanStyles);
+        setButtonStyleFive(baseButtonStyles);
+        setSpanStyleSix(baseSpanStyles);
+        setButtonStyleSix(baseButtonStyles);
+        setSpanStyleSeven(baseSpanStyles);
+        setButtonStyleSeven(baseButtonStyles);
+        setButtonStyleEight(baseButtonStyles);
+        setSpanStyleEight(baseSpanStyles);
+
+        setCarCompleted(displayNoneStyles);
+
     };
     const handleClickTwo = () => {
-        setSpanStyleTwo(activeStyles);
         setSpanStyleOne(completedSpanStyles);
+
+        setSpanStyleTwo(activeStyles);
 
         setButtonStyleOne(completedButtonStyles);
         setButtonStyleTwo(completedButtonStyles);
+
+        setSpanStyleThree(baseSpanStyles);
+        setButtonStyleThree(baseButtonStyles);
+        setSpanStyleFour(baseSpanStyles);
+        setButtonStyleFour(baseButtonStyles);
+        setSpanStyleFive(baseSpanStyles);
+        setButtonStyleFive(baseButtonStyles);
+        setSpanStyleSix(baseSpanStyles);
+        setButtonStyleSix(baseButtonStyles);
+        setSpanStyleSeven(baseSpanStyles);
+        setButtonStyleSeven(baseButtonStyles);
+        setButtonStyleEight(baseButtonStyles);
+        setSpanStyleEight(baseSpanStyles);
+
+        setCarCompleted(displayNoneStyles);
     };
     const handleClickThree = () => {
+        setSpanStyleOne(completedSpanStyles);
+        setSpanStyleTwo(completedSpanStyles);
+
         setSpanStyleThree(activeStyles);
+
         setSpanStyleTwo(completedSpanStyles);
 
         setButtonStyleOne(completedButtonStyles);
         setButtonStyleTwo(completedButtonStyles);
         setButtonStyleThree(completedButtonStyles);
+
+        setSpanStyleFour(baseSpanStyles);
+        setButtonStyleFour(baseButtonStyles);
+        setSpanStyleFive(baseSpanStyles);
+        setButtonStyleFive(baseButtonStyles);
+        setSpanStyleSix(baseSpanStyles);
+        setButtonStyleSix(baseButtonStyles);
+        setSpanStyleSeven(baseSpanStyles);
+        setButtonStyleSeven(baseButtonStyles);
+        setButtonStyleEight(baseButtonStyles);
+        setSpanStyleEight(baseSpanStyles);
+
+        setCarCompleted(displayNoneStyles);
     };
     const handleClickFour = () => {
-        setSpanStyleFour(activeStyles);
+        setSpanStyleOne(completedSpanStyles);
+        setSpanStyleTwo(completedSpanStyles);
         setSpanStyleThree(completedSpanStyles);
+
+        setSpanStyleFour(activeStyles);
+
 
         setButtonStyleOne(completedButtonStyles);
         setButtonStyleTwo(completedButtonStyles);
         setButtonStyleThree(completedButtonStyles);
         setButtonStyleFour(completedButtonStyles);
+
+        setSpanStyleFive(baseSpanStyles);
+        setButtonStyleFive(baseButtonStyles);
+        setSpanStyleSix(baseSpanStyles);
+        setButtonStyleSix(baseButtonStyles);
+        setSpanStyleSeven(baseSpanStyles);
+        setButtonStyleSeven(baseButtonStyles);
+        setButtonStyleEight(baseButtonStyles);
+        setSpanStyleEight(baseSpanStyles);
+
+        setCarCompleted(displayNoneStyles);
     };
     const handleClickFive = () => {
-        setSpanStyleFive(activeStyles);
+        setSpanStyleOne(completedSpanStyles);
+        setSpanStyleTwo(completedSpanStyles);
+        setSpanStyleThree(completedSpanStyles);
         setSpanStyleFour(completedSpanStyles);
+
+        setSpanStyleFive(activeStyles);
 
         setButtonStyleOne(completedButtonStyles);
         setButtonStyleTwo(completedButtonStyles);
         setButtonStyleThree(completedButtonStyles);
         setButtonStyleFour(completedButtonStyles);
         setButtonStyleFive(completedButtonStyles);
+
+        setSpanStyleSix(baseSpanStyles);
+        setButtonStyleSix(baseButtonStyles);
+        setSpanStyleSeven(baseSpanStyles);
+        setButtonStyleSeven(baseButtonStyles);
+        setButtonStyleEight(baseButtonStyles);
+        setSpanStyleEight(baseSpanStyles);
+
+        setCarCompleted(displayNoneStyles);
     };
     const handleClickSix = () => {
-        setSpanStyleSix(activeStyles);
+        setSpanStyleOne(completedSpanStyles);
+        setSpanStyleTwo(completedSpanStyles);
+        setSpanStyleThree(completedSpanStyles);
+        setSpanStyleFour(completedSpanStyles);
         setSpanStyleFive(completedSpanStyles);
+
+        setSpanStyleSix(activeStyles);
 
         setButtonStyleOne(completedButtonStyles);
         setButtonStyleTwo(completedButtonStyles);
@@ -115,10 +199,23 @@ export const Progressbar = () => {
         setButtonStyleFour(completedButtonStyles);
         setButtonStyleFive(completedButtonStyles);
         setButtonStyleSix(completedButtonStyles);
+
+        setButtonStyleSeven(baseButtonStyles);
+        setSpanStyleSeven(baseSpanStyles);
+        setButtonStyleEight(baseButtonStyles);
+        setSpanStyleEight(baseSpanStyles);
+
+        setCarCompleted(displayNoneStyles);
     };
     const handleClickSeven = () => {
-        setSpanStyleSeven(activeStyles);
+        setSpanStyleOne(completedSpanStyles);
+        setSpanStyleTwo(completedSpanStyles);
+        setSpanStyleThree(completedSpanStyles);
+        setSpanStyleFour(completedSpanStyles);
+        setSpanStyleFive(completedSpanStyles);
         setSpanStyleSix(completedSpanStyles);
+
+        setSpanStyleSeven(activeStyles);
 
         setButtonStyleOne(completedButtonStyles);
         setButtonStyleTwo(completedButtonStyles);
@@ -127,10 +224,22 @@ export const Progressbar = () => {
         setButtonStyleFive(completedButtonStyles);
         setButtonStyleSix(completedButtonStyles); 
         setButtonStyleSeven(completedButtonStyles);
+
+        setSpanStyleEight(baseSpanStyles);
+        setButtonStyleEight(baseButtonStyles);
+
+        setCarCompleted(displayNoneStyles);
     };
     const handleClickEight = () => {
-        setSpanStyleEight(activeStyles);
+        setSpanStyleOne(completedSpanStyles);
+        setSpanStyleTwo(completedSpanStyles);
+        setSpanStyleThree(completedSpanStyles);
+        setSpanStyleFour(completedSpanStyles);
+        setSpanStyleFive(completedSpanStyles);
+        setSpanStyleSix(completedSpanStyles);
         setSpanStyleSeven(completedSpanStyles);
+
+        setSpanStyleEight(activeStyles);
 
         setButtonStyleOne(completedButtonStyles);
         setButtonStyleTwo(completedButtonStyles);
@@ -140,6 +249,8 @@ export const Progressbar = () => {
         setButtonStyleSix(completedButtonStyles); 
         setButtonStyleSeven(completedButtonStyles);
         setButtonStyleEight(completedButtonStyles);
+
+        setCarCompleted(displayNoneStyles);
     };
     const handleClickNine = () => {
         setSpanStyleOne(displayNoneStyles);
