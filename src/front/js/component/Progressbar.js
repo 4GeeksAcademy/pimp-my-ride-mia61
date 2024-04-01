@@ -74,36 +74,71 @@ export const Progressbar = () => {
     const handleClickTwo = () => {
         setSpanStyleTwo(activeStyles);
         setSpanStyleOne(completedSpanStyles);
+
+        setButtonStyleOne(completedButtonStyles);
         setButtonStyleTwo(completedButtonStyles);
     };
     const handleClickThree = () => {
         setSpanStyleThree(activeStyles);
         setSpanStyleTwo(completedSpanStyles);
+
+        setButtonStyleOne(completedButtonStyles);
+        setButtonStyleTwo(completedButtonStyles);
         setButtonStyleThree(completedButtonStyles);
     };
     const handleClickFour = () => {
         setSpanStyleFour(activeStyles);
         setSpanStyleThree(completedSpanStyles);
+
+        setButtonStyleOne(completedButtonStyles);
+        setButtonStyleTwo(completedButtonStyles);
+        setButtonStyleThree(completedButtonStyles);
         setButtonStyleFour(completedButtonStyles);
     };
     const handleClickFive = () => {
         setSpanStyleFive(activeStyles);
         setSpanStyleFour(completedSpanStyles);
+
+        setButtonStyleOne(completedButtonStyles);
+        setButtonStyleTwo(completedButtonStyles);
+        setButtonStyleThree(completedButtonStyles);
+        setButtonStyleFour(completedButtonStyles);
         setButtonStyleFive(completedButtonStyles);
     };
     const handleClickSix = () => {
         setSpanStyleSix(activeStyles);
         setSpanStyleFive(completedSpanStyles);
+
+        setButtonStyleOne(completedButtonStyles);
+        setButtonStyleTwo(completedButtonStyles);
+        setButtonStyleThree(completedButtonStyles);
+        setButtonStyleFour(completedButtonStyles);
+        setButtonStyleFive(completedButtonStyles);
         setButtonStyleSix(completedButtonStyles);
     };
     const handleClickSeven = () => {
         setSpanStyleSeven(activeStyles);
         setSpanStyleSix(completedSpanStyles);
+
+        setButtonStyleOne(completedButtonStyles);
+        setButtonStyleTwo(completedButtonStyles);
+        setButtonStyleThree(completedButtonStyles);
+        setButtonStyleFour(completedButtonStyles);
+        setButtonStyleFive(completedButtonStyles);
+        setButtonStyleSix(completedButtonStyles); 
         setButtonStyleSeven(completedButtonStyles);
     };
     const handleClickEight = () => {
         setSpanStyleEight(activeStyles);
         setSpanStyleSeven(completedSpanStyles);
+
+        setButtonStyleOne(completedButtonStyles);
+        setButtonStyleTwo(completedButtonStyles);
+        setButtonStyleThree(completedButtonStyles);
+        setButtonStyleFour(completedButtonStyles);
+        setButtonStyleFive(completedButtonStyles);
+        setButtonStyleSix(completedButtonStyles); 
+        setButtonStyleSeven(completedButtonStyles);
         setButtonStyleEight(completedButtonStyles);
     };
     const handleClickNine = () => {
