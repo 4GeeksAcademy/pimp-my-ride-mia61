@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import Progressbar from "./component/Progressbar"
+// import { Link } from "react-router-dom";
 
 const NewWorkOrder = () => {
   const navigate = useNavigate();
@@ -394,9 +395,9 @@ const NewWorkOrder = () => {
 
   const [progressbarSteps, setProgressbarSteps] = useState("");
 
-  const handleProgressbarChange = (event) => {
-    setProgressbarSteps(event.target.value);
-  };
+  // const handleProgressbarChange = (event) => {
+  //   setProgressbarSteps(event.target.value);
+  // };
 
   return (
     <div className="form-container">
@@ -595,6 +596,8 @@ const NewWorkOrder = () => {
           </div>
         )}
 
+        <div className="mb-3"></div>
+
         <div className="input-group">
           <span className="input-group-text">Notes:</span>
           <textarea
@@ -607,15 +610,15 @@ const NewWorkOrder = () => {
 
         <div>
           <label htmlFor="progressbar">
-            Repair stages/Generate Progressbar:
+            Repair stages to Generate Progressbar:
           </label>
-          <textarea
+          {/* <textarea
             id="progressbar"
             name="progressbar"
             onChange={handleProgressbarChange}
             value={progressbarSteps}
             required
-          />
+          /> */}
         </div>
 
         <div>

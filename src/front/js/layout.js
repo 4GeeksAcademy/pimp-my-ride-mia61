@@ -9,6 +9,7 @@ import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 import { Login } from "./pages/Login";
 import { Profile } from "./pages/Profile";
+import { BusinessOwnerHomePage } from "./pages/BusinessOwnerHomePage";
 import { Progressbar } from "./component/Progressbar";
 
 import { Navbar } from "./component/navbar";
