@@ -57,7 +57,7 @@ def handle_customer_login():
     password = request.json.get("password", None)
     if email is None or password is None:
         return jsonify({"msg": "No email or password"}), 400
-    customer = customer.query.filter_by(email=email).one_or_none()
+    customer = Customer.query.filter_by(email=email).one_or_none()
     if customer is None:
         return jsonify({"msg": "no such user"}), 404
     if customer.password != password:
@@ -65,6 +65,14 @@ def handle_customer_login():
 
     access_token = create_access_token(identity=customer.id)
     return jsonify(access_token=access_token), 201
+
+@api.route('/customer/<int:cust_id>', methods=['GET'])
+def get_customer(cust_id):
+    customer = Customer.query.filter_by(id=cust_id).first()
+    if customer is None:
+        return jsonify({"msg": "No customer found"}), 404
+    return jsonify({"customer":customer.serialize()}), 200 
+
 
 # work order routes
 
