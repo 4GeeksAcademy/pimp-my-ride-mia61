@@ -15,6 +15,7 @@ import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import { StatusOptions } from "./component/StatusOptions";
 // import { NewWorkOrder} from "./component/NewWorkOrder";
 
 //create your first component
@@ -36,6 +37,7 @@ const Layout = () => {
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
+                        <Route element={<StatusOptions />} path="/status-options" />
                         <Route element={<Demo />} path="/demo" />
                         {/* <Route element={<NewWorkOrder />} path="/submit" /> */}
                         <Route element={<Single />} path="/single/:theid" />

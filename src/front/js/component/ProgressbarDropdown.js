@@ -4,23 +4,23 @@ import { Context } from "../store/appContext";
 
 
 export const ProgressbarDropdown = () => {
-	const {store, actions} =useContext(Context);
-    
+    const { store, actions } = useContext(Context);
+
     const statusOptions = [
         "Car Accepted",
-        "Inshurance Check Received(Payment or Insurance accepted, Payment or Insurance check received)",
+        "Insurance Check Received(Payment or Insurance accepted, Payment or Insurance check received)",
         "Parts Ordered",
         "Parts Delivered",
         "Labor Begin",
         "Repair Completed (this should start showing estimate completion date)",
         "Car Being Prepared For Pick Up",
         "Car Ready For Pickup (should generate and send message to the client that he should pick up the car in 48 hours)",
-      ];
-    
+    ];
+
     //   const [selectedStatus, setSelectedStatus] = useState(
     //     Array(orders.length).fill("")
     //   );
-    
+
     //   const handleStatusChange = (index, status) => {
     //     const newSelectedStatus = [...selectedStatus];
     //     newSelectedStatus[index] = status;
@@ -28,32 +28,33 @@ export const ProgressbarDropdown = () => {
     //   };
 
 
-	return (	
+    return (
 
         <>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div className="dropdown">
+                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown with Checkboxes
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <form>
-                        <div class="dropdown-item">
-                            <input class="form-check-input" type="checkbox" id="checkbox1" />
-                            <label class="form-check-label" for="checkbox1">Option 1</label>
+                        <div className="dropdown-item">
+                            <input className="form-check-input" type="checkbox" id="checkbox1" />
+                            <label className="form-check-label" htmlFor="checkbox1">Option 1</label>
                         </div>
-                        <div class="dropdown-item">
-                            <input class="form-check-input" type="checkbox" id="checkbox2" />
-                            <label class="form-check-label" for="checkbox2">Option 2</label>
+                        <div className="dropdown-item">
+                            <input className="form-check-input" type="checkbox" id="checkbox2" />
+                            <label className="form-check-label" htmlFor="checkbox2">Option 2</label>
                         </div>
-                        <div class="dropdown-item">
-                            <input class="form-check-input" type="checkbox" id="checkbox3" />
-                            <label class="form-check-label" for="checkbox3">Option 3</label>
+                        <div className="dropdown-item">
+                            <input className="form-check-input" type="checkbox" id="checkbox3" />
+                            <label className="form-check-label" htmlFor="checkbox3">Option 3</label>
                         </div>
                     </form>
                 </div>
             </div>
-            
-            
+
+
+
             <td>
                 <div className="dropdown">
                     <button
@@ -67,7 +68,7 @@ export const ProgressbarDropdown = () => {
                     </button>
                     <ul
                         className="dropdown-menu"
-                        // aria-labelledby={`statusDropdown${index}`}
+                    // aria-labelledby={`statusDropdown${index}`}
                     >
                         {statusOptions.map((status, i) => (
                             <li key={i}>
@@ -83,5 +84,5 @@ export const ProgressbarDropdown = () => {
                 </div>
             </td>
         </>
-	);
+    );
 };
