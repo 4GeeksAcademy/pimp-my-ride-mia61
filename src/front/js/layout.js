@@ -11,6 +11,7 @@ import { Login } from "./pages/Login";
 import { Profile } from "./pages/Profile";
 import { BusinessOwnerHomePage } from "./pages/BusinessOwnerHomePage";
 import { Progressbar } from "./component/Progressbar";
+import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -34,6 +35,7 @@ const Layout = () => {
                         <Route element={<Login />} path="/log-in" />
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<Progressbar />} path="/progressbar" />
+                        <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
                         <Route element={<Demo />} path="/demo" />
                         {/* <Route element={<NewWorkOrder />} path="/submit" /> */}
                         <Route element={<Single />} path="/single/:theid" />
