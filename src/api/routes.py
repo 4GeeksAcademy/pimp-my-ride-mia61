@@ -57,7 +57,7 @@ def handle_customer_login():
     password = request.json.get("password", None)
     if email is None or password is None:
         return jsonify({"msg": "No email or password"}), 400
-    customer = customer.query.filter_by(email=email).one_or_none()
+    customer = Customer.query.filter_by(email=email).one_or_none()
     if customer is None:
         return jsonify({"msg": "no such user"}), 404
     if customer.password != password:
@@ -66,7 +66,41 @@ def handle_customer_login():
     access_token = create_access_token(identity=customer.id)
     return jsonify(access_token=access_token), 201
 
+@api.route('/customer/<int:cust_id>', methods=['GET'])
+def get_customer(cust_id):
+    customer = Customer.query.filter_by(id=cust_id).first()
+    if customer is None:
+        return jsonify({"msg": "No customer found"}), 404
+    return jsonify({"customer":customer.serialize()}), 20
+
+
 # work order routes
+@api.route('/work-order/new', methods=['POST'])
+def create_work_order():
+    user_id = request.json.get("user_id", None)
+    customer_id = request.json.get("customer_id", None)
+    wo_status = request.json.get("wo_status", None)
+    make = request.json.get("make", None)
+    model = request.json.get("model", None)
+    color = request.json.get("color", None) 
+    vin = request.json.get("vin", None) 
+    license_plate  = request.json.get("license_plate", None) 
+    if user_id is None or customer_id is None or wo_status is None or make is None or model is None or color is None or vin is None or license_plate  is None:
+        return jsonify({"msg": "Some required fields are missing"}), 400
+    customer = Customer.query.filter_by(id=customer_id).one_or_none()
+    if customer is None:
+        return jsonify({"msg": "A customer with that id does not exist"}), 404
+    user = User.query.filter_by(id=user_id).one_or_none()
+    if user is None:
+        return jsonify({"msg": "A user with that id does not exist"}), 404
+    
+    
+    work_order = Work_order (user_id=user_id, customer_id=customer_id, wo_status=wo_status, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
+    db.session.add(work_order)
+    db.session.commit()
+    db.session.refresh(work_order)
+    response_body = {"msg": "Work Order succesfully created!", "work_order":work_order.serialize()}
+    return jsonify(response_body), 201
 
 @api.route('/private', methods=['GET'])
 @jwt_required()

@@ -65,7 +65,7 @@ class Work_order(db.Model):
     model = db.Column(db.String(120), unique=False, nullable=False)
     color= db.Column(db.String(120), unique=False, nullable=False)
     vin = db.Column(db.String(50), unique=True, nullable=False)
-    licence_plate = db.Column(db.String(120), unique=True, nullable=False)
+    license_plate = db.Column(db.String(120), unique=True, nullable=False)
     customer = db.relationship("Customer", back_populates="work_orders")
     comments = db.relationship("Comment", back_populates="work_order")
 
@@ -83,7 +83,7 @@ class Work_order(db.Model):
             "model": self.model,
             "color": self.color,
             "vin": self.vin,
-            "licence_plate": self.licence_plate
+            "license_plate": self.license_plate
         }
     
 class Comment(db.Model):
