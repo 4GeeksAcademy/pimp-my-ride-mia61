@@ -31,6 +31,29 @@ export const ProgressbarDropdown = () => {
 	return (	
 
         <>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown with Checkboxes
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <form>
+                        <div class="dropdown-item">
+                            <input class="form-check-input" type="checkbox" id="checkbox1" />
+                            <label class="form-check-label" for="checkbox1">Option 1</label>
+                        </div>
+                        <div class="dropdown-item">
+                            <input class="form-check-input" type="checkbox" id="checkbox2" />
+                            <label class="form-check-label" for="checkbox2">Option 2</label>
+                        </div>
+                        <div class="dropdown-item">
+                            <input class="form-check-input" type="checkbox" id="checkbox3" />
+                            <label class="form-check-label" for="checkbox3">Option 3</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            
             <td>
                 <div className="dropdown">
                     <button
