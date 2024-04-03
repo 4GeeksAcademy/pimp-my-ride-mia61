@@ -166,7 +166,17 @@ def get_work_order(work_order_id):
         return jsonify({"msg": "Work order not found"}), 404
     return jsonify({"work_order": work_order.serialize()}), 200
 
+@api.route('/work-order/delete/<int:work_order_id>', methods =['DELETE'])
+def delete_work_order(work_order_id):
+    work_order = Work_order.query.get(work_order_id)
 
+    if work_order is None:
+        return jsonify({"msg": "work order not found" }), 404
+    
+    db.session.delete(work_order)
+    db.session.commit()
+
+    return jsonify({"msg": "Work order successfully deleted"}), 200
 
 
 
