@@ -9,7 +9,7 @@ import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 import { Login } from "./pages/Login";
 import { Profile } from "./pages/Profile";
-import { BusinessOwnerHomePage } from "./pages/BusinessOwnerHomePage";
+import CustomerPage from "./pages/CustomerPage";
 import { Progressbar } from "./component/Progressbar";
 import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
 
@@ -37,7 +37,7 @@ const Layout = () => {
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
                         <Route element={<Demo />} path="/demo" />
-                        {/* <Route element={<NewWorkOrder />} path="/submit" /> */}
+                        <Route element={<CustomerPage />} path="/customerpage" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
