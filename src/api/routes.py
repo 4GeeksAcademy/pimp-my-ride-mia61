@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Customer, Work_order, Comment
+from api.models import db, User, Customer, WorkOrder, Comment
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
@@ -71,8 +71,15 @@ def get_customer(cust_id):
     customer = Customer.query.filter_by(id=cust_id).first()
     if customer is None:
         return jsonify({"msg": "No customer found"}), 404
-    return jsonify({"customer":customer.serialize()}), 20
+    return jsonify({"customer":customer.serialize()}), 200
 
+@api.route('/work_orders/customer/<int:cust_id>', methods=['GET'])
+def get_work_orders_by_customer(cust_id):
+    customer = Customer.query.filter_by(id = cust_id).first()
+    if customer is None:
+        return jsonify({"msg": "Customer not found"}), 404
+    work_orders = [work_order.serialize() for work_order in customer.work_orders]
+    return jsonify(work_orders)
 
 # work order routes
 @api.route('/work-order/new', methods=['POST'])
@@ -93,14 +100,65 @@ def create_work_order():
     user = User.query.filter_by(id=user_id).one_or_none()
     if user is None:
         return jsonify({"msg": "A user with that id does not exist"}), 404
-    
-    
-    work_order = Work_order (user_id=user_id, customer_id=customer_id, wo_status=wo_status, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
+    work_order = WorkOrder (user_id=user_id, customer_id=customer_id, wo_status=wo_status, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
     db.session.add(work_order)
     db.session.commit()
     db.session.refresh(work_order)
     response_body = {"msg": "Work Order succesfully created!", "work_order":work_order.serialize()}
     return jsonify(response_body), 201
+
+@api.route('/work-order/edit/<int:work_order_id>', methods=['PUT'])
+def edit_work_order(work_order_id):
+    data = request.json
+    if not data:
+        return jsonify({"msg": "No JSON data provided"}), 400
+    wo_status = data.get("wo_status")
+    make = data.get("make")
+    model = data.get("model")
+    color = data.get("color") 
+    vin = data.get("vin") 
+    license_plate  = data.get("license_plate")
+    if None in ( wo_status, make, model, color, vin, license_plate):
+        return jsonify({"msg": "Some required fields are missing"}), 400 
+    work_order = WorkOrder.query.get(work_order_id)
+    if work_order is None:
+        return jsonify({"msg": "Work order not found"}), 404
+    work_order.wo_status = wo_status
+    work_order.make = make
+    work_order.model = model
+    work_order.color = color
+    work_order.vin = vin
+    work_order.license_plate = license_plate
+    db.session.commit()
+    db.session.refresh(work_order)
+    return jsonify({"work_order": work_order.serialize()}), 200
+
+
+#  ?? Should be private ?? 
+@api.route('/work-order/all', methods=['GET'])
+def get_all_work_orders():
+    work_orders = WorkOrder.query.all()
+    serialized_work_orders = [wo.serialize() for wo in work_orders]
+    return jsonify({"work_orders": serialized_work_orders}), 200
+
+@api.route('/work-order/<int:work_order_id>', methods=['GET'])
+def get_work_order(work_order_id):
+    work_order = WorkOrder.query.get(work_order_id)
+    if work_order is None:
+        return jsonify({"msg": "Work order not found"}), 404
+    return jsonify({"work_order": work_order.serialize()}), 200
+
+@api.route('/work-order/delete/<int:work_order_id>', methods =['DELETE'])
+def delete_work_order(work_order_id):
+    work_order = WorkOrder.query.get(work_order_id)
+
+    if work_order is None:
+        return jsonify({"msg": "work order not found" }), 404
+    
+    db.session.delete(work_order)
+    db.session.commit()
+
+    return jsonify({"msg": "Work order successfully deleted"}), 200
 
 @api.route('/private', methods=['GET'])
 @jwt_required()

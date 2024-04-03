@@ -13,7 +13,7 @@ class Customer(db.Model):
     last_name = db.Column(db.String(120), unique=False, nullable=False)
     address = db.Column(db.String(250), unique=False, nullable=False)
     phone = db.Column(db.String(120), unique=False, nullable=False)
-    work_orders = db.relationship("Work_order", back_populates="customer")
+    work_orders = db.relationship("WorkOrder", back_populates="customer")
 
     def __repr__(self):
         return f'<Customer {self.email}>'
@@ -39,7 +39,7 @@ class User(db.Model):
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     first_name = db.Column(db.String(120), unique=False, nullable=False)
     last_name = db.Column(db.String(120), unique=False, nullable=False)
-    work_orders = db.relationship("Work_order", back_populates="user")
+    work_orders = db.relationship("WorkOrder", back_populates="user")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -53,7 +53,7 @@ class User(db.Model):
             "last_name": self.last_name
         }
     
-class Work_order(db.Model):
+class WorkOrder(db.Model):
     __tablename__ = 'work_orders'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -71,7 +71,7 @@ class Work_order(db.Model):
 
 
     def __repr__(self):
-        return f'<Work_order {self.id}>'
+        return f'<WorkOrder {self.id}>'
 
     def serialize(self):
         return {
@@ -92,7 +92,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     work_order_id = db.Column(db.Integer, db.ForeignKey("work_orders.id"), nullable=False)
     message = db.Column(db.String(500), unique=False, nullable=False)
-    work_order = db.relationship("Work_order", back_populates="comments")
+    work_order = db.relationship("WorkOrder", back_populates="comments")
 
     def __repr__(self):
         return f'<Comment {self.id}>'
