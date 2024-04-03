@@ -109,25 +109,36 @@ def create_work_order():
 
 @api.route('/work-order/edit/<int:work_order_id>', methods=['PUT'])
 def edit_work_order(work_order_id):
-    user_id = request.json.get("user_id", None)
-    customer_id = request.json.get("customer_id", None)
-    wo_status = request.json.get("wo_status", None)
-    make = request.json.get("make", None)
-    model = request.json.get("model", None)
-    color = request.json.get("color", None) 
-    vin = request.json.get("vin", None) 
-    license_plate  = request.json.get("license_plate", None)
+    data = request.json
+    
+    if not data:
+        return jsonify({"msg": "No JSON data provided"}), 400
+    
+    user_id = data.get("user_id")
+    customer_id = data.get("customer_id")
+    wo_status = data.get("wo_status")
+    make = data.get("make")
+    model = data.get("model")
+    color = data.get("color") 
+    vin = data.get("vin") 
+    license_plate  = data.get("license_plate")
+
+    if None in (user_id, customer_id, wo_status, make, model, color, vin, license_plate):
+        return jsonify({"msg": "Some required fields are missing"}), 400 
+
     work_order = Work_order.query.get(work_order_id)
+
     if work_order is None:
         return jsonify({"msg": "Work order not found"}), 404
-    if user_id is None or customer_id is None or wo_status is None or make is None or model is None or color is None or vin is None or license_plate  is None:
-        return jsonify({"msg": "Some required fields are missing"}), 400 
-    customer = Customer.query.filter_by(id=customer_id).one_or_none()
+    
+    customer = Customer.query.get(customer_id)
     if customer is None:
         return jsonify({"msg": "A customer with that id does not exist"}), 404
-    user = User.query.filter_by(id=user_id).one_or_none()
+    
+    user = User.query.get(user_id)
     if user is None:
         return jsonify({"msg": "A user with that id does not exist"}), 404
+    
     work_order.user_id = user_id 
     work_order.customer_id = customer_id
     work_order.wo_status = wo_status
@@ -138,7 +149,7 @@ def edit_work_order(work_order_id):
     work_order.license_plate = license_plate
     db.session.commit()
     db.session.refresh(work_order)
-    return jsonify({"work_order": work_order.serialize()}), 201
+    return jsonify({"work_order": work_order.serialize()}), 200
 
 
 #  ?? Should be private ?? 
