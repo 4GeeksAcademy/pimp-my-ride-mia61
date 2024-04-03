@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import NewWorkOrder from "../component/NewWorkOrder";
 import OrderHistory from "../component/OrderHistory";
 // import { useNavigate } from "react-router-dom";
 
-const BusinessOwnerHomePage = () => {
+const CustomerPage = () => {
+
+    const [orders, setOrders] = useState([]);
     return (
         <div>
             <h1>Welcome to the Business Owner Home Page</h1>
@@ -12,11 +14,11 @@ const BusinessOwnerHomePage = () => {
                 <NewWorkOrder />
             </div>
             <div>
-                <h2>Order History</h2>
-                <OrderHistory />
+                {/* <h2>Order History</h2> */}
+                <OrderHistory orders={orders} />
             </div>
         </div>
     );
 }
 
-export default BusinessOwnerHomePage;
+export default CustomerPage;
