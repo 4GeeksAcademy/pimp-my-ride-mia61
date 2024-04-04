@@ -3,16 +3,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			
 			token: undefined,
-			localStorageChecked: undefined
+			sessionStorageChecked: undefined
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 
-			logIn: async (body) => {
+			logInUser: async (user) => {
 				const response = await fetch(
-					process.env.BACKEND_URL + "/api/log-ins", {
+					process.env.BACKEND_URL + "/api/user/login", {
 						method: "POST",
-						body: JSON.stringify(body),
+						body: JSON.stringify({email: user.email, password:user.password}),
 						headers: {
 							"Content-Type": "application/json"
 						}
@@ -23,19 +23,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({
 					token: responseBody.access_token
 				});
-				localStorage.setItem("token", responseBody.access_token);
+				sessionStorage.setItem("token", responseBody.access_token);
 
 				return true;
 			},
 
-			checkIfTokenInLocalStorage: () => {
-				if (localStorage.getItem("token")) {
+			checkIfTokenInSessionStorage: () => {
+				if (sessionStorage.getItem("token")) {
 					setStore({
-						token: localStorage.getItem("token")
+						token: sessionStorage.getItem("token")
 					});
 				};
 				setStore({
-					localStorageChecked: true
+					sessionStorageChecked: true
 				});
 			},
 
@@ -44,12 +44,67 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({
 					token: undefined
 				});
-				if (localStorage.getItem("token")) {
-					localStorage.removeItem("token");
+				if (sessionStorage.getItem("token")) {
+					sessionStorage.removeItem("token");
 				}
 				console.log(getStore().token)
 			},
-			
+
+			logInCustomer: async (customer) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "/api/customer/login", {
+						method: "POST",
+						body: JSON.stringify({email: customer.email, password:customer.password}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);   
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				setStore({
+					token: responseBody.access_token
+				});
+				sessionStorage.setItem("token", responseBody.access_token);
+
+				return true;
+			},
+
+			signUpCustomer: async (customer) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "/api/customer/signup", {
+						method: "POST",
+						body: JSON.stringify({first_name:customer.first_name, email:customer.email, password:customer.password, last_name:customer.last_name, address:customer.address, phone:customer.phone }),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);   
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+
+				return true;
+			},
+
+			editCustomer: async (customer) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "/api/customer/edit/" + customer.id, {
+						method: "PUT",
+						body: JSON.stringify({first_name:customer.first_name, email:customer.email, password:customer.password, last_name:customer.last_name, address:customer.address, phone:customer.phone }),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);   
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+
+				return true;
+			}
+
+
 		}
 	};
 };
