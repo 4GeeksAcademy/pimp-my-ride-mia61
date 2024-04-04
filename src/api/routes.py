@@ -69,15 +69,15 @@ def handle_customer_login():
 @api.route('/customer/edit/<int:cust_id>', methods=['PUT'])
 @jwt_required()
 def handle_customer_edit(cust_id):
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    first_name = request.json.get("first_name", None)
-    last_name = request.json.get("last_name", None)
-    address = request.json.get("address", None)
-    phone = request.json.get("phone", None)
+    email = request.json.get("email")
+    password = request.json.get("password")
+    first_name = request.json.get("first_name")
+    last_name = request.json.get("last_name")
+    address = request.json.get("address")
+    phone = request.json.get("phone")
     if email is None or password is None or first_name is None or last_name is None or address is None or phone is None:
         return jsonify({"msg": "Some fields are missing in your request"}), 400
-    customer = Customer.query.filter_by(id=get_jwt_identity).one_or_none()
+    customer = Customer.query.filter_by(id=get_jwt_identity()).one_or_none()
     if customer is None:
         return jsonify({"msg": "No customer found"}), 404
     customer.email=email
@@ -90,6 +90,22 @@ def handle_customer_edit(cust_id):
     db.session.refresh(customer)
     response_body = {"msg": "Account succesfully edited!", "customer":customer.serialize()}
     return jsonify(response_body), 201
+
+@api.route('/customer/delete/<int:cust_id>', methods =['DELETE'])
+@jwt_required()
+def delete(cust_id):
+    user = User.query.filter_by(id=get_jwt_identity()).first()
+    if user is None:
+        return ({"msg":"This feature is only available to authorized staff"}), 401
+    customer = Customer.query.get(cust_id)
+
+    if customer is None:
+        return jsonify({"msg": "This customer does not exist" }), 404
+    
+    db.session.delete(customer)
+    db.session.commit()
+
+    return jsonify({"msg": "Customer successfully deleted"}), 200
 
 
 @api.route('/customer/<int:cust_id>', methods=['GET'])
