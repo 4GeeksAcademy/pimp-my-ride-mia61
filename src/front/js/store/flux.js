@@ -1,33 +1,18 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			],
+			
 			token: undefined,
-			localStorageChecked: undefined
+			sessionStorageChecked: undefined
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
 
-			logIn: async (body) => {
+			logInUser: async (user) => {
 				const response = await fetch(
-					process.env.BACKEND_URL + "/api/log-ins", {
+					process.env.BACKEND_URL + "/api/user/login", {
 						method: "POST",
-						body: JSON.stringify(body),
+						body: JSON.stringify({email: user.email, password:user.password}),
 						headers: {
 							"Content-Type": "application/json"
 						}
@@ -38,74 +23,88 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({
 					token: responseBody.access_token
 				});
-				localStorage.setItem("token", responseBody.access_token);
+				sessionStorage.setItem("token", responseBody.access_token);
 
 				return true;
 			},
 
-			checkIfTokenInLocalStorage: () => {
-				if (localStorage.getItem("token")) {
+			checkIfTokenInSessionStorage: () => {
+				if (sessionStorage.getItem("token")) {
 					setStore({
-						token: localStorage.getItem("token")
+						token: sessionStorage.getItem("token")
 					});
 				};
 				setStore({
-					localStorageChecked: true
+					sessionStorageChecked: true
 				});
 			},
 
-			fetchPrivateEndpoint: async () => {
-				const store = getStore();
-				const response = await fetch (
-					process.env.BACKEND_URL + "/api/private", {
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": "Bearer " + store.token
-						}
-					}
-				);
-				const body = await response.json();
-				setStore({
-					privateData: body
-				});
-			},
 
 			logUserOut: () => {
 				setStore({
 					token: undefined
 				});
-				if (localStorage.getItem("token")) {
-					localStorage.removeItem("token");
+				if (sessionStorage.getItem("token")) {
+					sessionStorage.removeItem("token");
 				}
 				console.log(getStore().token)
 			},
 
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
-				}
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
+			logInCustomer: async (customer) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "/api/customer/login", {
+						method: "POST",
+						body: JSON.stringify({email: customer.email, password:customer.password}),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);   
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				setStore({
+					token: responseBody.access_token
 				});
+				sessionStorage.setItem("token", responseBody.access_token);
 
-				//reset the global store
-				setStore({ demo: demo });
+				return true;
+			},
+
+			signUpCustomer: async (customer) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "/api/customer/signup", {
+						method: "POST",
+						body: JSON.stringify({first_name:customer.first_name, email:customer.email, password:customer.password, last_name:customer.last_name, address:customer.address, phone:customer.phone }),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);   
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+
+				return true;
+			},
+
+			editCustomer: async (customer) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "/api/customer/edit/" + customer.id, {
+						method: "PUT",
+						body: JSON.stringify({first_name:customer.first_name, email:customer.email, password:customer.password, last_name:customer.last_name, address:customer.address, phone:customer.phone }),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);   
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+
+				return true;
 			}
+
+
 		}
 	};
 };
