@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.mutable import MutableList
+from sqlalchemy.types import ARRAY
 
 db = SQLAlchemy()
 
@@ -59,7 +61,6 @@ class WorkOrder(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey("customers.id"), nullable=False)
-    wo_status = db.Column(db.String(120), unique=False, nullable=False)
     user = db.relationship("User", back_populates="work_orders")
     make = db.Column(db.String(120), unique=False, nullable=False)
     model = db.Column(db.String(120), unique=False, nullable=False)
@@ -68,6 +69,7 @@ class WorkOrder(db.Model):
     license_plate = db.Column(db.String(120), unique=True, nullable=False)
     customer = db.relationship("Customer", back_populates="work_orders")
     comments = db.relationship("Comment", back_populates="work_order")
+    wo_stages = db.Column(MutableList.as_mutable(ARRAY(db.String(255))), default=[])
 
 
     def __repr__(self):
@@ -78,7 +80,7 @@ class WorkOrder(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "customer_id": self.customer_id,
-            "wo_status": self.wo_status,
+            "wo_stages": [stage for stage in self.wo_stages],
             "make": self.make,
             "model": self.model,
             "color": self.color,
