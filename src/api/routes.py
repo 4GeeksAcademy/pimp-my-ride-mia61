@@ -39,8 +39,8 @@ def handle_customer_signup():
     last_name = request.json.get("last_name", None)
     address = request.json.get("address", None)
     phone = request.json.get("phone", None)
-    if email is None or password is None:
-        return jsonify({"msg": "No email or password"}), 400
+    if email is None or password is None or first_name is None or last_name is None or address is None or phone is None:
+        return jsonify({"msg": "Some fields are missing in your request"}), 400
     customer = Customer.query.filter_by(email=email).one_or_none()
     if customer:
         return jsonify({"msg": "An account associated with the email already exists"}), 409
@@ -66,6 +66,32 @@ def handle_customer_login():
     access_token = create_access_token(identity=customer.id)
     return jsonify(access_token=access_token), 201
 
+@api.route('/customer/edit/<int:cust_id>', methods=['PUT'])
+@jwt_required()
+def handle_customer_edit(cust_id):
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    first_name = request.json.get("first_name", None)
+    last_name = request.json.get("last_name", None)
+    address = request.json.get("address", None)
+    phone = request.json.get("phone", None)
+    if email is None or password is None or first_name is None or last_name is None or address is None or phone is None:
+        return jsonify({"msg": "Some fields are missing in your request"}), 400
+    customer = Customer.query.filter_by(id=get_jwt_identity).one_or_none()
+    if customer is None:
+        return jsonify({"msg": "No customer found"}), 404
+    customer.email=email
+    customer.password=password    
+    customer.first_name=first_name   
+    customer.last_name=last_name    
+    customer.address=address    
+    customer.phone=phone
+    db.session.commit()
+    db.session.refresh(customer)
+    response_body = {"msg": "Account succesfully edited!", "customer":customer.serialize()}
+    return jsonify(response_body), 201
+
+
 @api.route('/customer/<int:cust_id>', methods=['GET'])
 def get_customer(cust_id):
     customer = Customer.query.filter_by(id=cust_id).first()
@@ -84,23 +110,41 @@ def get_work_orders_by_customer(cust_id):
 # work order routes
 @api.route('/work-order/new', methods=['POST'])
 def create_work_order():
+    def is_list_valid(a):
+        canon=["Car accepted",
+        "Supplement sent to insurance",
+        "Supplement approved",
+        "Check received from Insurance",
+        "Parts Ordered",
+        "Parts Delivered",
+        "Labor in Progress",
+        "Labor completed, car is being prepared for pick-up",
+        "Car is ready for pick-up"]
+        if type(a) is not list:
+            return False
+        for x in a:
+            if x not in canon:
+                return False
+        return True
     user_id = request.json.get("user_id", None)
     customer_id = request.json.get("customer_id", None)
-    wo_status = request.json.get("wo_status", None)
+    wo_stages = request.json.get("wo_stages", None)
     make = request.json.get("make", None)
     model = request.json.get("model", None)
     color = request.json.get("color", None) 
     vin = request.json.get("vin", None) 
     license_plate  = request.json.get("license_plate", None) 
-    if user_id is None or customer_id is None or wo_status is None or make is None or model is None or color is None or vin is None or license_plate  is None:
+    if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or color is None or vin is None or license_plate  is None:
         return jsonify({"msg": "Some required fields are missing"}), 400
+    if is_list_valid(wo_stages) is False:
+        return jsonify({"msg": "Please send a valig list of stages"}), 400
     customer = Customer.query.filter_by(id=customer_id).one_or_none()
     if customer is None:
         return jsonify({"msg": "A customer with that id does not exist"}), 404
     user = User.query.filter_by(id=user_id).one_or_none()
     if user is None:
         return jsonify({"msg": "A user with that id does not exist"}), 404
-    work_order = WorkOrder (user_id=user_id, customer_id=customer_id, wo_status=wo_status, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
+    work_order = WorkOrder (user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
     db.session.add(work_order)
     db.session.commit()
     db.session.refresh(work_order)
@@ -112,18 +156,20 @@ def edit_work_order(work_order_id):
     data = request.json
     if not data:
         return jsonify({"msg": "No JSON data provided"}), 400
-    wo_status = data.get("wo_status")
+    wo_stages = data.get("wo_stages")
     make = data.get("make")
     model = data.get("model")
     color = data.get("color") 
     vin = data.get("vin") 
     license_plate  = data.get("license_plate")
-    if None in ( wo_status, make, model, color, vin, license_plate):
+
+    if None in (wo_stages, make, model, color, vin, license_plate):
         return jsonify({"msg": "Some required fields are missing"}), 400 
+
     work_order = WorkOrder.query.get(work_order_id)
     if work_order is None:
         return jsonify({"msg": "Work order not found"}), 404
-    work_order.wo_status = wo_status
+    work_order.wo_stages = wo_stages
     work_order.make = make
     work_order.model = model
     work_order.color = color
