@@ -6,6 +6,8 @@ from api.models import db, User, Customer, WorkOrder, Comment
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
+from app import admin_required
+
 
 api = Blueprint('api', __name__)
 
@@ -218,7 +220,7 @@ def get_work_order(work_order_id):
     return jsonify({"work_order": work_order.serialize()}), 200
 
 @api.route('/work-order/delete/<int:work_order_id>', methods =['DELETE'])
-@jwt_required()
+@admin_required()
 def delete_work_order(work_order_id):
     claims = get_jwt()
     if claims["role"] != "owner":
