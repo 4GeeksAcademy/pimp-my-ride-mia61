@@ -179,9 +179,37 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return true;
 			},
 
+			getAllWorkOrders: async () => {
+				const response = await fetch(process.env.BACKEND_URL + "/api/work-order/all", {
+					method:"GET",
+					headers: {
+						"Content-Type": "application/json",
+							// Authorization: "Bearer " + sessionStorage.getItem("token")
+					}
+				})
+				if (response.status !== 200) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+				return true;
+			},
+
+			getWorkOrderById: async (workOrderId) => {
+				const response = await fetch(process.env.BACKEND_URL + "/api/work_orders/customer/" + workOrderId, {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						// Authorization: "Bearer " + sessionStorage.getItem("token")
+					},
+				})
+				if (response.status !== 200) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+				return true;
+			},
+
 // in Models: add Date Created as a field, make a fetch that gets all of the orders and then filters based on the date created. Increase sequrity to all of the routes. 
 
-
+		
 
 		}
 	};
