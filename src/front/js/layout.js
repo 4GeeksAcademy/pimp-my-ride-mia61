@@ -13,8 +13,12 @@ import CustomerPage from "./pages/CustomerPage";
 import { Progressbar } from "./component/Progressbar";
 import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
 
-import { Navbar } from "./component/navbar";
-import { Footer } from "./component/footer";
+import Navbar from "./component/navbar";
+import Footer from "./component/footer";
+import Services from './pages/Services';
+import Products from './pages/Products';
+import SignUp from './pages/SignUp';
+
 // import { NewWorkOrder} from "./component/NewWorkOrder";
 
 //create your first component
@@ -40,6 +44,9 @@ const Layout = () => {
                         <Route element={<CustomerPage />} path="/customerpage" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
+                        <Route path='/services' exact element={ <Services />}></Route>
+                        <Route path='/products' exact element={ <Products />}></Route>
+                        <Route path='/sign-up' exact element={ <SignUp />}></Route>
                     </Routes>
                     <Footer />
                 </ScrollToTop>

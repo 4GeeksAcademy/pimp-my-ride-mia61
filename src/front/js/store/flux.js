@@ -1,7 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-
 			token: undefined,
 			sessionStorageChecked: undefined
 		},
