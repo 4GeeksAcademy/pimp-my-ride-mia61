@@ -102,6 +102,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(responseBody)
 
 				return true;
+			},
+
+			getAllCustomers: async (customer) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "/api/customer", {
+						method: "GET",
+						body: JSON.stringify ({first_name:customer.first_name, email:customer.email, password:customer.password, last_name:customer.last_name, address:customer.address, phone:customer.phone }),
+						headers: {
+							"Content-Type": "application/json"
+						}
+					}
+				);
 			}
 
 
