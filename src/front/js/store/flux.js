@@ -1,7 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			message: null,
 			token: undefined,
 			sessionStorageChecked: undefined
 		},
@@ -11,13 +10,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logInUser: async (user) => {
 				const response = await fetch(
 					process.env.BACKEND_URL + "/api/user/login", {
-						method: "POST",
-						body: JSON.stringify({email: user.email, password:user.password}),
-						headers: {
-							"Content-Type": "application/json"
-						}
+					method: "POST",
+					body: JSON.stringify({ email: user.email, password: user.password }),
+					headers: {
+						"Content-Type": "application/json"
 					}
-				);   
+				}
+				);
 				if (response.status !== 201) return false;
 				const responseBody = await response.json();
 				setStore({
@@ -53,13 +52,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logInCustomer: async (customer) => {
 				const response = await fetch(
 					process.env.BACKEND_URL + "/api/customer/login", {
-						method: "POST",
-						body: JSON.stringify({email: customer.email, password:customer.password}),
-						headers: {
-							"Content-Type": "application/json"
-						}
+					method: "POST",
+					body: JSON.stringify({ email: customer.email, password: customer.password }),
+					headers: {
+						"Content-Type": "application/json"
 					}
-				);   
+				}
+				);
 				if (response.status !== 201) return false;
 				const responseBody = await response.json();
 				setStore({
@@ -73,13 +72,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			signUpCustomer: async (customer) => {
 				const response = await fetch(
 					process.env.BACKEND_URL + "/api/customer/signup", {
-						method: "POST",
-						body: JSON.stringify({first_name:customer.first_name, email:customer.email, password:customer.password, last_name:customer.last_name, address:customer.address, phone:customer.phone }),
-						headers: {
-							"Content-Type": "application/json"
-						}
+					method: "POST",
+					body: JSON.stringify({ first_name: customer.first_name, email: customer.email, password: customer.password, last_name: customer.last_name, address: customer.address, phone: customer.phone }),
+					headers: {
+						"Content-Type": "application/json"
 					}
-				);   
+				}
+				);
 				if (response.status !== 201) return false;
 				const responseBody = await response.json();
 				console.log(responseBody)
@@ -90,20 +89,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 			editCustomer: async (customer) => {
 				const response = await fetch(
 					process.env.BACKEND_URL + "/api/customer/edit/" + customer.id, {
-						method: "PUT",
-						body: JSON.stringify({first_name:customer.first_name, email:customer.email, password:customer.password, last_name:customer.last_name, address:customer.address, phone:customer.phone }),
-						headers: {
-							"Content-Type": "application/json"
-						}
-					}
-				);   
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({ first_name: customer.first_name, email: customer.email, password: customer.password, last_name: customer.last_name, address: customer.address, phone: customer.phone })
+
+				}
+				);
 				if (response.status !== 201) return false;
 				const responseBody = await response.json();
 				console.log(responseBody)
 
 				return true;
-			}
+			},
 
+			deleteCustomer: async (custId) => {
+				const response = await fetch(process.env.BACKEND_URL + "/api/customer/delete/" + custId, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + sessionStorage.getItem("token")
+					}
+				})
+				if (response.status !== 200) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+				return true;
+			}
 
 		}
 	};
