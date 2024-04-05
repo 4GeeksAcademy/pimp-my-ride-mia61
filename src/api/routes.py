@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Customer, WorkOrder, Comment
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 
 api = Blueprint('api', __name__)
 
@@ -25,7 +25,10 @@ def handle_user_login():
     if user.password != password:
         return jsonify({"msg": "Bad email or password"}), 401
 
-    access_token = create_access_token(identity=user.id)
+    access_token = create_access_token(
+        identity=user.id,
+        additional_claims = {"role": "owner"} 
+        )
     return jsonify(access_token=access_token), 201
 
 
@@ -63,7 +66,11 @@ def handle_customer_login():
     if customer.password != password:
         return jsonify({"msg": "Bad email or password"}), 401
 
-    access_token = create_access_token(identity=customer.id)
+    access_token = create_access_token(
+        identity=customer.id,
+        additional_claims = {"role": "customer"} 
+        )
+        
     return jsonify(access_token=access_token), 201
 
 @api.route('/customer/edit/<int:cust_id>', methods=['PUT'])
@@ -211,7 +218,11 @@ def get_work_order(work_order_id):
     return jsonify({"work_order": work_order.serialize()}), 200
 
 @api.route('/work-order/delete/<int:work_order_id>', methods =['DELETE'])
+@jwt_required()
 def delete_work_order(work_order_id):
+    claims = get_jwt()
+    if claims["role"] != "owner":
+        return jsonify({"msg": "Only Owners can access this" }), 400
     work_order = WorkOrder.query.get(work_order_id)
 
     if work_order is None:

@@ -166,11 +166,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			deleteWorkOrder: async (workOrderId) => {
+				const store = getStore()
 				const response = await fetch(process.env.BACKEND_URL + "/api/work-order/delete/" + workOrderId, {
 					method: "DELETE",
 					headers: {
 						"Content-Type": "application/json",
-						// Authorization: "Bearer " + sessionStorage.getItem("token")
+						Authorization: "Bearer " + store.token
 					}
 				})
 				if (response.status !== 200) return false;
