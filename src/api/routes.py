@@ -76,7 +76,7 @@ def handle_customer_login():
     return jsonify(access_token=access_token), 201
 
 @api.route('/customer/edit/<int:cust_id>', methods=['PUT'])
-@jwt_required()
+@admin_required()
 def handle_customer_edit(cust_id):
     email = request.json.get("email")
     password = request.json.get("password")
@@ -101,7 +101,7 @@ def handle_customer_edit(cust_id):
     return jsonify(response_body), 201
 
 @api.route('/customer/delete/<int:cust_id>', methods =['DELETE'])
-@jwt_required()
+@admin_required()
 def delete(cust_id):
     user = User.query.filter_by(id=get_jwt_identity()).first()
     if user is None:
@@ -118,13 +118,16 @@ def delete(cust_id):
 
 
 @api.route('/customer/<int:cust_id>', methods=['GET'])
+@admin_required()
 def get_customer(cust_id):
     customer = Customer.query.filter_by(id=cust_id).first()
     if customer is None:
         return jsonify({"msg": "No customer found"}), 404
     return jsonify({"customer":customer.serialize()}), 200
 
+
 @api.route('/work_orders/customer/<int:cust_id>', methods=['GET'])
+@admin_required()
 def get_work_orders_by_customer(cust_id):
     customer = Customer.query.filter_by(id = cust_id).first()
     if customer is None:
@@ -134,6 +137,7 @@ def get_work_orders_by_customer(cust_id):
 
 # work order routes
 @api.route('/work-order/new', methods=['POST'])
+@admin_required()
 def create_work_order():
     def is_list_valid(a):
         canon=["Car accepted",
@@ -177,6 +181,7 @@ def create_work_order():
     return jsonify(response_body), 201
 
 @api.route('/work-order/edit/<int:work_order_id>', methods=['PUT'])
+@admin_required()
 def edit_work_order(work_order_id):
     data = request.json
     if not data:
@@ -205,14 +210,15 @@ def edit_work_order(work_order_id):
     return jsonify({"work_order": work_order.serialize()}), 200
 
 
-#  ?? Should be private ?? 
 @api.route('/work-order/all', methods=['GET'])
+@admin_required()
 def get_all_work_orders():
     work_orders = WorkOrder.query.all()
     serialized_work_orders = [wo.serialize() for wo in work_orders]
     return jsonify({"work_orders": serialized_work_orders}), 200
 
 @api.route('/work-order/<int:work_order_id>', methods=['GET'])
+@jwt_required()
 def get_work_order(work_order_id):
     work_order = WorkOrder.query.get(work_order_id)
     if work_order is None:
@@ -222,17 +228,11 @@ def get_work_order(work_order_id):
 @api.route('/work-order/delete/<int:work_order_id>', methods =['DELETE'])
 @admin_required()
 def delete_work_order(work_order_id):
-    claims = get_jwt()
-    if claims["role"] != "owner":
-        return jsonify({"msg": "Only Owners can access this" }), 400
     work_order = WorkOrder.query.get(work_order_id)
-
     if work_order is None:
         return jsonify({"msg": "work order not found" }), 404
-    
     db.session.delete(work_order)
     db.session.commit()
-
     return jsonify({"msg": "Work order successfully deleted"}), 200
 
 @api.route('/private', methods=['GET'])
