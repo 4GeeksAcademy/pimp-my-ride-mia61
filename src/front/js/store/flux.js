@@ -111,7 +111,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: "DELETE",
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: "Bearer " + sessionStorage.getItem("token")
+						Authorization: "Bearer " + store.token
 					}
 				})
 				if (response.status !== 200) return false;
@@ -120,13 +120,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return true;
 			},
 
-			// need to increase security
 			getCustomerWorkOrders: async (custId) => {
 				const response = await fetch(process.env.BACKEND_URL + "/api/work_orders/customer/" + custId, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
-						// Authorization: "Bearer " + sessionStorage.getItem("token")
+						Authorization: "Bearer " + store.token
 					},
 				})
 				if (response.status !== 200) return false;
@@ -135,12 +134,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return true;
 			},
 
-			// NEED TO INCREASE SECURITY
 			createNewWorkOrder: async (workOrder) => {
 				const response = await fetch(process.env.BACKEND_URL + "/api/work-order/new", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
+						Authorization: "Bearer " + store.token
 					},
 					body: JSON.stringify({user_id: workOrder.user_id,  customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate})
 				})
@@ -155,6 +154,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json",
+						Authorization: "Bearer " + store.token
 					},
 					body: JSON.stringify({user_id: workOrder.user_id,  customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate})
 				})
@@ -185,7 +185,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method:"GET",
 					headers: {
 						"Content-Type": "application/json",
-							// Authorization: "Bearer " + sessionStorage.getItem("token")
+						Authorization: "Bearer " + store.token
 					}
 				})
 				if (response.status !== 200) return false;
@@ -199,7 +199,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
-						// Authorization: "Bearer " + sessionStorage.getItem("token")
+						Authorization: "Bearer " + store.token
 					},
 				})
 				if (response.status !== 200) return false;
