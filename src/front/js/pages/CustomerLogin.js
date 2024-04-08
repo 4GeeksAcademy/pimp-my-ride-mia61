@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 
-export const Login = (props) => {
+export const CustomerLogin = (props) => {
     const navigate = useNavigate();
     const { store, actions } = useContext(Context);
 	const [email, setEmail] = useState("");
@@ -10,12 +10,12 @@ export const Login = (props) => {
 	const handleLogin = async(event) => {
 		// validate there is an email
 		// validate there is a password
-		const success = await actions.logIn({
+		const success = await actions.logInCustomer({
 			email: email,
 			password: password
 		});
 		if (success) {
-            navigate("/profile");
+            navigate("/customer-profile");
 	    } else {
         alert("something went wrong");
         }
