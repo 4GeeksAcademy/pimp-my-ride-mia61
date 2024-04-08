@@ -10,7 +10,7 @@ from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-from flask_jwt_extended import JWTManager, wraps, verify_jwt_in_request, get_jwt 
+from flask_jwt_extended import JWTManager
 
 # from models import Person
 
@@ -32,21 +32,6 @@ app.config["JWT_SECRET_KEY"] = os.environ.get("FLASK_APP_KEY")
 app.config["JWT_ALGORITHM"] = "HS256"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 24 * 60 * 60
 jwt = JWTManager(app)
-
-def admin_required():
-    def wrapper(fn):
-        @wraps(fn)
-        def decorator(*args, **kwargs):
-            verify_jwt_in_request()
-            claims = get_jwt()
-            if claims.get("role") == "owner":
-                return fn(*args, **kwargs)
-            else:
-                return jsonify(msg="Admins only!"), 403
-
-        return decorator
-
-    return wrapper
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
