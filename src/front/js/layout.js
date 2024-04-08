@@ -21,6 +21,7 @@ import UserDashboard from "./pages/UserDashboard";
 import { UserLogin } from "./pages/UserLogin";
 import { CustomerLogin } from "./pages/CustomerLogin";
 import { CustomerProfile } from "./pages/CustomerProfile";
+import { CustomerSignup } from "./pages/CustomerSignup";
 
 // import { NewWorkOrder} from "./component/NewWorkOrder";
 
@@ -42,6 +43,7 @@ const Layout = () => {
                         <Route element={<UserLogin />} path="/user-log-in" />
                         <Route element={<CustomerLogin />} path="/customer-log-in" />
                         <Route element={<CustomerProfile />} path="/customer-profile" />
+                        <Route element={<CustomerSignup />} path="/customer-signup" />
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
                         <Route element={<GenerateProgressbar />} path="/generate-progressbar" />
