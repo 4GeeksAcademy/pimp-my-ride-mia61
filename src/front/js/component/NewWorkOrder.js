@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import Progressbar from "./component/Progressbar"
 // import { Link } from "react-router-dom";
+import { GenerateProgressbar } from "./GenerateProgressbar";
 
 const NewWorkOrder = () => {
   const navigate = useNavigate();
@@ -609,6 +610,7 @@ const NewWorkOrder = () => {
         </div>
 
         <div>
+          <GenerateProgressbar />
           <label htmlFor="progressbar">
             Repair stages to Generate Progressbar:
           </label>
