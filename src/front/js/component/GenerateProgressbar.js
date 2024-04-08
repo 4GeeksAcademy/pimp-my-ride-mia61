@@ -31,4 +31,51 @@ export const GenerateProgressbar = () => {
         "Car Ready For Pickup",
     ];
 
+    const handleCheckboxChange = (step) => {
+        const index = selectedSteps.indexOf(step);
+        if (index > -1) {
+            setSelectedSteps(selectedSteps.filter((item) => item !== step));
+        } else {
+            setSelectedSteps([...selectedSteps, step]);
+        }
+    };
+
+
+
+
+
+
+    return (
+
+        <>
+            <div className="accordion" id="accordionExample">
+                <div className="accordion-item">
+                    <h2 className="accordion-header" id="headingOne">
+                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            ProgressbarSteps Included
+                        </button>
+                    </h2>
+                    <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div className="accordion-body">
+                            {stepDescriptions.map((step, index) => (
+                                <div key={index}>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedSteps.includes(step)}
+                                            onChange={() => handleCheckboxChange(step)}
+                                        />
+                                        {step}
+                                    </label>
+                                </div>
+                            ))}
+                            <button onClick={() => console.log(selectedSteps)}>Generate Progress Bar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </>
+    );
 };
+
