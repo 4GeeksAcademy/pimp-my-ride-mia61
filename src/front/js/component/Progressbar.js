@@ -1,8 +1,9 @@
+// Progressbar.js
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/ProgressBar.css";
 
-export const Progressbar = () => {
+export const Progressbar = ({ selectedStages }) => {
   const { store, actions } = useContext(Context);
   const [activeStep, setActiveStep] = useState(1);
 
@@ -18,8 +19,8 @@ export const Progressbar = () => {
     "Car Ready For Pickup",
   ];
 
-  const handleClick = (step) => {
-    setActiveStep(step);
+  const handleClick = (stepIndex) => {
+    setActiveStep(stepIndex + 1);
   };
 
   return (
@@ -28,22 +29,22 @@ export const Progressbar = () => {
         <div className="row">
           <div className="col-md-12">
             <div className="progressBarContainer">
-              {[...Array(9).keys()].map((index) => (
-                <React.Fragment key={index}>
+              {selectedStages.map((stageIndex) => (
+                <React.Fragment key={stageIndex}>
                   <button
-                    className={`stepButton ${index + 1 <= activeStep ? "completed" : ""}`}
-                    onClick={() => handleClick(index + 1)}
+                    className={`stepButton ${stageIndex + 1 <= activeStep ? "completed" : ""}`}
+                    onClick={() => handleClick(stageIndex)}
                   >
-                    {index + 1}
+                    {stageIndex + 1}
                   </button>
-                  {index < 8 && (
+                  {stageIndex < Math.max(...selectedStages) && (
                     <div
-                      className={`stepConnector ${index + 1 < activeStep ? "completed" : ""}`}
+                      className={`stepConnector ${stageIndex + 1 < activeStep ? "completed" : ""}`}
                     ></div>
                   )}
-                  {activeStep === index + 1 && (
+                  {activeStep === stageIndex + 1 && (
                     <div className="stepDescription">
-                      {stepDescriptions[index]}
+                      {stepDescriptions[stageIndex]}
                     </div>
                   )}
                 </React.Fragment>

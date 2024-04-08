@@ -6,7 +6,7 @@ from api.models import db, User, Customer, WorkOrder, Comment
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
-from app import admin_required
+from api.auth import admin_required
 
 
 api = Blueprint('api', __name__)

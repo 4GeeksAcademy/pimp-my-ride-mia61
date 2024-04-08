@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import Progressbar from "./component/Progressbar"
-// import { Link } from "react-router-dom";
+import Progressbar from "./Progressbar";
 
 const NewWorkOrder = () => {
   const navigate = useNavigate();
@@ -16,6 +15,7 @@ const NewWorkOrder = () => {
     color: "",
     text_area: "",
   });
+  const [selectedStages, setSelectedStages] = useState([]);
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
   const [selectedMake, setSelectedMake] = useState("");
@@ -23,304 +23,71 @@ const NewWorkOrder = () => {
   const [selectedYear, setSelectedYear] = useState("");
   const [uploadedImages, setUploadedImages] = useState([]);
 
-  // Defining vechicle models for each make:
-  const vechicleModels = {
+  // Defining vehicle models for each make
+  const vehicleModels = {
     Acura: ["ILX", "MDX", "RDX", "RLX", "TLX"],
     "Alfa Romeo": ["Giulia", "Stelvio"],
     "Aston Martin": ["DB11", "DBS Superleggera", "Vantage"],
-    Audi: [
-      "A3",
-      "A4",
-      "A5",
-      "A6",
-      "A7",
-      "A8",
-      "Q3",
-      "Q5",
-      "Q7",
-      "Q8",
-      "TT",
-      "R8",
-    ],
+    Audi: ["A3", "A4", "A5", "A6", "A7", "A8", "Q3", "Q5", "Q7", "Q8", "TT", "R8"],
     Bentley: ["Bentayga", "Continental GT", "Flying Spur", "Mulsanne"],
-    BMW: [
-      "2 Series",
-      "3 Series",
-      "4 Series",
-      "5 Series",
-      "7 Series",
-      "8 Series",
-      "X1",
-      "X2",
-      "X3",
-      "X4",
-      "X5",
-      "X6",
-      "X7",
-      "Z4",
-      "iX",
-      "i4",
-      "i5",
-      "i7",
-      "XM",
-    ],
+    BMW: ["2 Series", "3 Series", "4 Series", "5 Series", "7 Series", "8 Series", "X1", "X2", "X3", "X4", "X5", "X6", "X7", "Z4", "iX", "i4", "i5", "i7", "XM"],
     Buick: ["Enclave", "Encore", "Encore GX", "Envision", "LaCrosse", "Regal"],
     Cadillac: ["CT4", "CT5", "CT6", "Escalade", "XT4", "XT5", "XT6"],
-    Chevrolet: [
-      "Camaro",
-      "Corvette",
-      "Malibu",
-      "Silverado",
-      "Suburban",
-      "Tahoe",
-      "Traverse",
-    ],
+    Chevrolet: ["Camaro", "Corvette", "Malibu", "Silverado", "Suburban", "Tahoe", "Traverse"],
     Chrysler: ["300", "Pacifica", "Voyager"],
     Dodge: ["Challenger", "Charger", "Durango", "Grand Caravan", "Journey"],
-    Ferrari: [
-      "488 GTB",
-      "488 Spider",
-      "812 Superfast",
-      "F8 Tributo",
-      "Portofino",
-      "Roma",
-      "SF90 Stradale",
-    ],
+    Ferrari: ["488 GTB", "488 Spider", "812 Superfast", "F8 Tributo", "Portofino", "Roma", "SF90 Stradale"],
     Fiat: ["500", "500X", "500L", "124 Spider", "Tipo"],
-    Ford: [
-      "Escape",
-      "Explorer",
-      "F-150",
-      "Focus",
-      "Mustang",
-      "Ranger",
-      "Transit",
-    ],
+    Ford: ["Escape", "Explorer", "F-150", "Focus", "Mustang", "Ranger", "Transit"],
     Genesis: ["G70", "G80", "G90"],
-    GMC: [
-      "Acadia",
-      "Canyon",
-      "Sierra 1500",
-      "Sierra 2500HD",
-      "Sierra 3500HD",
-      "Terrain",
-      "Yukon",
-      "Yukon XL",
-    ],
+    GMC: ["Acadia", "Canyon", "Sierra 1500", "Sierra 2500HD", "Sierra 3500HD", "Terrain", "Yukon", "Yukon XL"],
     Honda: ["Accord", "Civic", "CR-V", "Fit", "HR-V", "Pilot"],
-    Hyunday: [
-      "Accent",
-      "Elantra",
-      "Ioniq",
-      "Kona",
-      "Nexo",
-      "Palisade",
-      "Santa Fe",
-      "Sonata",
-      "Tucson",
-      "Veloster",
-      "Venue",
-    ],
-    Infinity: ["Q50", "Q60", "Q70", "QX50", "QX60", "QX80"],
+    Hyundai: ["Accent", "Elantra", "Ioniq", "Kona", "Nexo", "Palisade", "Santa Fe", "Sonata", "Tucson", "Veloster", "Venue"],
+    Infiniti: ["Q50", "Q60", "Q70", "QX50", "QX60", "QX80"],
     Jaguar: ["E-PACE", "F-PACE", "F-TYPE", "I-PACE", "XE", "XF", "XJ"],
-    Jeep: [
-      "Cherokee",
-      "Compass",
-      "Gladiator",
-      "Grand Cherokee",
-      "Renegade",
-      "Wrangler",
-    ],
-    Kia: [
-      "Forte",
-      "Optima",
-      "Rio",
-      "Sorento",
-      "Soul",
-      "Sportage",
-      "Stinger",
-      "Telluride",
-    ],
+    Jeep: ["Cherokee", "Compass", "Gladiator", "Grand Cherokee", "Renegade", "Wrangler"],
+    Kia: ["Forte", "Optima", "Rio", "Sorento", "Soul", "Sportage", "Stinger", "Telluride"],
     Lamborghini: ["Aventador", "Huracán", "Urus"],
-    "Land Rover": [
-      "Defender",
-      "Discovery",
-      "Discovery Sport",
-      "Range Rover",
-      "Range Rover Evoque",
-      "Range Rover Sport",
-      "Range Rover Velar",
-    ],
+    "Land Rover": ["Defender", "Discovery", "Discovery Sport", "Range Rover", "Range Rover Evoque", "Range Rover Sport", "Range Rover Velar"],
     Lexus: ["ES", "GS", "GX", "IS", "LC", "LS", "LX", "NX", "RC", "RX", "UX"],
-    Lincoln: [
-      "Aviator",
-      "Continental",
-      "Corsair",
-      "MKC",
-      "MKT",
-      "MKZ",
-      "Nautilus",
-      "Navigator",
-    ],
+    Lincoln: ["Aviator", "Continental", "Corsair", "MKC", "MKT", "MKZ", "Nautilus", "Navigator"],
     Lotus: ["Evora", "Elise", "Exige"],
-    Maserati: [
-      "Ghibli",
-      "Levante",
-      "Quattroporte",
-      "GranTurismo",
-      "GranCabrio",
-    ],
-    Mazda: [
-      "Mazda2",
-      "Mazda3",
-      "Mazda6",
-      "MX-5 Miata",
-      "CX-3",
-      "CX-30",
-      "CX-5",
-      "CX-9",
-    ],
+    Maserati: ["Ghibli", "Levante", "Quattroporte", "GranTurismo", "GranCabrio"],
+    Mazda: ["Mazda2", "Mazda3", "Mazda6", "MX-5 Miata", "CX-3", "CX-30", "CX-5", "CX-9"],
     McLaren: ["GT", "570S", "570GT", "600LT", "720S", "Speedtail"],
-    "Mercedes-Benz": [
-      "A-class",
-      "C-class",
-      "E-class",
-      "S-class",
-      "GLA",
-      "GLC",
-      "GLE",
-      "GLS",
-    ],
-    MINI: [
-      "Cooper",
-      "Cooper S",
-      "Clubman",
-      "Countryman",
-      "Convertible",
-      "Hardtop",
-      "John Cooper Works",
-    ],
-    Mitsubishi: [
-      "Eclipse Cross",
-      "Mirage",
-      "Outlander",
-      "Outlander Sport",
-      "Lancer",
-    ],
-    Nissan: [
-      "Altima",
-      "Armada",
-      "Frontier",
-      "Kicks",
-      "Leaf",
-      "Maxima",
-      "Murano",
-      "Pathfinder",
-      "Rogue",
-      "Sentra",
-      "Titan",
-      "Versa",
-    ],
-    Porshe: ["911", "Boxster", "Cayenne", "Cayman", "Macan", "Panamera"],
+    "Mercedes-Benz": ["A-Class", "C-Class", "E-Class", "S-Class", "GLA", "GLC", "GLE", "GLS"],
+    MINI: ["Cooper", "Cooper S", "Clubman", "Countryman", "Convertible", "Hardtop", "John Cooper Works"],
+    Mitsubishi: ["Eclipse Cross", "Mirage", "Outlander", "Outlander Sport", "Lancer"],
+    Nissan: ["Altima", "Armada", "Frontier", "Kicks", "Leaf", "Maxima", "Murano", "Pathfinder", "Rogue", "Sentra", "Titan", "Versa"],
+    Porsche: ["911", "Boxster", "Cayenne", "Cayman", "Macan", "Panamera"],
     Ram: ["1500", "2500", "3500"],
     "Rolls-Royce": ["Phantom", "Ghost", "Wraith", "Dawn", "Cullinan"],
-    Subaru: [
-      "Ascent",
-      "Crosstrek",
-      "Forester",
-      "Impreza",
-      "Legacy",
-      "Outback",
-      "WRX",
-    ],
-    Tesla: [
-      "Model S",
-      "Model 3",
-      "Model X",
-      "Model Y",
-      "Roadster",
-      "Cybertruck",
-    ],
-    Toyota: [
-      "4Runner",
-      "Avalon",
-      "Camry",
-      "Corolla",
-      "Crown",
-      "GR86",
-      "Highlander",
-      "Prius",
-      "RAV4",
-      "Sequoia",
-      "Sienna",
-      "Tacoma",
-      "Tundra",
-    ],
-    Volkswagen: [
-      "Arteon",
-      "Atlas",
-      "Beetle",
-      "Golf",
-      "Jetta",
-      "Passat",
-      "Taos",
-      "Tiguan",
-      "Touareg",
-    ],
+    Subaru: ["Ascent", "Crosstrek", "Forester", "Impreza", "Legacy", "Outback", "WRX"],
+    Tesla: ["Model S", "Model 3", "Model X", "Model Y", "Roadster", "Cybertruck"],
+    Toyota: ["4Runner", "Avalon", "Camry", "Corolla", "Crown", "GR86", "Highlander", "Prius", "RAV4", "Sequoia", "Sienna", "Tacoma", "Tundra"],
+    Volkswagen: ["Arteon", "Atlas", "Beetle", "Golf", "Jetta", "Passat", "Taos", "Tiguan", "Touareg"],
     Volvo: ["S60", "S90", "V60", "V90", "XC40", "XC60", "XC90"],
   };
 
+  const repairStages = [
+    "Car Accepted",
+    "Payment or Insurance Accepted",
+    "Payment or Insurance Check Received",
+    "Parts Ordered",
+    "Parts Delivered",
+    "Labor Begin",
+    "Car Repair Complete",
+    "Car Being Prepared For Pickup",
+    "Car Ready For Pickup",
+  ];
+
   useEffect(() => {
-    const fetchedMakes = [
-      "Acura",
-      "Alfa Romeo",
-      "Aston Martin",
-      "Audi",
-      "Bentley",
-      "BMW",
-      "Buick",
-      "Cadillac",
-      "Chevrolet",
-      "Chrysler",
-      "Dodge",
-      "Ferrari",
-      "Fiat",
-      "Ford",
-      "Genesis",
-      "GMC",
-      "Honda",
-      "Hyundai",
-      "Infiniti",
-      "Jaguar",
-      "Jeep",
-      "Kia",
-      "Lamborghini",
-      "Land Rover",
-      "Lexus",
-      "Lincoln",
-      "Lotus",
-      "Maserati",
-      "Mazda",
-      "McLaren",
-      "Mercedes-Benz",
-      "MINI",
-      "Mitsubishi",
-      "Nissan",
-      "Porsche",
-      "Ram",
-      "Rolls-Royce",
-      "Subaru",
-      "Tesla",
-      "Toyota",
-      "Volkswagen",
-      "Volvo",
-    ];
-    setMakes(fetchedMakes);
+    setMakes(Object.keys(vehicleModels));
   }, []);
 
   useEffect(() => {
     if (selectedMake) {
-      setModels(vechicleModels[selectedMake] || []);
+      setModels(vehicleModels[selectedMake] || []);
     } else {
       setModels([]);
     }
@@ -335,31 +102,37 @@ const NewWorkOrder = () => {
   // Function to handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Send form data to backend using fetch
-    fetch("/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
+    
+    // Combine formData with selectedStages for submission
+    const submissionData = {
+        ...formData,
+        selectedStages: selectedStages
+    };
+    
+    // Send the combined data to the backend using fetch
+    fetch("/api/work-order/new", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submissionData),
     })
-      .then((response) => response.json())
-      .then((data) => {
+    .then((response) => response.json())
+    .then((data) => {
         console.log(data.message);
-        // We can add code here to handle the response from the server, for example display a confirmation message to the user
-      })
-      .catch((error) => {
-        console.error("Error:", error); // Log any errors that occur during the request
-      });
-    history.push("/progressbar");
-    createNewWorkOrder();
-  };
+        // Handle the response from the server here
+        // For example, display a confirmation message to the user
+        alert("Order submitted successfully!"); // Example action
 
-  const createNewWorkOrder = () => {
-    console.log("New work order created!");
-    // Navigate to the order history page
-    navigate("/business-owner-profile");
-  };
+        // Navigate to the progress bar page or another page upon successful submission
+        navigate("/business-owner-profile"); // Adjust the path as necessary
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+        // Handle errors here, such as informing the user of the submission failure
+        alert("There was an error submitting your order. Please try again."); // Example action
+    });
+};
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
@@ -391,6 +164,11 @@ const NewWorkOrder = () => {
   // Function to handle input changes
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  const handleStageSelectionChange = (event) => {
+    const selectedOptions = Array.from(event.target.selectedOptions, option => parseInt(option.value));
+    setSelectedStages(selectedOptions);
   };
 
   const [progressbarSteps, setProgressbarSteps] = useState("");
@@ -456,7 +234,7 @@ const NewWorkOrder = () => {
               onChange={handleMakeChange}
               value={selectedMake}
             >
-              <option value="" selected disabled>
+              <option value="" disabled>
                 Select Make
               </option>
               {makes.map((make, index) => (
@@ -472,11 +250,13 @@ const NewWorkOrder = () => {
               className="form-select"
               aria-label="Model"
               disabled={!selectedMake}
+              value={selectedModel}
+              onChange={(e) => setSelectedModel(e.target.value)}
             >
-              <option value="" selected disabled>
+              <option value="" disabled>
                 Select Model
               </option>
-              {models.sort().map((model, index) => (
+              {models.map((model, index) => (
                 <option key={index} value={model}>
                   {model}
                 </option>
@@ -492,7 +272,7 @@ const NewWorkOrder = () => {
               onChange={handleYearChange}
               value={selectedYear}
             >
-              <option value="" selected disabled>
+              <option value="" disabled>
                 Select Year
               </option>
               {years.map((year, index) => (
@@ -511,7 +291,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="vin_number"
               placeholder="VIN Number *"
-              maxLength={17}
+              maxLength="17"
               onInput={(e) => {
                 e.target.value = e.target.value.toUpperCase();
               }}
@@ -541,8 +321,7 @@ const NewWorkOrder = () => {
           </div>
         </div>
 
-        <div className="input-group">
-          <div></div>
+        <div className="input-group mb-3">
           <input
             type="file"
             className="form-control"
@@ -560,75 +339,58 @@ const NewWorkOrder = () => {
             Upload
           </button>
         </div>
-        {/* Conditionally render the preview section */}
+        
         {uploadedImages.length > 0 && (
           <div className="d-flex flex-wrap">
             {uploadedImages.map((image, index) => (
-              <div className="position-relative d-inline-block">
+              <div className="position-relative d-inline-block m-2" key={index}>
                 <img
-                  key={index}
-                  style={{
-                    maxWidth: "100px",
-                    maxHeight: "100px",
-                    margin: "5px",
-                  }}
                   src={image}
                   alt={`Uploaded Preview ${index}`}
+                  style={{ maxWidth: "100px", maxHeight: "100px" }}
                 />
                 <button
-                  onClick={() =>
-                    setUploadedImages((imageList) =>
-                      imageList.filter((_, imageIndex) => imageIndex !== index)
-                    )
-                  }
-                  className="btn btn-outline-danger position-absolute top-0 end-0 m-2"
-                  style={{
-                    borderRadius: "15%",
-                    padding: "0.25rem 0.5rem",
-                    fontSize: "0.75rem",
-                  }}
+                  type="button"
+                  className="btn btn-outline-danger position-absolute top-0 end-0"
+                  onClick={() => setUploadedImages(uploadedImages.filter((_, i) => i !== index))}
+                  style={{ borderRadius: "50%", padding: "2px 6px" }}
                 >
-                  x
+                  ×
                 </button>
               </div>
             ))}
-            {/* Render empty preview placeholders if less than 12 images */}
           </div>
         )}
 
-        <div className="mb-3"></div>
-
-        <div className="input-group">
+        <div className="input-group mb-3">
           <span className="input-group-text">Notes:</span>
           <textarea
             className="form-control"
             name="text_area"
-            placeholder="Enter text"
+            placeholder="Enter notes here..."
             onChange={handleChange}
           ></textarea>
         </div>
 
-        <div>
-          <label htmlFor="progressbar">
-            Repair stages to Generate Progressbar:
-          </label>
-          {/* <textarea
-            id="progressbar"
-            name="progressbar"
-            onChange={handleProgressbarChange}
-            value={progressbarSteps}
-            required
-          /> */}
+        <div className="mb-3">
+          <label htmlFor="repairStagesSelect" className="form-label">Select Repair Stages:</label>
+          <select 
+            multiple={true} 
+            className="form-control" 
+            id="repairStagesSelect" 
+            value={selectedStages} 
+            onChange={handleStageSelectionChange}
+          >
+            {repairStages.map((stage, index) => (
+              <option key={index} value={index}>{stage}</option>
+            ))}
+          </select>
         </div>
 
-        <div>
-          <button type="submit" className="btn btn-primary">
-            Create new order
-          </button>
-        </div>
+        <button type="submit" className="btn btn-primary">Create New Order</button>
       </form>
     </div>
-  );
-};
+);
 
+};
 export default NewWorkOrder;
