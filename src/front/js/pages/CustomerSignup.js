@@ -30,7 +30,6 @@ export const CustomerSignup = (props) => {
 
     return (
 		<div className="container pt-5 ">
-            {/* Apply animation classes based on formVisible state */}
             <div className="row justify-content-center">
                 <div className="col-md-6" >
                     <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.2)' }}>
