@@ -1,10 +1,6 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { Context } from "../store/appContext";
+import React, { useState } from "react";
 
-
-export const GenerateProgressbar = () => {
-    const { store, actions } = useContext(Context);
+export const GenerateProgressbar = ({ progressStages, setProgressStages }) => {
     const [selectedSteps, setSelectedSteps] = useState([]);
 
     const stepDescriptions = [
@@ -19,63 +15,50 @@ export const GenerateProgressbar = () => {
         "Car is ready for pick-up"
     ];
 
-    const preSelectedSteps = [
-        "Car Accepted",
-        // "Payment or Insurance Accepted",
-        // "Payment or Insurance Check Received",
-        // "Parts Ordered",
-        // "Parts Delivered",
-        "Labor Begin",
-        "Car Repair Complete",
-        "Car Being Prepared For Pickup",
-        "Car Ready For Pickup",
-    ];
-
     const handleCheckboxChange = (step) => {
-        const index = selectedSteps.indexOf(step);
-        if (index > -1) {
-            setSelectedSteps(selectedSteps.filter((item) => item !== step));
-        } else {
-            setSelectedSteps([...selectedSteps, step]);
-        }
+        setSelectedSteps(prevSelectedSteps => {
+            const index = prevSelectedSteps.indexOf(step);
+            let newSelectedSteps = index > -1
+              ? prevSelectedSteps.filter(item => item !== step)
+              : [...prevSelectedSteps, step];
+
+            // Asynchronously notify the parent component of the updated steps
+            if (typeof setProgressStages === "function") {
+                onSelectedStagesChange(newSelectedSteps);
+            }
+
+            return newSelectedSteps;
+        });
     };
 
-
-
-
-
-
     return (
-
-        <>
-            <div className="accordion" id="accordionExample">
-                <div className="accordion-item">
-                    <h2 className="accordion-header" id="headingOne">
-                        <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            ProgressbarSteps Included
-                        </button>
-                    </h2>
-                    <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div className="accordion-body">
-                            {stepDescriptions.map((step, index) => (
-                                <div key={index}>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedSteps.includes(step)}
-                                            onChange={() => handleCheckboxChange(step)}
-                                        />
-                                        {step}
-                                    </label>
-                                </div>
-                            ))}
-                            <button onClick={() => console.log(selectedSteps)}>Generate Progress Bar</button>
-                        </div>
+        <div className="accordion" id="accordionExample">
+            <div className="accordion-item">
+                <h2 className="accordion-header" id="headingOne">
+                    <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Progress Bar Steps Included
+                    </button>
+                </h2>
+                <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div className="accordion-body">
+                        {stepDescriptions.map((step, index) => (
+                            <div key={index} className="form-check">
+                                <input
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    id={`custom-checkbox-${index}`}
+                                    checked={selectedSteps.includes(step)}
+                                    onChange={() => handleCheckboxChange(step)}
+                                />
+                                <label className="form-check-label" htmlFor={`custom-checkbox-${index}`}>
+                                    {step}
+                                </label>
+                            </div>
+                        ))}
+                        <button className="btn btn-primary mt-3" onClick={() => console.log(selectedSteps)}>Log Selected Stages</button>
                     </div>
                 </div>
             </div>
-
-        </>
+        </div>
     );
 };
-
