@@ -12,6 +12,7 @@ import { Profile } from "./pages/Profile";
 import CustomerPage from "./pages/CustomerPage";
 import { Progressbar } from "./component/Progressbar";
 import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
+import { GenerateProgressbar } from "./component/GenerateProgressbar";
 
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
@@ -40,6 +41,7 @@ const Layout = () => {
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
+                        <Route element={<GenerateProgressbar />} path="/generate-progressbar" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<CustomerPage />} path="/customerpage" />
                         <Route element={<Single />} path="/single/:theid" />
