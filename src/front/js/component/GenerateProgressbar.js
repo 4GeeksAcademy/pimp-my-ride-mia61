@@ -19,17 +19,17 @@ export const GenerateProgressbar = () => {
         "Car is ready for pick-up"
     ];
 
-    // const preSelectedSteps = [
-    //     "Car Accepted",
-    //     // "Payment or Insurance Accepted",
-    //     // "Payment or Insurance Check Received",
-    //     // "Parts Ordered",
-    //     // "Parts Delivered",
-    //     "Labor Begin",
-    //     "Car Repair Complete",
-    //     "Car Being Prepared For Pickup",
-    //     "Car Ready For Pickup",
-    // ];
+    const preSelectedSteps = [
+        "Car Accepted",
+        // "Payment or Insurance Accepted",
+        // "Payment or Insurance Check Received",
+        // "Parts Ordered",
+        // "Parts Delivered",
+        "Labor Begin",
+        "Car Repair Complete",
+        "Car Being Prepared For Pickup",
+        "Car Ready For Pickup",
+    ];
 
     const handleCheckboxChange = (step) => {
         const index = selectedSteps.indexOf(step);
@@ -52,7 +52,7 @@ export const GenerateProgressbar = () => {
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="headingOne">
                         <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            ProgressbarStep Included in
+                            ProgressbarSteps Included
                         </button>
                     </h2>
                     <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
