@@ -100,6 +100,31 @@ def handle_customer_edit(cust_id):
     response_body = {"msg": "Account succesfully edited!", "customer":customer.serialize()}
     return jsonify(response_body), 201
 
+@api.route('/customer/edit-by-customer', methods=['PUT'])
+@jwt_required()
+def handle_customer_edit_by_customer():
+    email = request.json.get("email")
+    password = request.json.get("password")
+    first_name = request.json.get("first_name")
+    last_name = request.json.get("last_name")
+    address = request.json.get("address")
+    phone = request.json.get("phone")
+    if email is None or password is None or first_name is None or last_name is None or address is None or phone is None:
+        return jsonify({"msg": "Some fields are missing in your request"}), 400
+    customer = Customer.query.filter_by(id=get_jwt_identity()).one_or_none()
+    if customer is None:
+        return jsonify({"msg": "No customer found"}), 404
+    customer.email=email
+    customer.password=password    
+    customer.first_name=first_name   
+    customer.last_name=last_name    
+    customer.address=address    
+    customer.phone=phone
+    db.session.commit()
+    db.session.refresh(customer)
+    response_body = {"msg": "Account succesfully edited!", "customer":customer.serialize()}
+    return jsonify(response_body), 201
+
 @api.route('/customer/delete/<int:cust_id>', methods =['DELETE'])
 @admin_required()
 def delete(cust_id):
@@ -218,7 +243,7 @@ def get_all_work_orders():
     return jsonify({"work_orders": serialized_work_orders}), 200
 
 @api.route('/work-order/<int:work_order_id>', methods=['GET'])
-@jwt_required()
+@admin_required()
 def get_work_order(work_order_id):
     work_order = WorkOrder.query.get(work_order_id)
     if work_order is None:

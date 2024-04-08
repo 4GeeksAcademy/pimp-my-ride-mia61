@@ -2,13 +2,13 @@ import React, { useContext, useEffect } from "react";
 import {Context} from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 
-export const Profile = (props) => {
+export const CustomerProfile = (props) => {
     const {store, actions} = useContext(Context);
     const navigate = useNavigate();
 
     useEffect(() => {
         if ( !store.token ) {
-            navigate("/log-in");
+            navigate("/customer-log-in");
         }
     }, [store.token, navigate]);
     

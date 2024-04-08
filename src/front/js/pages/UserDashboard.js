@@ -3,7 +3,7 @@ import NewWorkOrder from "../component/NewWorkOrder";
 import OrderHistory from "../component/OrderHistory";
 // import { useNavigate } from "react-router-dom";
 
-const CustomerPage = () => {
+const UserDashboard = () => {
 
     const [orders, setOrders] = useState([]);
     return (
@@ -21,4 +21,4 @@ const CustomerPage = () => {
     );
 }
 
-export default CustomerPage;
+export default UserDashboard;

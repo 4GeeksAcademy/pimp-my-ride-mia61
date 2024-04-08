@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import Progressbar from "./component/Progressbar"
 // import { Link } from "react-router-dom";
+import { GenerateProgressbar } from "./GenerateProgressbar";
 
 const NewWorkOrder = () => {
   const navigate = useNavigate();
@@ -332,35 +333,8 @@ const NewWorkOrder = () => {
     setSelectedYear("");
   };
 
-  // Function to handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Send form data to backend using fetch
-    fetch("/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.message);
-        // We can add code here to handle the response from the server, for example display a confirmation message to the user
-      })
-      .catch((error) => {
-        console.error("Error:", error); // Log any errors that occur during the request
-      });
-    history.push("/progressbar");
-    createNewWorkOrder();
-  };
 
-  const createNewWorkOrder = () => {
-    console.log("New work order created!");
-    // Navigate to the order history page
-    navigate("/business-owner-profile");
-  };
-
+  
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
   };
@@ -386,6 +360,11 @@ const NewWorkOrder = () => {
       };
       reader.readAsDataURL(files[i]);
     }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("Submitting Form", formData);
   };
 
   // Function to handle input changes
@@ -564,7 +543,7 @@ const NewWorkOrder = () => {
         {uploadedImages.length > 0 && (
           <div className="d-flex flex-wrap">
             {uploadedImages.map((image, index) => (
-              <div className="position-relative d-inline-block">
+              <div key={index} className="position-relative d-inline-block">
                 <img
                   key={index}
                   style={{
@@ -608,9 +587,12 @@ const NewWorkOrder = () => {
           ></textarea>
         </div>
 
+        <div className="mb-3"></div>
+
         <div>
+          <GenerateProgressbar onSelectedStagesChange={setFormData} progressStages={formData.progressStages} />
           <label htmlFor="progressbar">
-            Repair stages to Generate Progressbar:
+            {/* Repair stages to Generate Progressbar: */}
           </label>
           {/* <textarea
             id="progressbar"

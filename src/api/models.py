@@ -70,6 +70,8 @@ class WorkOrder(db.Model):
     customer = db.relationship("Customer", back_populates="work_orders")
     comments = db.relationship("Comment", back_populates="work_order")
     wo_stages = db.Column(MutableList.as_mutable(ARRAY(db.String(255))), default=[])
+    time_created = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
+    time_updated = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
 
 
     def __repr__(self):
@@ -85,7 +87,9 @@ class WorkOrder(db.Model):
             "model": self.model,
             "color": self.color,
             "vin": self.vin,
-            "license_plate": self.license_plate
+            "license_plate": self.license_plate,
+            "time_created": self.time_created,
+            "time_updated": self.time_updated
         }
     
 class Comment(db.Model):
