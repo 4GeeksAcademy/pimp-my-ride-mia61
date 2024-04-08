@@ -8,8 +8,6 @@ export const CustomerLogin = (props) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const handleLogin = async(event) => {
-		// validate there is an email
-		// validate there is a password
 		const success = await actions.logInCustomer({
 			email: email,
 			password: password
@@ -62,8 +60,6 @@ export const CustomerLogin = (props) => {
                                     outline: 'none',
                                 }}
                                 onClick={handleLogin}
-                                onMouseEnter={(e) => e.target.style.boxShadow = '0px 8px 15px rgba(0, 0, 0, 0.3)'}
-                                onMouseLeave={(e) => e.target.style.boxShadow = '0px 5px 10px rgba(0, 0, 0, 0.2)'}
                             >
                                 Submit
                             </button>
