@@ -87,7 +87,9 @@ class WorkOrder(db.Model):
             "model": self.model,
             "color": self.color,
             "vin": self.vin,
-            "license_plate": self.license_plate
+            "license_plate": self.license_plate,
+            "time_created": self.time_created,
+            "time_updated": self.time_updated
         }
     
 class Comment(db.Model):
