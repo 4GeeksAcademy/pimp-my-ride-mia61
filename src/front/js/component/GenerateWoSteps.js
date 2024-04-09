@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const GenerateProgressbar = ({ progressStages, setProgressStages }) => {
+export const GenerateWoSteps = ({ progressStages, setProgressStages }) => {
     const [selectedSteps, setSelectedSteps] = useState([]);
 
     const stepDescriptions = [
@@ -12,22 +12,23 @@ export const GenerateProgressbar = ({ progressStages, setProgressStages }) => {
         "Parts Delivered",
         "Labor in Progress",
         "Labor completed, car is being prepared for pick-up",
-        "Car is ready for pick-up"
+        "Car is ready for pick-up",
+        "Completed"
     ];
 
     const handleCheckboxChange = (step) => {
         setSelectedSteps(prevSelectedSteps => {
             const index = prevSelectedSteps.indexOf(step);
-            let newSelectedSteps = index > -1
+            let progressbarSteps = index > -1
               ? prevSelectedSteps.filter(item => item !== step)
               : [...prevSelectedSteps, step];
 
             // Asynchronously notify the parent component of the updated steps
             if (typeof setProgressStages === "function") {
-                onSelectedStagesChange(newSelectedSteps);
+                onSelectedStagesChange(progressbarSteps);
             }
 
-            return newSelectedSteps;
+            return progressbarSteps;
         });
     };
 

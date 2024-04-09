@@ -38,7 +38,7 @@ function Footer() {
             <Link to='/log-in'>Login</Link>
             <Link to='/profile'>Profile</Link>
             <Link to='/customerpage'>Customer Page</Link>
-            <Link to='/sign-up'>Sign Up</Link>
+            <Link to='/customer-signup'>Sign Up</Link>
           </div>
         </div>
         <div className='footer-link-wrapper'>

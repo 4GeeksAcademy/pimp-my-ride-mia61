@@ -10,7 +10,7 @@ import injectContext from "./store/appContext";
 
 import { Progressbar } from "./component/Progressbar";
 import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
-import { GenerateProgressbar } from "./component/GenerateProgressbar";
+import { GenerateWoSteps } from "./component/GenerateWoSteps";
 
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
@@ -46,7 +46,7 @@ const Layout = () => {
                         <Route element={<CustomerSignup />} path="/customer-signup" />
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
-                        <Route element={<GenerateProgressbar />} path="/generate-progressbar" />
+                        <Route element={<GenerateWoSteps />} path="/generate-wo-steps" />
                         <Route element={<UserDashboard />} path="/user-dashboard" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />

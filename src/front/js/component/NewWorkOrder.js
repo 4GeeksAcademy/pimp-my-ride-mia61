@@ -2,29 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import Progressbar from "./component/Progressbar"
 // import { Link } from "react-router-dom";
-import { GenerateProgressbar } from "./GenerateProgressbar";
+import { GenerateWoSteps } from "./GenerateWoSteps";
 
 const NewWorkOrder = () => {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    phone_number: "",
-    vin_number: "",
-    licence_plate: "",
-    text_area: "",
-  });
-  
-  const [makes, setMakes] = useState([]);
-  const [models, setModels] = useState([]);
-  const [selectedMake, setSelectedMake] = useState("");
-  const [selectedModel, setSelectedModel] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
+  const [makeList, setMakeList] = useState([]);
+  const [modelsList, setModelsList] = useState([]);
+
+  const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
+  const [year, setYear] = useState("");
+  const [vin, setVin] = useState("");
+  const [License, setLicense] = useState("");
+  const [color, setColor] = useState("");
+
   const [uploadedImages, setUploadedImages] = useState([]);
-  const [progressbarSteps, setProgressbarSteps] = useState([]);
+  const [woStages, setWoStages] = useState([]);
+  const [comments, setComments] = useState([]);
 
   // Defining vechicle models for each make:
   const vechicleModels = {
@@ -318,27 +313,27 @@ const NewWorkOrder = () => {
       "Volkswagen",
       "Volvo",
     ];
-    setMakes(fetchedMakes);
+    setMakeList(fetchedMakes);
   }, []);
 
   useEffect(() => {
-    if (selectedMake) {
-      setModels(vechicleModels[selectedMake] || []);
+    if (make) {
+      setModelsList(vechicleModels[make] || []);
     } else {
-      setModels([]);
+      setModelsList([]);
     }
-  }, [selectedMake]);
+  }, [make]);
 
   const handleMakeChange = (e) => {
-    setSelectedMake(e.target.value);
-    setSelectedModel("");
-    setSelectedYear("");
+    setMake(e.target.value);
+    setModel("");
+    setYear("");
   };
 
 
-  
+
   const handleYearChange = (e) => {
-    setSelectedYear(e.target.value);
+    setYear(e.target.value);
   };
 
   const years = Array.from({ length: 30 }, (_, index) =>
@@ -364,39 +359,31 @@ const NewWorkOrder = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log("Submitting Form", formData);
-  };
-
-  // Function to handle input changes
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
-
-  
-
-  const handleProcessWorkOrder = async (event) => {
-    const { first_name, last_name, email, phone_number, address } = formData;
-
+  const handleNewWorkOrder = async (event) => {
     if (!first_name || !last_name || !email || !phone_number || !address) {
       alert("Please fill out all required fields");
       return;
-  }
-
+    }
+    else {
       const success = await actions.createNewWorkOrder({
-        
-        make: selectedMake,
-        model: selectedModel,
-        color: selectedColor, 
-         
+
+        user_id: user_id,
+        customer_id: customer_id,
+        wo_stages: progressbarSteps,
+        make: make,
+        model: model,
+        color: selectedColor,
+        vin: vin,
+        license_plate: licensePlate,
+        commnets: comments
 
       });
       if (success) {
-         alert("Work Order Created Successfully!");
+        alert("Work Order Created Successfully!");
       } else {
-          alert("something went wrong");
+        alert("something went wrong");
       }
+    }
   }
 
 
@@ -406,7 +393,7 @@ const NewWorkOrder = () => {
 
   return (
     <div className="form-container">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleNewWorkOrder}>
         <div className="row input-group mb-3">
           <div className="col-md-6">
             <input
@@ -414,7 +401,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="first_name"
               placeholder="First name *"
-              onChange={handleChange}
+
               required
             />
           </div>
@@ -424,7 +411,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="last_name"
               placeholder="Last name *"
-              onChange={handleChange}
+
               required
             />
           </div>
@@ -437,7 +424,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="email"
               placeholder="Email *"
-              onChange={handleChange}
+
               required
             />
           </div>
@@ -447,7 +434,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="phone_number"
               placeholder="Phone number *"
-              onChange={handleChange}
+
               required
             />
           </div>
@@ -459,12 +446,12 @@ const NewWorkOrder = () => {
               className="form-select"
               aria-label="Make"
               onChange={handleMakeChange}
-              value={selectedMake}
+              value={make}
             >
               <option value="" selected disabled>
                 Select Make
               </option>
-              {makes.map((make, index) => (
+              {makeList.map((make, index) => (
                 <option key={index} value={make}>
                   {make}
                 </option>
@@ -476,12 +463,12 @@ const NewWorkOrder = () => {
             <select
               className="form-select"
               aria-label="Model"
-              disabled={!selectedMake}
+              disabled={!make}
             >
               <option value="" selected disabled>
                 Select Model
               </option>
-              {models.sort().map((model, index) => (
+              {modelsList.sort().map((model, index) => (
                 <option key={index} value={model}>
                   {model}
                 </option>
@@ -493,9 +480,9 @@ const NewWorkOrder = () => {
             <select
               className="form-select"
               aria-label="Year"
-              disabled={!selectedMake || !models.length}
+              disabled={!make || !modelsList.length}
               onChange={handleYearChange}
-              value={selectedYear}
+              value={year}
             >
               <option value="" selected disabled>
                 Select Year
@@ -520,7 +507,7 @@ const NewWorkOrder = () => {
               onInput={(e) => {
                 e.target.value = e.target.value.toUpperCase();
               }}
-              onChange={handleChange}
+              onChange={() => setVin(e.target.value)}
               required
             />
           </div>
@@ -528,9 +515,9 @@ const NewWorkOrder = () => {
             <input
               type="text"
               className="form-control"
-              name="licence_plate"
-              placeholder="Licence plate *"
-              onChange={handleChange}
+              name="license_plate"
+              placeholder="License plate *"
+              onChange={() => setLicense(e.target.value)}
               required
             />
           </div>
@@ -540,7 +527,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="color"
               placeholder="Color *"
-              onChange={handleChange}
+              onChange={() => setColor(e.target.value)}
               required
             />
           </div>
@@ -608,15 +595,15 @@ const NewWorkOrder = () => {
           <textarea
             className="form-control"
             name="text_area"
-            placeholder="Enter text"
-            onChange={handleChange}
+            placeholder="Comments"
+            onChange={() => setComments(e.target.value)}
           ></textarea>
         </div>
 
         <div className="mb-3"></div>
 
         <div>
-          <GenerateProgressbar onSelectedStagesChange={setFormData} progressStages={formData.progressStages} />
+          <GenerateWoSteps setProgressStages={setWoStages} progressStages ={woStages} />
           <label htmlFor="progressbar">
             {/* Repair stages to Generate Progressbar: */}
           </label>
@@ -630,9 +617,9 @@ const NewWorkOrder = () => {
         </div>
 
         <div>
-          <button 
-          type="submit" className="btn btn-primary"
-          onClick={handleProcessWorkOrder}>
+          <button
+            type="submit" className="btn btn-primary"
+            onClick={handleNewWorkOrder}>
             Create new order
           </button>
         </div>
