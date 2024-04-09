@@ -8,8 +8,6 @@ export const CustomerLogin = (props) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const handleLogin = async(event) => {
-		// validate there is an email
-		// validate there is a password
 		const success = await actions.logInCustomer({
 			email: email,
 			password: password
@@ -21,18 +19,12 @@ export const CustomerLogin = (props) => {
         }
     }
 
-    const [formVisible, setFormVisible] = useState(false); // State to control visibility of the form
-	useEffect(() => {
-        // Show the form with fade-in effect when the component is mounted
-        setFormVisible(true);
-    }, []);
 
 
     return (
 		<div className="container pt-5 ">
-            {/* Apply animation classes based on formVisible state */}
-            <div className={`row justify-content-center animate__animated ${formVisible ? 'animate__fadeIn' : 'animate__fadeOut'}`} style={{ animationDuration: '0.5s' }}>
-                <div className="col-md-6" style={{ opacity: formVisible ? '1' : '0' }}>
+            <div className="row justify-content-center">
+                <div className="col-md-6" >
                     <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.2)' }}>
                         <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Login</h2>
                         <div style={{ marginBottom: '20px' }}>
@@ -68,8 +60,6 @@ export const CustomerLogin = (props) => {
                                     outline: 'none',
                                 }}
                                 onClick={handleLogin}
-                                onMouseEnter={(e) => e.target.style.boxShadow = '0px 8px 15px rgba(0, 0, 0, 0.3)'}
-                                onMouseLeave={(e) => e.target.style.boxShadow = '0px 5px 10px rgba(0, 0, 0, 0.2)'}
                             >
                                 Submit
                             </button>
