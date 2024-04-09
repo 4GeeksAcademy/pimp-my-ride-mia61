@@ -5,3 +5,82 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+  .home {
+      text-align: center;
+    }
+
+  /* .body{
+    background-image: ("../../img/car.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  } */
+
+  .background-container{
+    position: relative;
+  }
+
+  .image-container {
+    position: relative;
+    height: 300px;
+    background-image: url(https://i.ibb.co/4F5hXzv/car.jpg);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .header-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .header-left{
+    text-transform: uppercase;
+    letter-spacing: .15rem;
+  }
+
+  .header-right{
+    display: flex;
+    align-items: center;
+  }
+
+  .header-right a {
+    margin-left: 10px;
+  }
+
+
+  .top-div {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+  }
+  
+  .contact-info {
+    text-align: left;
+  }
+  
+  .navbar {
+    margin-bottom: 20px;
+  }
+  
+  .main-content {
+    padding: 50px 0;
+  }
+  
+  .car-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .login-buttons {
+    /* margin-top: 20px; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+  }
