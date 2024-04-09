@@ -14,15 +14,17 @@ const NewWorkOrder = () => {
     phone_number: "",
     vin_number: "",
     licence_plate: "",
-    color: "",
     text_area: "",
   });
+  
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
   const [selectedMake, setSelectedMake] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [uploadedImages, setUploadedImages] = useState([]);
+  const [progressbarSteps, setProgressbarSteps] = useState([]);
 
   // Defining vechicle models for each make:
   const vechicleModels = {
@@ -372,7 +374,31 @@ const NewWorkOrder = () => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const [progressbarSteps, setProgressbarSteps] = useState("");
+  
+
+  const handleProcessWorkOrder = async (event) => {
+    const { first_name, last_name, email, phone_number, address } = formData;
+
+    if (!first_name || !last_name || !email || !phone_number || !address) {
+      alert("Please fill out all required fields");
+      return;
+  }
+
+      const success = await actions.createNewWorkOrder({
+        
+        make: selectedMake,
+        model: selectedModel,
+        color: selectedColor, 
+         
+
+      });
+      if (success) {
+         alert("Work Order Created Successfully!");
+      } else {
+          alert("something went wrong");
+      }
+  }
+
 
   // const handleProgressbarChange = (event) => {
   //   setProgressbarSteps(event.target.value);
@@ -604,7 +630,9 @@ const NewWorkOrder = () => {
         </div>
 
         <div>
-          <button type="submit" className="btn btn-primary">
+          <button 
+          type="submit" className="btn btn-primary"
+          onClick={handleProcessWorkOrder}>
             Create new order
           </button>
         </div>
