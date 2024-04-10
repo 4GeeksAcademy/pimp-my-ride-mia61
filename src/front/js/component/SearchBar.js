@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../store/appContext"
 
-export const SearchBar = () => {
+export const SearchBar = ({ setCustomer }) => {
     const { store, actions } = useContext(Context)
     const [query, setQuery] = useState("")
     useEffect(() => {
@@ -10,8 +10,8 @@ export const SearchBar = () => {
 
     return (
         <div>
-            <form className="d-flex" role="search">
-                <input className="form-control me-2" onChange={(e) => setQuery(e.target.value)} type="search" placeholder="Search" aria-label="Search" />
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" onChange={(e) => setQuery(e.target.value)} type="search" placeholder="Search" aria-label="Search" />
 
             </form>
             <div className="accordion" id="accordionExample">
@@ -34,10 +34,16 @@ export const SearchBar = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {store.customers && store.customers.filter(item => item.id == query || item.first_name == query || item.last_name == query || item.phone == query || item.email == query || item.adress == query || item.first_name + item.last_name == query).map((customer, index) => {
+                                    {store.customers && store.customers.filter(item => {
+                                        if (query == "") {
+                                            return item
+                                        } else if (item.id == query || item.first_name.toLowerCase() == query.toLowerCase() || item.last_name.toLowerCase() == query.toLowerCase() || item.phone == query || item.email.toLowerCase() == query.toLowerCase() || item.address.toLowerCase() == query.toLowerCase() || item.first_name.toLowerCase() + " " + item.last_name.toLowerCase() == query.toLowerCase()) {
+                                            return item
+                                        }
+                                    }).map((customer, index) => {
                                         return (
 
-                                            <tr>
+                                            <tr onClick={() => setCustomer(customer)}>
 
                                                 <td>{customer.first_name}</td>
 

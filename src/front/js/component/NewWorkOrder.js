@@ -11,8 +11,8 @@ const NewWorkOrder = () => {
   const { store, actions } = useContext(Context)
 
   const [customer, setCustomer] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     phone: "",
     address: ""
@@ -83,7 +83,7 @@ const NewWorkOrder = () => {
 
   useEffect(() => {
     if (make) {
-      setModelsList(store.vechicleModels[make] || []);
+      setModelsList(store.vehicleModels[make] || []);
     } else {
       setModelsList([]);
     }
@@ -158,6 +158,7 @@ const NewWorkOrder = () => {
               type="text"
               className="form-control"
               name="first_name"
+              value={customer.first_name}
               placeholder="First name *"
               onChange={() => setCustomer({ firstName: e.target.value })}
               required
@@ -167,6 +168,7 @@ const NewWorkOrder = () => {
             <input
               type="text"
               className="form-control"
+              value={customer.last_name}
               name="last_name"
               placeholder="Last name *"
               onChange={() => setCustomer({ lastName: e.target.value })}
@@ -182,6 +184,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="email"
               placeholder="Email *"
+              value={customer.email}
               onChange={() => setCustomer({ email: e.target.value })}
               required
             />
@@ -192,6 +195,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="phone_number"
               placeholder="Phone number *"
+              value={customer.phone}
               onChange={() => setCustomer({ phone: e.target.value })}
               required
             />
@@ -205,6 +209,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="address"
               placeholder="123 Main St."
+              value={customer.address}
               onChange={() => setCustomer({ address: e.target.value })}
               required
             />
