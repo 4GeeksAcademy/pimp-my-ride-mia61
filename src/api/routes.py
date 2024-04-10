@@ -150,6 +150,17 @@ def get_customer(cust_id):
         return jsonify({"msg": "No customer found"}), 404
     return jsonify({"customer":customer.serialize()}), 200
 
+@api.route('/customers', methods=['GET'])
+@admin_required()
+def get_all_customers():
+    customers = Customer.query.all()
+    if customers is None:
+        return jsonify({"msg": "No customer found"}), 404
+
+    serialized_customers = []
+    for customer in customers:
+        serialized_customers.append(customer.serialize())
+    return jsonify({"customers":serialized_customers}), 200
 
 @api.route('/work_orders/customer/<int:cust_id>', methods=['GET'])
 @admin_required()
