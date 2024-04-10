@@ -10,8 +10,8 @@ export const SearchBar = () => {
 
     return (
         <div>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" onChange={(e) => setQuery(e.target.value)} type="search" placeholder="Search" aria-label="Search" />
+            <form className="d-flex" role="search">
+                <input className="form-control me-2" onChange={(e) => setQuery(e.target.value)} type="search" placeholder="Search" aria-label="Search" />
 
             </form>
             <div className="accordion" id="accordionExample">
