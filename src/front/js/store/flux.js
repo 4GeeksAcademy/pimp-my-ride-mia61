@@ -394,6 +394,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return true;
 			},
 
+
 			createNewWorkOrder: async (workOrder) => {
 				const response = await fetch(process.env.BACKEND_URL + "/api/work-order/new", {
 					method: "POST",
@@ -401,7 +402,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Content-Type": "application/json",
 						Authorization: "Bearer " + store.token
 					},
-					body: JSON.stringify({user_id: workOrder.user_id,  customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate})
+					body: JSON.stringify({ user_id: workOrder.user_id, customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate })
 				})
 				if (response.status !== 200) return false;
 				const responseBody = await response.json();
@@ -416,7 +417,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Content-Type": "application/json",
 						Authorization: "Bearer " + store.token
 					},
-					body: JSON.stringify({user_id: workOrder.user_id,  customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate})
+					body: JSON.stringify({ user_id: workOrder.user_id, customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate })
 				})
 				if (response.status !== 200) return false;
 				const responseBody = await response.json();
@@ -442,7 +443,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getAllWorkOrders: async () => {
 				const response = await fetch(process.env.BACKEND_URL + "/api/work-order/all", {
-					method:"GET",
+					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: "Bearer " + store.token
@@ -467,6 +468,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(responseBody)
 				return true;
 			},
+
+			// in Models: add Date Created as a field, make a fetch that gets all of the orders and then filters based on the date created. Increase sequrity to all of the routes. 
+
+
+
 		}
 	};
 };
