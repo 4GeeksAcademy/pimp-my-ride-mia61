@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { Context } from "../store/appContext"
 import { useNavigate } from "react-router-dom";
 // import Progressbar from "./component/Progressbar"
 // import { Link } from "react-router-dom";
-import { GenerateWoSteps } from "./GenerateWoSteps";
+import { GenerateWoSteps } from "../component/GenerateWoSteps";
+import { SearchBar } from "./SearchBar";
 
 const NewWorkOrder = () => {
   const navigate = useNavigate();
+  const { store, actions } = useContext(Context)
 
+  const [customer, setCustomer] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: ""
+  })
   const [makeList, setMakeList] = useState([]);
   const [modelsList, setModelsList] = useState([]);
-
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
@@ -20,6 +29,9 @@ const NewWorkOrder = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
   const [woStages, setWoStages] = useState([]);
   const [comments, setComments] = useState([]);
+
+  // Defining vechicle models for each make:
+
 
   useEffect(() => {
     const fetchedMakes = [
@@ -71,7 +83,7 @@ const NewWorkOrder = () => {
 
   useEffect(() => {
     if (make) {
-      setModelsList(vechicleModels[make] || []);
+      setModelsList(store.vechicleModels[make] || []);
     } else {
       setModelsList([]);
     }
@@ -82,8 +94,6 @@ const NewWorkOrder = () => {
     setModel("");
     setYear("");
   };
-
-
 
   const handleYearChange = (e) => {
     setYear(e.target.value);
@@ -113,39 +123,34 @@ const NewWorkOrder = () => {
   };
 
   const handleNewWorkOrder = async (event) => {
-    if (!first_name || !last_name || !email || !phone_number || !address) {
-      alert("Please fill out all required fields");
-      return;
-    }
-    else {
-      const success = await actions.createNewWorkOrder({
 
-        user_id: user_id,
-        customer_id: customer_id,
-        wo_stages: progressbarSteps,
-        make: make,
-        model: model,
-        color: selectedColor,
-        vin: vin,
-        license_plate: licensePlate,
-        commnets: comments
+    const success = await actions.createNewWorkOrder({
 
-      });
-      if (success) {
-        alert("Work Order Created Successfully!");
-      } else {
-        alert("something went wrong");
-      }
+      user_id: user_id,
+      customer_id: customer_id,
+      wo_stages: progressbarSteps,
+      make: make,
+      model: model,
+      color: selectedColor,
+      vin: vin,
+      license_plate: licensePlate,
+      commnets: comments
+
+    });
+    if (success) {
+      alert("Work Order Created Successfully!");
+    } else {
+      alert("something went wrong");
     }
+
   }
 
 
-  // const handleProgressbarChange = (event) => {
-  //   setProgressbarSteps(event.target.value);
-  // };
 
   return (
     <div className="form-container">
+      <SearchBar setCustomer={setCustomer} />
+
       <form onSubmit={handleNewWorkOrder}>
         <div className="row input-group mb-3">
           <div className="col-md-6">
@@ -154,7 +159,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="first_name"
               placeholder="First name *"
-
+              onChange={() => setCustomer({ firstName: e.target.value })}
               required
             />
           </div>
@@ -164,7 +169,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="last_name"
               placeholder="Last name *"
-
+              onChange={() => setCustomer({ lastName: e.target.value })}
               required
             />
           </div>
@@ -177,7 +182,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="email"
               placeholder="Email *"
-
+              onChange={() => setCustomer({ email: e.target.value })}
               required
             />
           </div>
@@ -187,12 +192,24 @@ const NewWorkOrder = () => {
               className="form-control"
               name="phone_number"
               placeholder="Phone number *"
+              onChange={() => setCustomer({ phone: e.target.value })}
+              required
+            />
+          </div>
 
+        </div>
+        <div className="row input-group mb-3">
+          <div className="col-md-12">
+            <input
+              type="text"
+              className="form-control"
+              name="address"
+              placeholder="123 Main St."
+              onChange={() => setCustomer({ address: e.target.value })}
               required
             />
           </div>
         </div>
-
         <div className="row input-group mb-3">
           <div className="col-md-4">
             <select
@@ -356,17 +373,7 @@ const NewWorkOrder = () => {
         <div className="mb-3"></div>
 
         <div>
-          <GenerateWoSteps setProgressStages={setWoStages} progressStages ={woStages} />
-          <label htmlFor="progressbar">
-            {/* Repair stages to Generate Progressbar: */}
-          </label>
-          {/* <textarea
-            id="progressbar"
-            name="progressbar"
-            onChange={handleProgressbarChange}
-            value={progressbarSteps}
-            required
-          /> */}
+          <GenerateWoSteps setWoStages={setWoStages} woStages={woStages} />
         </div>
 
         <div>
