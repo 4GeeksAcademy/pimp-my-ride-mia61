@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const GenerateWoSteps = ({ progressStages, setProgressStages }) => {
+export const GenerateWoSteps = ({ woStages, setWoStages }) => {
     const [selectedSteps, setSelectedSteps] = useState([]);
 
     const stepDescriptions = [
@@ -17,16 +17,16 @@ export const GenerateWoSteps = ({ progressStages, setProgressStages }) => {
     ];
 
     const handleCheckboxChange = (step) => {
-        setSelectedSteps(prevSelectedSteps => {
+        setWoStages(prevSelectedSteps => {
             const index = prevSelectedSteps.indexOf(step);
             let progressbarSteps = index > -1
-              ? prevSelectedSteps.filter(item => item !== step)
-              : [...prevSelectedSteps, step];
+                ? prevSelectedSteps.filter(item => item !== step)
+                : [...prevSelectedSteps, step];
 
             // Asynchronously notify the parent component of the updated steps
-            if (typeof setProgressStages === "function") {
-                onSelectedStagesChange(progressbarSteps);
-            }
+            // if (typeof setWoStages === "function") {
+            //     onSelectedStagesChange(progressbarSteps);
+            // }
 
             return progressbarSteps;
         });
@@ -48,7 +48,7 @@ export const GenerateWoSteps = ({ progressStages, setProgressStages }) => {
                                     className="form-check-input"
                                     type="checkbox"
                                     id={`custom-checkbox-${index}`}
-                                    checked={selectedSteps.includes(step)}
+                                    checked={woStages.includes(step)}
                                     onChange={() => handleCheckboxChange(step)}
                                 />
                                 <label className="form-check-label" htmlFor={`custom-checkbox-${index}`}>
@@ -56,7 +56,7 @@ export const GenerateWoSteps = ({ progressStages, setProgressStages }) => {
                                 </label>
                             </div>
                         ))}
-                        <button className="btn btn-primary mt-3" onClick={() => console.log(selectedSteps)}>Log Selected Stages</button>
+                        <button className="btn btn-primary mt-3" onClick={() => console.log(woStages)}>Log Selected Stages</button>
                     </div>
                 </div>
             </div>
