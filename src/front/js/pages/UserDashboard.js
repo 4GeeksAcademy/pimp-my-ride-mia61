@@ -15,7 +15,6 @@ const UserDashboard = () => {
                 <NewWorkOrder />
             </div>
             <div>
-                {/* <h2>Order History</h2> */}
                 <OrderHistory orders={orders} />
             </div>
         </div>

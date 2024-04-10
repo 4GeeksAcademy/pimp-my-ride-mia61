@@ -468,11 +468,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(responseBody)
 				return true;
 			},
-
-			// in Models: add Date Created as a field, make a fetch that gets all of the orders and then filters based on the date created. Increase sequrity to all of the routes. 
-
-
-
 		}
 	};
 };

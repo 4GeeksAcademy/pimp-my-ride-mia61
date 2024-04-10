@@ -162,6 +162,7 @@ def get_all_customers():
         serialized_customers.append(customer.serialize())
     return jsonify({"customers":serialized_customers}), 200
 
+
 @api.route('/work_orders/customer/<int:cust_id>', methods=['GET'])
 @admin_required()
 def get_work_orders_by_customer(cust_id):
