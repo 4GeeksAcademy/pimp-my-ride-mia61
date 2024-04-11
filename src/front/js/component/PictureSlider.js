@@ -10,16 +10,16 @@ export const PictureSlider = () => {
     
     return (
         <React.Fragment>
-        <div  id="cardDiv" className=" d-flex flex-nowrap overflow-scroll" style={{ width: "50%" } } >
-            <img src="https://picsum.photos/id/1/200/300" alt="Random" />
-            <img src="https://picsum.photos/id/1/200/300" alt="Random" />
-            <img src="https://picsum.photos/id/1/200/300" alt="Random" />
-            <img src="https://picsum.photos/id/1/200/300" alt="Random" />
-            <img src="https://picsum.photos/id/1/200/300" alt="Random" />
-            <img src="https://picsum.photos/id/1/200/300" alt="Random" />
-            <img src="https://picsum.photos/id/1/200/300" alt="Random" />
-            <img src="https://picsum.photos/id/1/200/300" alt="Random" />
-            <img src="https://picsum.photos/id/1/200/300" alt="Random" />
+        <div className=" d-flex flex-nowrap overflow-scroll" style={{ width: "35%" } } >
+            <img src="https://picsum.photos/id/1/400/550" alt="Random" />
+            <img src="https://picsum.photos/id/1/400/550" alt="Random" />
+            <img src="https://picsum.photos/id/1/400/550" alt="Random" />
+            <img src="https://picsum.photos/id/1/400/550" alt="Random" />
+            <img src="https://picsum.photos/id/1/400/550" alt="Random" />
+            <img src="https://picsum.photos/id/1/400/550" alt="Random" />
+            <img src="https://picsum.photos/id/1/400/550" alt="Random" />
+            <img src="https://picsum.photos/id/1/400/550" alt="Random" />
+            <img src="https://picsum.photos/id/1/400/550" alt="Random" />
 
 
             {/* {store.people.map((person, index) => (
