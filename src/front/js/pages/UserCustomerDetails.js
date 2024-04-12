@@ -4,35 +4,38 @@ import { useNavigate } from "react-router-dom";
 import { PictureSlider } from "../component/PictureSlider";
 import { Progressbar } from "../component/Progressbar";
 
+
 export const UserCustomerDetails = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
 
-    const [customer, setCustomer] = useState({
-        first_name: "",
-        last_name: "",
-        email: "",
-        phone: "",
-        address: ""
-      })
-    //   const [makeList, setMakeList] = useState([]);
-    //   const [modelsList, setModelsList] = useState([]);
-    //   const [make, setMake] = useState("");
-    //   const [model, setModel] = useState("");
-    //   const [year, setYear] = useState("");
-    //   const [vin, setVin] = useState("");
-    //   const [License, setLicense] = useState("");
-    //   const [color, setColor] = useState("");
+    // const [customer, setCustomer] = useState({
+    //     first_name: "",
+    //     last_name: "",
+    //     email: "",
+    //     phone: "",
+    //     address: ""
+    // })
+
+    // const [ workOrder, setWorkOrder ] = useState({ 
+    //     make: "",
+    //     model: "",
+    //     year: "",
+    //     vin: "",
+    //     License: "",
+    //     color: "",
+    //  })
     
-      const [uploadedImages, setUploadedImages] = useState([]);
-      const [woStages, setWoStages] = useState([]);
-      const [comments, setComments] = useState([]);
+    //   const [uploadedImages, setUploadedImages] = useState([]);
+    //   const [woStages, setWoStages] = useState([]);
+    //   const [comments, setComments] = useState([]);
 
     // useEffect(() => {
     //     if (!store.token) {
     //         navigate("/user-log-in");
     //     }
     // }, [store.token, navigate]);
+
     let full_name = "Michael Mirisciotta"
     let first_name = "Michael"
     let last_name = "Mirisciotta"
@@ -74,6 +77,20 @@ export const UserCustomerDetails = () => {
                                         boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)',
                                         padding: '0px'}}  >
                                         <Progressbar />
+
+                                        {/* <h2 className="pt-2 bg-dark text-light">First Name: {customer.first_name}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">Last name: {customer.last_name}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">Email: {customer.email}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">Phone: {customer.phone}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">Address: {customer.address}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">Make: {workOrder.make}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">Model: {workOrder.model}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">Year: {workOrder.year}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">VIN: {workOrder.vin}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">License: {workOrder.license}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">Color: {workOrder.color}</h2> */}
+
+
                                         <h2 className="pt-2 bg-dark text-light">First Name: {first_name}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Last name: {last_name}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Email: {email}</h2>
