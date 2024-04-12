@@ -23,7 +23,7 @@ const NewWorkOrder = () => {
   const [model, setModel] = useState("");
   const [year, setYear] = useState("");
   const [vin, setVin] = useState("");
-  const [License, setLicense] = useState("");
+  const [license, setLicense] = useState("");
   const [color, setColor] = useState("");
 
   const [uploadedImages, setUploadedImages] = useState([]);
@@ -101,7 +101,7 @@ const NewWorkOrder = () => {
 
   const years = Array.from({ length: 30 }, (_, index) =>
     (new Date().getFullYear() + 1 - index).toString()
-  );
+  );       
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
@@ -126,14 +126,14 @@ const NewWorkOrder = () => {
 
     const success = await actions.createNewWorkOrder({
 
-      user_id: user_id,
-      customer_id: customer_id,
-      wo_stages: progressbarSteps,
+      
+      customer_id: customer.id,
+      wo_stages: woStages,
       make: make,
       model: model,
-      color: selectedColor,
+      color: color,
       vin: vin,
-      license_plate: licensePlate,
+      license_plate: license,
       commnets: comments
 
     });

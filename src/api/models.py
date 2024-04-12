@@ -89,7 +89,8 @@ class WorkOrder(db.Model):
             "vin": self.vin,
             "license_plate": self.license_plate,
             "time_created": self.time_created,
-            "time_updated": self.time_updated
+            "time_updated": self.time_updated,
+            "comments": [comment.serialize() for comment in self.comments]
         }
     
 class Comment(db.Model):

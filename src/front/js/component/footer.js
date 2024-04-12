@@ -45,6 +45,7 @@ function Footer() {
           <div className='footer-link-items'>
             <h2>Progress Tracking</h2>
             <Link to='/progressbar'>Progress Bar</Link>
+            <Link to='/user-customer-details'>User Customer Details</Link>
           </div>
           <div className='footer-link-items'>
             <h2>Follow Us</h2>

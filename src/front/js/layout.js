@@ -11,6 +11,7 @@ import injectContext from "./store/appContext";
 import { Progressbar } from "./component/Progressbar";
 import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
 import { GenerateWoSteps } from "./component/GenerateWoSteps";
+import { PictureSlider } from "./component/PictureSlider"; 
 
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
@@ -22,6 +23,7 @@ import { UserLogin } from "./pages/UserLogin";
 import { CustomerLogin } from "./pages/CustomerLogin";
 import { CustomerProfile } from "./pages/CustomerProfile";
 import { CustomerSignup } from "./pages/CustomerSignup";
+import { UserCustomerDetails } from "./pages/UserCustomerDetails";
 
 // import { NewWorkOrder} from "./component/NewWorkOrder";
 
@@ -46,8 +48,10 @@ const Layout = () => {
                         <Route element={<CustomerSignup />} path="/customer-signup" />
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
+                        <Route element={<PictureSlider />} path="/picture-slider" />
                         <Route element={<GenerateWoSteps />} path="/generate-wo-steps" />
                         <Route element={<UserDashboard />} path="/user-dashboard" />
+                        <Route element={<UserCustomerDetails />} path="/user-customer-details" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                         <Route path='/services' exact element={ <Services />}></Route>

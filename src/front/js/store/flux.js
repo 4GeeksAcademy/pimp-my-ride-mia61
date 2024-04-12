@@ -400,9 +400,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: "Bearer " + store.token
+						Authorization: "Bearer " + sessionStorage.getItem("token")
 					},
-					body: JSON.stringify({ user_id: workOrder.user_id, customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate })
+					body: JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })
 				})
 				if (response.status !== 200) return false;
 				const responseBody = await response.json();
