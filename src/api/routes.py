@@ -185,14 +185,15 @@ def create_work_order():
         "Parts Delivered",
         "Labor in Progress",
         "Labor completed, car is being prepared for pick-up",
-        "Car is ready for pick-up"]
+        "Car is ready for pick-up",
+        "Completed"]
         if type(a) is not list:
             return False
         for x in a:
             if x not in canon:
                 return False
         return True
-    user_id = request.json.get("user_id", None)
+    user_id = get_jwt_identity()
     customer_id = request.json.get("customer_id", None)
     wo_stages = request.json.get("wo_stages", None)
     make = request.json.get("make", None)
@@ -200,10 +201,11 @@ def create_work_order():
     color = request.json.get("color", None) 
     vin = request.json.get("vin", None) 
     license_plate  = request.json.get("license_plate", None) 
+    comments = request.json.get("comments", None) 
     if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or color is None or vin is None or license_plate  is None:
         return jsonify({"msg": "Some required fields are missing"}), 400
     if is_list_valid(wo_stages) is False:
-        return jsonify({"msg": "Please send a valig list of stages"}), 400
+        return jsonify({"msg": "Please send a valid list of stages"}), 400
     customer = Customer.query.filter_by(id=customer_id).one_or_none()
     if customer is None:
         return jsonify({"msg": "A customer with that id does not exist"}), 404
@@ -214,6 +216,11 @@ def create_work_order():
     db.session.add(work_order)
     db.session.commit()
     db.session.refresh(work_order)
+    if comments: 
+        comment = Comment (work_order_id=work_order.id, message=comments)
+        db.session.commit()
+        db.session.refresh(work_order)
+
     response_body = {"msg": "Work Order succesfully created!", "work_order":work_order.serialize()}
     return jsonify(response_body), 201
 
