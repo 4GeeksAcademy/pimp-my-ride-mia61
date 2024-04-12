@@ -106,24 +106,26 @@ def handle_customer_edit(cust_id):
 @jwt_required()
 def handle_customer_edit_by_customer():
     email = request.json.get("email")
-    password = request.json.get("password")
     first_name = request.json.get("first_name")
     last_name = request.json.get("last_name")
     address = request.json.get("address")
     phone = request.json.get("phone")
-    if email is None or password is None or first_name is None or last_name is None or address is None or phone is None:
+    
+    if email is None or first_name is None or last_name is None or address is None or phone is None:
         return jsonify({"msg": "Some fields are missing in your request"}), 400
-    customer = Customer.query.filter_by(id=get_jwt_identity()).one_or_none()
+   
+    customer = Customer.query.filter_by(id=get_jwt_identity()).first()
     if customer is None:
         return jsonify({"msg": "No customer found"}), 404
-    customer.email=email
-    customer.password=password    
+    
+    customer.email=email 
     customer.first_name=first_name   
     customer.last_name=last_name    
     customer.address=address    
     customer.phone=phone
     db.session.commit()
     db.session.refresh(customer)
+    
     response_body = {"msg": "Account succesfully edited!", "customer":customer.serialize()}
     return jsonify(response_body), 201
 
@@ -144,17 +146,12 @@ def delete(cust_id):
     return jsonify({"msg": "Customer successfully deleted"}), 200
 
 
-@api.route('/customer/<int:cust_id>', methods=['GET'])
-@jwt_required()
+
+@api.route('/user/get-customer/<int:cust_id>', methods=['GET'])
+@admin_required()
 def get_customer(cust_id):
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
-    
-    if not current_user:
-        return jsonify({"msg": "User not found"}), 404
-
-    if not current_user.is_admin() and current_user_id != cust_id:
-        return jsonify({"msg": "Access forbidden"}), 403
 
     customer = Customer.query.get(cust_id)
     if customer is None:
@@ -162,6 +159,15 @@ def get_customer(cust_id):
     
     return jsonify(customer.serialize()), 200
 
+@api.route('/current-customer', methods=['GET'])
+@jwt_required()
+def get_current_customer():
+    
+    customer = Customer.query.get(get_jwt_identity())
+    if customer is None:
+        return jsonify({"msg": "No customer found"}), 404
+    
+    return jsonify(customer.serialize()), 200
 @api.route('/customers', methods=['GET'])
 @jwt_required()
 def get_all_customers():

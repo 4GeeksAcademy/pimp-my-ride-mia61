@@ -3,122 +3,99 @@ import { useNavigate } from "react-router-dom"
 import { Context } from "../store/appContext";
 import { CustomerWorkOrder } from "./CustomerWorkOrder";
 
-export const CustomerDashboard = (props) => {
+export const CustomerDashboard = () => {
 
     const { store, actions } = useContext(Context);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [first_name, setfirst_name] = useState("");
-    const [last_name, setlast_name] = useState("");
-    const [phone, setPhone] = useState("");
-    const [address, setAddress] = useState("");
+    const [editMode, setEditMode] = useState(false);
+    const [customer, setCustomer] = useState({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        address: "",
+        id: null,
+    });
+
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!store.token) {
-            navigate("/customer-log-in");
-        } else if (!store.customerId) {
-
-            const savedCustomerId = sessionStorage.getItem("customerId");
-            if (savedCustomerId) {
-                actions.setCustomerId(savedCustomerId);
+        const getCurrentCustomer = async () => {
+            setCustomer(await actions.getCurrentCustomer())
+        }
+        try {
+            if (!sessionStorage.getItem("token") || !sessionStorage.getItem("customerId")) {
+                navigate("/customer-log-in");
             } else {
-                console.error("Customer ID is missing");
+                getCurrentCustomer();
             }
-        } else {
-            actions.getCustomerById(store.customerId)
-                .then(data => {
-                    if (data) {
-                        setEmail(data.email);
-                        setfirst_name(data.first_name);
-                        setlast_name(data.last_name);
-                        setPhone(data.phone);
-                        setAddress(data.address);
-                    }
-                })
-                .catch(error => {
-                    console.error("Failed to load customer data:", error);
-                });
+        } catch (err) {
+            console.error(err);
         }
-    }, [store.token, store.customerId]);
+    }, []);
 
-    const handleUpdateCustProfile = async () => {
-        const success = await actions.updateCustProfile({
-            email: email,
-            password: password,
-            first_name: first_name,
-            last_name: last_name,
-            phone: phone,
-            address: address
-        });
-        if (success) {
-            alert("Profile updated successfully!");
+
+
+    const handleEditSubmit = async () => {
+        let result = await actions.editCustomerbyCustomer(customer);
+        if (result) {
+            setEditMode(false);
         } else {
-            alert("Failed to update profile");
+            alert("Failed to update user data");
         }
-    };
-
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setEditedCustData({ ...editedCustData, [name]: value });
-    };
-
-    const handleEditSubmit = () => {
-        actions.updateUserData(editedCustData);
-        setCustData({ ...editedCustData });
-        setEditMode(false);
     };
 
 
     return (
         <div className="container pt-5">
             <h2>Welcome to Customer Dashboard</h2>
-            {custData ? (
+            {customer.id != null ? (
                 <div>
-                    {editMode ? (
-                        <div>
-                            <input
-                                type="text"
-                                name="first_name"
-                                value={editedCustData.first_name}
-                                onChange={handleInputChange}
-                            />
-                            <input
-                                type="text"
-                                name="last_name"
-                                value={editedCustData.last_name}
-                                onChange={handleInputChange}
-                            />
-                            <input
-                                type="text"
-                                name="email"
-                                value={editedCustData.email}
-                                onChange={handleInputChange}
-                            />
-                            <input
-                                type="text"
-                                name="phone"
-                                value={editedCustData.phone}
-                                onChange={handleInputChange}
-                            />
-                            <input
-                                type="text"
-                                name="address"
-                                value={editedCustData.address}
-                                onChange={handleInputChange}
-                            />
-                            <button onClick={handleEditSubmit}>Save</button>
-                        </div>
-                    ) : (
-                        <div>
-                            <p><strong>Email:</strong> {custData.email}</p>
-                            <p><strong>First Name:</strong> {custData.first_name}</p>
-                            <p><strong>Last Name:</strong> {custData.last_name}</p>
-                            <p><strong>Phone:</strong> {custData.phone}</p>
-                            <p><strong>Address:</strong> {custData.address}</p>
-                            <button onClick={() => setEditMode(true)}>Edit</button>
-                        </div>
-                    )}
+                    {editMode ?
+                        (
+                            <div>
+                                <input
+                                    type="text"
+                                    name="first_name"
+                                    value={customer.first_name}
+                                    onChange={(e) => setCustomer({ ...customer, first_name: e.target.value })}
+                                />
+                                <input
+                                    type="text"
+                                    name="last_name"
+                                    value={customer.last_name}
+                                    onChange={(e) => setCustomer({ ...customer, last_name: e.target.value })}
+                                />
+                                <input
+                                    type="text"
+                                    name="email"
+                                    value={customer.email}
+                                    onChange={(e) => setCustomer({ ...customer, email: e.target.value })}
+                                />
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value={customer.phone}
+                                    onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
+                                />
+                                <input
+                                    type="text"
+                                    name="address"
+                                    value={customer.address}
+                                    onChange={(e) => setCustomer({ ...customer, address: e.target.value })}
+                                />
+                                <button onClick={handleEditSubmit}>Save</button>
+                            </div>
+                        ) :
+                        (
+                            <div>
+                                <p><strong>Email:</strong> {customer.email}</p>
+                                <p><strong>First Name:</strong> {customer.first_name}</p>
+                                <p><strong>Last Name:</strong> {customer.last_name}</p>
+                                <p><strong>Phone:</strong> {customer.phone}</p>
+                                <p><strong>Address:</strong> {customer.address}</p>
+                                <button onClick={() => setEditMode(true)}>Edit</button>
+                            </div>
+                        )}
                 </div>
             ) : (
                 <p>Loading user data...</p>

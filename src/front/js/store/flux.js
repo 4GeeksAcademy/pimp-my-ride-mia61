@@ -308,7 +308,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					setStore({
 						token: data.access_token,
-						customerId: data.customer_id  
+						customerId: data.customer_id
 					});
 					sessionStorage.setItem("token", data.access_token);
 					sessionStorage.setItem("customerId", data.customer_id);
@@ -318,8 +318,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-			
-			
+
+
 
 			signUpCustomer: async (customer) => {
 				const response = await fetch(
@@ -364,25 +364,65 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Authorization": `Bearer ${sessionStorage.getItem("token")}`
 					},
 				});
-			
+
 				if (!response.ok) {
 					console.error('Failed to fetch customer data:', response.status);
 					return false;
 				}
-			
+
 				const responseBody = await response.json();
-				setStore({ currentCustomer: responseBody });
-				return true;
+
+				return true
 			},
+			getCurrentCustomer: async () => {
+				const response = await fetch(`${process.env.BACKEND_URL}/api/current-customer`, {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${sessionStorage.getItem("token")}`
+					},
+				});
+
+				if (!response.ok) {
+					console.error('Failed to fetch customer data:', response.status);
+					return false;
+				}
+
+				const responseBody = await response.json();
+
+				return responseBody
+			},
+
+
 
 			editCustomer: async (customer) => {
 				const response = await fetch(
 					process.env.BACKEND_URL + "/api/customer/edit/" + customer.id, {
 					method: "PUT",
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${sessionStorage.getItem("token")}`
+
 					},
 					body: JSON.stringify({ first_name: customer.first_name, email: customer.email, password: customer.password, last_name: customer.last_name, address: customer.address, phone: customer.phone })
+
+				}
+				);
+				if (response.status !== 201) return false;
+				const responseBody = await response.json();
+				console.log(responseBody)
+
+				return true;
+			},
+			editCustomerbyCustomer: async (customer) => {
+				const response = await fetch(
+					process.env.BACKEND_URL + "/api/customer/edit-by-customer", {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${sessionStorage.getItem("token")}`
+					},
+					body: JSON.stringify({ first_name: customer.first_name, email: customer.email,  last_name: customer.last_name, address: customer.address, phone: customer.phone })
 
 				}
 				);
