@@ -1,43 +1,62 @@
-// import React, { useContext, useEffect } from "react";
-// import {Context} from "../store/appContext";
-// import { useNavigate } from "react-router-dom";
-
-// export const CustomerProfile = (props) => {
-//     const {store, actions} = useContext(Context);
-//     const navigate = useNavigate();
-
-//     useEffect(() => {
-//         if ( !store.token ) {
-//             navigate("/customer-log-in");
-//         }
-//     }, [store.token, navigate]);
-    
-//     return (
-//         <div className="d-flex flex-column w-100 align-items-center" >
-//             <h2>Hello Profile</h2>
-//             <button
-//                 onClick={(event) => actions.fetchPrivateEndpoint()}>
-//                 click me!
-//             </button>
-//             <p>{store.privateData}</p>
-//         </div>
-//     );
-// };
-
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"
 import { Context } from "../store/appContext";
+import { CustomerWorkOrder } from "./CustomerWorkOrder";
 
-export const CustomerProfile = () => {
+export const CustomerDashboard = (props) => {
+
     const { store, actions } = useContext(Context);
-    const [custData, setCustData] = useState(null); 
-    const [editMode, setEditMode] = useState(false);
-    const [editedCustData, setEditedCustData] = useState(null);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [first_name, setfirst_name] = useState("");
+    const [last_name, setlast_name] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const navigate = useNavigate();
+
     useEffect(() => {
-        if (store.customer) {
-            setCustData(store.customerId); 
-            setEditedCustData({ ...store.customerId });
+        if (!store.token) {
+            navigate("/customer-log-in");
+        } else if (!store.customerId) {
+
+            const savedCustomerId = sessionStorage.getItem("customerId");
+            if (savedCustomerId) {
+                actions.setCustomerId(savedCustomerId);
+            } else {
+                console.error("Customer ID is missing");
+            }
+        } else {
+            actions.getCustomerById(store.customerId)
+                .then(data => {
+                    if (data) {
+                        setEmail(data.email);
+                        setfirst_name(data.first_name);
+                        setlast_name(data.last_name);
+                        setPhone(data.phone);
+                        setAddress(data.address);
+                    }
+                })
+                .catch(error => {
+                    console.error("Failed to load customer data:", error);
+                });
         }
-    }, [store.customerId]);
+    }, [store.token, store.customerId]);
+
+    const handleUpdateCustProfile = async () => {
+        const success = await actions.updateCustProfile({
+            email: email,
+            password: password,
+            first_name: first_name,
+            last_name: last_name,
+            phone: phone,
+            address: address
+        });
+        if (success) {
+            alert("Profile updated successfully!");
+        } else {
+            alert("Failed to update profile");
+        }
+    };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -49,6 +68,7 @@ export const CustomerProfile = () => {
         setCustData({ ...editedCustData });
         setEditMode(false);
     };
+
 
     return (
         <div className="container pt-5">
@@ -105,4 +125,29 @@ export const CustomerProfile = () => {
             )}
         </div>
     );
-};
+
+    // return (
+    //     <div className="customer-dashboard">
+
+    //         <div className="profile-form, container pt-5">
+    //             <h2>Welcome to Customer Dashboard!</h2>
+    //             {data ? (
+    //                 <div>
+    //                     <p><strong>Email:</strong> {customerId.data.email}</p>
+    //                     <p><strong>First Name:</strong> {customerId.data.first_name}</p>
+    //                     <p><strong>Last Name:</strong> {customerId.data.last_name}</p>
+    //                     <p><strong>Phone:</strong> {customerId.data.phone}</p>
+    //                     <p><strong>Address:</strong> {customerId.data.address}</p>
+    //                 </div>
+    //             ) : (
+    //                 <p>Loading user data...</p>
+    //             )}
+    //         </div>
+
+    //         <h2>Work Orders</h2>
+    //         <CustomerWorkOrder customerId={store.customerId} />
+
+    //     </div>
+
+    // );
+}

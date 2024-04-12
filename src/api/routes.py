@@ -7,6 +7,11 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from api.decorators import admin_required
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+import random
+from datetime import datetime, timedelta, timezone
 
 
 api = Blueprint('api', __name__)
@@ -68,12 +73,9 @@ def handle_customer_login():
     if customer.password != password:
         return jsonify({"msg": "Bad email or password"}), 401
 
-    access_token = create_access_token(
-        identity=customer.id,
-        additional_claims = {"role": "customer"} 
-        )
-        
-    return jsonify(access_token=access_token), 201
+    access_token = create_access_token(identity=customer.id, additional_claims={"role": "customer"})
+
+    return jsonify(access_token=access_token, customer_id=customer.id), 201
 
 @api.route('/customer/edit/<int:cust_id>', methods=['PUT'])
 @admin_required()
@@ -143,35 +145,94 @@ def delete(cust_id):
 
 
 @api.route('/customer/<int:cust_id>', methods=['GET'])
-@admin_required()
+@jwt_required()
 def get_customer(cust_id):
-    customer = Customer.query.filter_by(id=cust_id).first()
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    
+    if not current_user:
+        return jsonify({"msg": "User not found"}), 404
+
+    if not current_user.is_admin() and current_user_id != cust_id:
+        return jsonify({"msg": "Access forbidden"}), 403
+
+    customer = Customer.query.get(cust_id)
     if customer is None:
         return jsonify({"msg": "No customer found"}), 404
-    return jsonify({"customer":customer.serialize()}), 200
+    
+    return jsonify(customer.serialize()), 200
 
 @api.route('/customers', methods=['GET'])
-@admin_required()
+@jwt_required()
 def get_all_customers():
-    customers = Customer.query.all()
-    if customers is None:
-        return jsonify({"msg": "No customer found"}), 404
+    if not User.query.get(get_jwt_identity()).is_admin():
+        return jsonify({"msg": "Access forbidden"}), 403
 
-    serialized_customers = []
-    for customer in customers:
-        serialized_customers.append(customer.serialize())
-    return jsonify({"customers":serialized_customers}), 200
+    customers = Customer.query.all()
+    return jsonify([customer.serialize() for customer in customers]), 200
+
+@api.route('/send-verification-code', methods=['POST'])
+def send_verification_code():
+    email= request.json.get('email')
+    if not email:
+        return jsonify({'msg': 'Missing email'}), 400
+
+    verification_code = ''.join([str(random.randint(0,9)) for _ in range(6)])
+    expiration = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=10)
+    customer = Customer.query.filter_by(email=email).one_or_none()
+    if customer:
+        customer.verification_code= verification_code
+        customer.verification_code_expires = expiration
+        db.session.commit()
+
+    else:
+        return jsonify({'mes': 'Email not found'}), 404
+    
+    message = Mail (
+        from_email='pimpmyride879@gmail.com',
+        to_emails=email,
+        subject='Your Verification Code',
+        html_content=f'Your verification code is: {verification_code}'
+    )
+    try:
+        sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        return jsonify({'msg': 'Email send successfully!'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'msg': 'Failed to send email'}), 500
+    
+@api.route('/customer-verify', methods=['POST'])
+def verify_customer():
+    email = request.json.get('email')
+    submitted_code = request.json.get('verificationCode')
+    customer = Customer.query.filter_by(email=email).one_or_none()
+    if not customer:
+        return jsonify({'msg': 'Email is not found'}), 404
+    if datetime.datetime.now(timezone.utc) > customer.verification_code_expires:
+        return jsonify({'msg': 'Verification code has expired'}), 410
+    if customer.verification_code == submitted_code:
+        return jsonify({'msg': 'Verification successful'}), 200
+    else:
+        return jsonify({'msg': 'Invalid verification code'}), 400
+
 
 
 @api.route('/work_orders/customer/<int:cust_id>', methods=['GET'])
-@admin_required()
+@jwt_required()
 def get_work_orders_by_customer(cust_id):
-    customer = Customer.query.filter_by(id = cust_id).first()
-    if customer is None:
-        return jsonify({"msg": "Customer not found"}), 404
-    work_orders = [work_order.serialize() for work_order in customer.work_orders]
-    return jsonify(work_orders)
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
 
+    if current_user.role != "admin" and current_user.id != cust_id:
+        return jsonify({"msg": "Access forbidden"}), 403
+
+    customer = Customer.query.filter_by(id=cust_id).first()
+    if not customer:
+        return jsonify({"msg": "Customer not found"}), 404
+
+    work_orders = [wo.serialize() for wo in customer.work_orders]
+    return jsonify(work_orders)
 # work order routes
 @api.route('/work-order/new', methods=['POST'])
 @admin_required()

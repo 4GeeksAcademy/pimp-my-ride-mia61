@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			customers: [],
+			customerId: sessionStorage.getItem("customerId") || null,
 			vehicleModels: {
 				Acura: ["ILX", "MDX", "RDX", "RLX", "TLX"],
 				"Alfa Romeo": ["Giulia", "Stelvio"],
@@ -250,7 +251,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				Volvo: ["S60", "S90", "V60", "V90", "XC40", "XC60", "XC90"],
 			},
 			token: undefined,
-			sessionStorageChecked: undefined
+			sessionStorageChecked: !!sessionStorage.getItem("token")
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -297,25 +298,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(getStore().token)
 			},
 
-			logInCustomer: async (customer) => {
-				const response = await fetch(
-					process.env.BACKEND_URL + "/api/customer/login", {
+			logInCustomer: async (customerCredentials) => {
+				const response = await fetch(`${process.env.BACKEND_URL}/api/customer/login`, {
 					method: "POST",
-					body: JSON.stringify({ email: customer.email, password: customer.password }),
-					headers: {
-						"Content-Type": "application/json"
-					}
-				}
-				);
-				if (response.status !== 201) return false;
-				const responseBody = await response.json();
-				setStore({
-					token: responseBody.access_token
+					body: JSON.stringify(customerCredentials),
+					headers: { "Content-Type": "application/json" }
 				});
-				sessionStorage.setItem("token", responseBody.access_token);
-
-				return true;
+				if (response.ok) {
+					const data = await response.json();
+					setStore({
+						token: data.access_token,
+						customerId: data.customer_id  
+					});
+					sessionStorage.setItem("token", data.access_token);
+					sessionStorage.setItem("customerId", data.customer_id);
+					return true;
+				} else {
+					console.error("Login failed with status:", response.status);
+					return false;
+				}
 			},
+			
+			
 
 			signUpCustomer: async (customer) => {
 				const response = await fetch(
@@ -345,6 +349,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (response.status !== 200) return false;
 				const responseBody = await response.json();
 				setStore({ customers: responseBody.customers })
+				return true;
+			},
+
+			getCustomerById: async (custId) => {
+				if (!custId) {
+					console.error("Customer ID is undefined.");
+					return false;
+				}
+				const response = await fetch(`${process.env.BACKEND_URL}/api/customer/${custId}`, {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						"Authorization": `Bearer ${sessionStorage.getItem("token")}`
+					},
+				});
+			
+				if (!response.ok) {
+					console.error('Failed to fetch customer data:', response.status);
+					return false;
+				}
+			
+				const responseBody = await response.json();
+				setStore({ currentCustomer: responseBody });
 				return true;
 			},
 

@@ -7,19 +7,37 @@ export const CustomerLogin = (props) => {
     const { store, actions } = useContext(Context);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+    
 	const handleLogin = async(event) => {
 		const success = await actions.logInCustomer({
 			email: email,
 			password: password
 		});
 		if (success) {
-            navigate("/customer-profile");
+            navigate("/customer-dashboard");
 	    } else {
-        alert("something went wrong");
+        alert("Something went wrong, please try again");
         }
     }
 
+    const handleForgotPassword = async () =>{
+        try{
+            await actions.resetPassword (email);
+            alert("Link was sent to your email")
+        } catch (error) {
+            console.error("Failed to reset password");
+            alert ("Failed to reset password. Please try again")
+        }
+    }
 
+    const sendResetPassword = async () =>{
+
+    }
+
+    const generateResetToken = () =>{
+
+    }
 
     return (
 		<div className="container pt-5 ">
@@ -46,7 +64,7 @@ export const CustomerLogin = (props) => {
                             />
                         </div>
                         <div style={{ textAlign: 'center' }}>
-                        <button
+                        <button className="me-2"
                                 type="button"
                                 style={{ 
                                     backgroundColor: '#007bff', 
@@ -62,6 +80,23 @@ export const CustomerLogin = (props) => {
                                 onClick={handleLogin}
                             >
                                 Submit
+                            </button>
+                            <button
+                                type="button"
+                                style={{ 
+                                    backgroundColor: '#007bff', 
+                                    color: '#fff', 
+                                    border: 'none', 
+                                    borderRadius: '5px', 
+                                    padding: '10px 20px', 
+                                    cursor: 'pointer',
+                                    boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.2)',
+                                    transition: 'box-shadow 0.3s ease',
+                                    outline: 'none',
+                                }}
+                                onClick={handleForgotPassword}
+                            >
+                                Forgot Password
                             </button>
                         </div>
                     </div>

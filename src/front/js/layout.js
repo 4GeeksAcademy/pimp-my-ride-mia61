@@ -20,8 +20,9 @@ import SignUp from './pages/SignUp';
 import UserDashboard from "./pages/UserDashboard";
 import { UserLogin } from "./pages/UserLogin";
 import { CustomerLogin } from "./pages/CustomerLogin";
-import { CustomerProfile } from "./pages/CustomerProfile";
+import { CustomerDashboard } from "./pages/CustomerDashboard";
 import { CustomerSignup } from "./pages/CustomerSignup";
+import {CustomerWorkOrder} from "./pages/CustomerWorkOrder"
 
 // import { NewWorkOrder} from "./component/NewWorkOrder";
 
@@ -42,7 +43,8 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<UserLogin />} path="/user-log-in" />
                         <Route element={<CustomerLogin />} path="/customer-log-in" />
-                        <Route element={<CustomerProfile />} path="/customer-profile" />
+                        <Route element={<CustomerDashboard />} path="/customer-dashboard" />
+                        <Route  element={<CustomerWorkOrder path="/customer-work-order/:workOrderId" />} />
                         <Route element={<CustomerSignup />} path="/customer-signup" />
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
