@@ -91,8 +91,6 @@ const NewWorkOrder = () => {
 
   const handleMakeChange = (e) => {
     setMake(e.target.value);
-    setModel("");
-    setYear("");
   };
 
   const handleYearChange = (e) => {
@@ -125,8 +123,6 @@ const NewWorkOrder = () => {
   const handleNewWorkOrder = async (event) => {
 
     const success = await actions.createNewWorkOrder({
-
-      
       customer_id: customer.id,
       wo_stages: woStages,
       make: make,
@@ -134,8 +130,7 @@ const NewWorkOrder = () => {
       color: color,
       vin: vin,
       license_plate: license,
-      commnets: comments
-
+      comments: comments
     });
     if (success) {
       alert("Work Order Created Successfully!");
@@ -239,6 +234,7 @@ const NewWorkOrder = () => {
               className="form-select"
               aria-label="Model"
               disabled={!make}
+              onChange={(e) => setModel(e.target.value)}
             >
               <option value="" selected disabled>
                 Select Model
@@ -282,7 +278,7 @@ const NewWorkOrder = () => {
               onInput={(e) => {
                 e.target.value = e.target.value.toUpperCase();
               }}
-              onChange={() => setVin(e.target.value)}
+              onChange={(e) => setVin(e.target.value)}
               required
             />
           </div>
@@ -292,7 +288,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="license_plate"
               placeholder="License plate *"
-              onChange={() => setLicense(e.target.value)}
+              onChange={(e) => setLicense(e.target.value)}
               required
             />
           </div>
@@ -302,7 +298,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="color"
               placeholder="Color *"
-              onChange={() => setColor(e.target.value)}
+              onChange={(e) => setColor(e.target.value)}
               required
             />
           </div>
@@ -371,7 +367,7 @@ const NewWorkOrder = () => {
             className="form-control"
             name="text_area"
             placeholder="Comments"
-            onChange={() => setComments(e.target.value)}
+            onChange={(e) => setComments(e.target.value)}
           ></textarea>
         </div>
 
@@ -394,3 +390,8 @@ const NewWorkOrder = () => {
 };
 
 export default NewWorkOrder;
+
+//  for picutrse send 2 fourmat fields,,
+//  second request to send a file 
+
+//  Flux and make a new fetch that takes a arr []
