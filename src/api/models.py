@@ -110,3 +110,16 @@ class Comment(db.Model):
             "work_order_id": self.work_order_id,
             "message": self.message
         }
+    
+class UserImage(db.Model):
+    """image to be uploaded by the user/owner """
+
+    __table_args__ = (
+        db.UniqueConstraint("title" ,"user_username", name="unique_img_title_user"),
+    )
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+    public_id = db.Column(db.String(500), nullable=False, unique=True)
+    image_url = db.Column(db.String(500), nullable=False, unique=True)
+    user_username = db.Column(db.String(30), db.ForeignKey("user.username"), nullable=False)
+    user = db.relationship("User", back_populates="images")
