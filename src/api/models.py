@@ -74,7 +74,7 @@ class WorkOrder(db.Model):
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
 
 # #######################################################################
-    images = db.relationship("UserImage", back_populates="user")
+    # images = db.relationship("UserImage", back_populates="user")
 # #######################################################################
 
     def __repr__(self):
@@ -116,21 +116,20 @@ class Comment(db.Model):
     
 # #######################################################################
 
-class UserImage(db.Model):
+class WorkOrderImage(db.Model):
+    __tablename__ = 'work_order_image'
     """image to be uploaded by the user/owner """
 
     __table_args__ = (
-        db.UniqueConstraint("title" ,"user_username", name="unique_img_title_user"),
+        db.UniqueConstraint("user_username", name="unique_user_image"),
     )
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), nullable=False)
     public_id = db.Column(db.String(500), nullable=False, unique=True)
     image_url = db.Column(db.String(500), nullable=False, unique=True)
     user_username = db.Column(db.String(30), db.ForeignKey("user.username"), nullable=False)
     user = db.relationship("User", back_populates="images")
 
-    def __init__(self, title, public_id, image_url, user_username):
-        self.title = title.strip()
+    def __init__(self, public_id, image_url, user_username):
         self.public_id = public_id
         self.image_url = image_url.strip()
         self.user_username = user_username.strip()
@@ -138,8 +137,6 @@ class UserImage(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "title": self.title,
             "image_url": self.image_url
         }
-
 # #######################################################################
