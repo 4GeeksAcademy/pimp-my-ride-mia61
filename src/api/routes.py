@@ -179,6 +179,9 @@ def get_all_customers():
 
 @api.route('/send-verification-code', methods=['POST'])
 def send_verification_code():
+    license = request.json.get('license')
+    if not license:
+        return jsonify(msg="Missing license"), 400   
     email= request.json.get('email')
     if not email:
         return jsonify({'msg': 'Missing email'}), 400
@@ -187,6 +190,9 @@ def send_verification_code():
     expiration = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=10)
     customer = Customer.query.filter_by(email=email).one_or_none()
     if customer:
+        work_order=WorkOrder.query.filter_by(customer_id=customer.id, license_plate=license).first()
+        if not work_order:
+            return jsonify(msg="Order not found"), 400
         customer.verification_code= verification_code
         customer.verification_code_expires = expiration
         db.session.commit()
@@ -211,6 +217,7 @@ def send_verification_code():
 @api.route('/customer-verify', methods=['POST'])
 def verify_customer():
     email = request.json.get('email')
+    license= request.json.get('license')
     submitted_code = request.json.get('verificationCode')
     customer = Customer.query.filter_by(email=email).one_or_none()
     if not customer:
@@ -218,9 +225,24 @@ def verify_customer():
     if datetime.datetime.now(timezone.utc) > customer.verification_code_expires:
         return jsonify({'msg': 'Verification code has expired'}), 410
     if customer.verification_code == submitted_code:
-        return jsonify({'msg': 'Verification successful'}), 200
-    else:
-        return jsonify({'msg': 'Invalid verification code'}), 400
+        expiration=timedelta(minutes=5)
+        access_token = create_access_token(identity=customer.id, additional_claims={"role": "customer", "license_plate": license}, expires_delta=expiration)
+        return jsonify({'msg': 'Verification successful', "access_token": access_token}), 200
+    return jsonify({'msg': 'Invalid verification code'}), 400
+
+@api.route('/work_orders/customer/<int:license_plate>', methods=['GET'])
+@jwt_required()
+def get_work_orders_by_customer_and_license(license_plate):
+    current_customer_id = get_jwt_identity()
+    current_customer = Customer.query.get(current_customer_id)
+
+
+    if not current_customer:
+        return jsonify({"msg": "Customer not found"}), 404
+    work_orders=WorkOrder.query.filter_by(customer_id=current_customer_id, license_plate=license_plate,).filter(WorkOrder.current_stage != "Completed").all()
+
+    work_orders = [wo.serialize() for wo in work_orders]
+    return jsonify(work_orders), 200
 
 
 
@@ -239,6 +261,8 @@ def get_work_orders_by_customer(cust_id):
 
     work_orders = [wo.serialize() for wo in customer.work_orders]
     return jsonify(work_orders)
+
+
 # work order routes
 @api.route('/work-order/new', methods=['POST'])
 @admin_required()

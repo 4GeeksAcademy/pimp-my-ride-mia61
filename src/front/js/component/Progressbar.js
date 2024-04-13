@@ -16,6 +16,7 @@ export const Progressbar = () => {
     "Car Repair Complete",
     "Car Being Prepared For Pickup",
     "Car Ready For Pickup",
+    "Completed"
   ];
 
 

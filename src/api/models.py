@@ -70,6 +70,7 @@ class WorkOrder(db.Model):
     customer = db.relationship("Customer", back_populates="work_orders")
     comments = db.relationship("Comment", back_populates="work_order")
     wo_stages = db.Column(MutableList.as_mutable(ARRAY(db.String(255))), default=[])
+    current_stage = db.Column(db.String(), nullable=False, default="Car Accepted")
     time_created = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
 
@@ -83,6 +84,7 @@ class WorkOrder(db.Model):
             "user_id": self.user_id,
             "customer_id": self.customer_id,
             "wo_stages": [stage for stage in self.wo_stages],
+            "current_stage": self.current_stage,
             "make": self.make,
             "model": self.model,
             "color": self.color,
