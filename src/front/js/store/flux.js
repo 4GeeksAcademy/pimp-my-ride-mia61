@@ -471,7 +471,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					},
 					body: JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })
 				})
-				if (response.status !== 200) return false;
+				if (response.status !== 201) return false;
 				const responseBody = await response.json();
 				console.log(responseBody)
 				return true;

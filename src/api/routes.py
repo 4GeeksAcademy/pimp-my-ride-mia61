@@ -281,10 +281,11 @@ def create_work_order():
         return jsonify({"msg": "A user with that id does not exist"}), 404
     work_order = WorkOrder (user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
     db.session.add(work_order)
-    db.session.commit()
+    db.session.commit()   
     db.session.refresh(work_order)
     if comments: 
         comment = Comment (work_order_id=work_order.id, message=comments)
+        db.session.add(comment)
         db.session.commit()
         db.session.refresh(work_order)
 
@@ -322,7 +323,7 @@ def edit_work_order(work_order_id):
 
 
 @api.route('/work-order/all', methods=['GET'])
-@admin_required()
+# @admin_required()
 def get_all_work_orders():
     work_orders = WorkOrder.query.all()
     serialized_work_orders = [wo.serialize() for wo in work_orders]
