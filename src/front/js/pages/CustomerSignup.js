@@ -22,23 +22,24 @@ export const CustomerSignup = (props) => {
             address: address
         });
         if (success) {
-            handleLogin();
+            navigate("/customer-log-in");
+            // handleLogin();
         } else {
             alert("something went wrong");
         }
     }
 
-    const handleLogin = async(event) => {
-		const success = await actions.logInCustomer({
-			email: email,
-			password: password
-		});
-		if (success) {
-            navigate("/customer-profile");
-	    } else {
-        alert("something went wrong");
-        }
-    }
+    // const handleLogin = async(event) => {
+	// 	const success = await actions.logInCustomer({
+	// 		email: email,
+	// 		password: password
+	// 	});
+	// 	if (success) {
+    //         navigate("/customer-profile");
+	//     } else {
+    //     alert("something went wrong");
+    //     }
+    // }
 
 
 
@@ -51,7 +52,7 @@ export const CustomerSignup = (props) => {
                 <div className="row justify-content-center">
                     <div className="col-md-6 pb-5 text-light" >
                         <div style={{ padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(255, 255, 255, 0.2)', border: '1px solid white' }}>
-                            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Login</h2>
+                            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Sign Up</h2>
                             <div style={{ marginBottom: '20px' }}>
                                 <input
                                     type="email"
