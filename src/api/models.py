@@ -73,6 +73,9 @@ class WorkOrder(db.Model):
     time_created = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
 
+# #######################################################################
+    images = db.relationship("UserImage", back_populates="user")
+# #######################################################################
 
     def __repr__(self):
         return f'<WorkOrder {self.id}>'
@@ -111,6 +114,8 @@ class Comment(db.Model):
             "message": self.message
         }
     
+# #######################################################################
+
 class UserImage(db.Model):
     """image to be uploaded by the user/owner """
 
@@ -136,3 +141,5 @@ class UserImage(db.Model):
             "title": self.title,
             "image_url": self.image_url
         }
+
+# #######################################################################

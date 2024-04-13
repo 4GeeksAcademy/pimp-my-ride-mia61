@@ -12,6 +12,10 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
 
+# #######################################################################
+import cloudinary.uploader as uploader
+# #######################################################################
+
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -32,6 +36,25 @@ app.config["JWT_SECRET_KEY"] = os.environ.get("FLASK_APP_KEY")
 app.config["JWT_ALGORITHM"] = "HS256"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 24 * 60 * 60
 jwt = JWTManager(app)
+
+# #######################################################################
+
+app.config['UPLOAD_FOLDER'] = os.environ.get('UPLOAD_FOLDER')
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+app.config.from_mapping(
+    CLOUDINARY_URL=os.environ.get("CLOUDINARY_URL")
+)
+
+import cloudinary
+          
+cloudinary.config( 
+  cloud_name = "dufs8hbca", 
+  api_key = "442387455219856", 
+  api_secret = "shYvKGsmGcMnNGftA-RK7Hy7eww" 
+)
+UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER')
+
+# #######################################################################
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
