@@ -123,3 +123,16 @@ class UserImage(db.Model):
     image_url = db.Column(db.String(500), nullable=False, unique=True)
     user_username = db.Column(db.String(30), db.ForeignKey("user.username"), nullable=False)
     user = db.relationship("User", back_populates="images")
+
+    def __init__(self, title, public_id, image_url, user_username):
+        self.title = title.strip()
+        self.public_id = public_id
+        self.image_url = image_url.strip()
+        self.user_username = user_username.strip()
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "image_url": self.image_url
+        }
