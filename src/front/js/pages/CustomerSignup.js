@@ -12,7 +12,7 @@ export const CustomerSignup = (props) => {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
 
-    const handleSignup = async (event) => {
+    const handleSignup = async () => {
         const success = await actions.signUpCustomer({
             email: email,
             password: password,
@@ -47,7 +47,10 @@ export const CustomerSignup = (props) => {
 
 
     return (
-        <form>
+        <form onSubmit={(event) => {
+            event.preventDefault();
+            handleSignup();
+        }}>
             <div className="container pt-5 bg-black ">
                 <div className="row justify-content-center">
                     <div className="col-md-6 pb-5 text-light" >
