@@ -288,7 +288,7 @@ def create_work_order():
         db.session.add(work_order)
         db.session.commit()   
         db.session.refresh(work_order)
-        if len(WorkOrderImage.query.filter_by(work_order_id=work_order_id).all()) < 12:
+        if len(WorkOrderImage.query.filter_by(work_order_id=work_order.id).all()) < 12:
             response = uploader.upload(image_file)
             print(f"{response.items()}")
             new_image = WorkOrderImage(public_id=response["public_id"], image_url=response["secure_url"],work_order_id=work_order.id)
