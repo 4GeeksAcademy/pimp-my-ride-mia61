@@ -257,21 +257,17 @@ def get_work_orders_by_customer_and_license(license_plate):
 
 
 
-@api.route('/work_orders/customer/<int:cust_id>', methods=['GET'])
+@api.route('/work_orders/customer', methods=['GET'])
 @jwt_required()
-def get_work_orders_by_customer(cust_id):
-    current_user_id = get_jwt_identity()
-    current_user = User.query.get(current_user_id)
-
-    if current_user.role != "admin" and current_user.id != cust_id:
-        return jsonify({"msg": "Access forbidden"}), 403
+def get_work_orders_by_customer():
+    cust_id = get_jwt_identity()
 
     customer = Customer.query.filter_by(id=cust_id).first()
     if not customer:
         return jsonify({"msg": "Customer not found"}), 404
 
     work_orders = [wo.serialize() for wo in customer.work_orders]
-    return jsonify(work_orders)
+    return jsonify(work_orders), 200
 
 
 # work order routes

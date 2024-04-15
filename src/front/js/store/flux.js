@@ -3,6 +3,7 @@ import { TbFlagSearch } from "react-icons/tb";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			customerWorkOrders: [],
 			customers: [],
 			customerId: sessionStorage.getItem("customerId") || null,
 			vehicleModels: {
@@ -458,6 +459,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (response.status !== 200) return false;
 				const responseBody = await response.json();
 				console.log(responseBody)
+				return true;
+			},
+
+			getCustomerWorkOrdersByCustomer: async () => {
+				const response = await fetch(process.env.BACKEND_URL + "/api/work_orders/customer/", {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "Bearer " + store.token
+					},
+				})
+				if (response.status !== 200) return false;
+				const responseBody = await response.json();
+				setStore({customerWorkOrders: responseBody})
 				return true;
 			},
 

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { Context } from "../store/appContext";
 import { CustomerWorkOrder } from "./CustomerWorkOrder";
+import { BiSort } from "react-icons/bi";
 
 export const CustomerDashboard = () => {
 
@@ -20,7 +21,9 @@ export const CustomerDashboard = () => {
 
     useEffect(() => {
         const getCurrentCustomer = async () => {
-            setCustomer(await actions.getCurrentCustomer())
+            let data = await actions.getCurrentCustomer()
+            let result = await actions.getCustomerWorkOrdersByCustomer()
+                setCustomer(data)
         }
         try {
             if (!sessionStorage.getItem("token") || !sessionStorage.getItem("customerId")) {
@@ -96,10 +99,72 @@ export const CustomerDashboard = () => {
                                 <button onClick={() => setEditMode(true)}>Edit</button>
                             </div>
                         )}
+                        <div>
+                <h2>Order History</h2>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Make/Model</th>
+                            <th>Color</th>
+                            <th>VIN</th>
+                            <th>License Plate</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {store.customerWorkOrders.map((order, index) => (
+                            <React.Fragment key={index}>
+                                <tr>
+                                    <td>
+                                        {order.first_name} {order.last_name}
+                                    </td>
+                                    <td>
+                                        {order.make} {order.model}
+                                    </td>
+                                    <td>{order.color}</td>
+                                    <td>{order.vin}</td>
+                                    <td>{order.license_plate}</td>
+                                    <td>
+                                        <div className="dropdown">
+                                            <button
+                                                className="btn btn-secondary dropdown-toggle"
+                                                type="button"
+                                                id={`statusDropdown${index}`}
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false"
+                                            >
+                                                {order.wo_stages[index] || "Select Status"}
+                                            </button>
+                                            <ul
+                                                className="dropdown-menu"
+                                                aria-labelledby={`statusDropdown${index}`}
+                                            >
+                                                {order.wo_stages.map((status, i) => (
+                                                    <li key={i}>
+                                                        <button
+                                                        disabled
+                                                        >
+                                                            {status}
+                                                        </button>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            </React.Fragment>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
                 </div>
             ) : (
                 <p>Loading user data...</p>
             )}
+            
         </div>
     );
 
