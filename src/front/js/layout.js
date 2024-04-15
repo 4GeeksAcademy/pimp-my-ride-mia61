@@ -25,6 +25,7 @@ import { CustomerDashboard } from "./pages/CustomerDashboard";
 import { CustomerSignup } from "./pages/CustomerSignup";
 import {CustomerWorkOrder} from "./pages/CustomerWorkOrder"
 import { UserCustomerDetails } from "./pages/UserCustomerDetails";
+import QuickSearchModal from "./component/QuickSearchModal";
 // import { NewWorkOrder} from "./component/NewWorkOrder";
 
 //create your first component
@@ -53,6 +54,7 @@ const Layout = () => {
                         <Route element={<GenerateWoSteps />} path="/generate-wo-steps" />
                         <Route element={<UserDashboard />} path="/user-dashboard" />
                         <Route element={<UserCustomerDetails />} path="/user-customer-details" />
+                        <Route element={<QuickSearchModal />} path="/quick-search" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                         <Route path='/services' exact element={ <Services />}></Route>

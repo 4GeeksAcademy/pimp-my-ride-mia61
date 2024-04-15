@@ -12,7 +12,8 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import random
 from datetime import datetime, timedelta, timezone
-
+import cloudinary.uploader as uploader
+from sqlalchemy.exc import SQLAlchemyError
 
 api = Blueprint('api', __name__)
 
@@ -168,6 +169,7 @@ def get_current_customer():
         return jsonify({"msg": "No customer found"}), 404
     
     return jsonify(customer.serialize()), 200
+
 @api.route('/customers', methods=['GET'])
 @jwt_required()
 def get_all_customers():
@@ -179,40 +181,50 @@ def get_all_customers():
 
 @api.route('/send-verification-code', methods=['POST'])
 def send_verification_code():
-    license = request.json.get('license')
+    data = request.get_json(silent=True)  
+    if not data:
+        return jsonify(msg="Invalid or no JSON payload"), 400
+
+    license = data.get('license')
     if not license:
-        return jsonify(msg="Missing license"), 400   
-    email= request.json.get('email')
+        return jsonify(msg="Missing license"), 400
+
+    email = data.get('email')
     if not email:
-        return jsonify({'msg': 'Missing email'}), 400
+        return jsonify(msg='Missing email'), 400
 
     verification_code = ''.join([str(random.randint(0,9)) for _ in range(6)])
-    expiration = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=10)
-    customer = Customer.query.filter_by(email=email).one_or_none()
-    if customer:
-        work_order=WorkOrder.query.filter_by(customer_id=customer.id, license_plate=license).first()
+    expiration = datetime.now(timezone.utc) + timedelta(minutes=10)
+
+    try:
+        customer = Customer.query.filter_by(email=email).one_or_none()
+        if not customer:
+            return jsonify(msg='Email not found'), 404
+
+        work_order = WorkOrder.query.filter_by(customer_id=customer.id, license_plate=license).first()
         if not work_order:
             return jsonify(msg="Order not found"), 400
-        customer.verification_code= verification_code
+
+        customer.verification_code = verification_code
         customer.verification_code_expires = expiration
         db.session.commit()
 
-    else:
-        return jsonify({'mes': 'Email not found'}), 404
-    
-    message = Mail (
-        from_email='pimpmyride879@gmail.com',
-        to_emails=email,
-        subject='Your Verification Code',
-        html_content=f'Your verification code is: {verification_code}'
-    )
-    try:
+        message = Mail(
+            from_email='pimpmyride879@gmail.com',
+            to_emails=email,
+            subject='Your Verification Code',
+            html_content=f'Your verification code is: {verification_code}'
+        )
         sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
         response = sg.send(message)
-        return jsonify({'msg': 'Email send successfully!'}), 200
+        return jsonify(msg='Email sent successfully!'), 200
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        print(f"Database error occurred: {str(e)}")
+        return jsonify(msg='Database error, failed to process your request'), 500
     except Exception as e:
-        print(e)
-        return jsonify({'msg': 'Failed to send email'}), 500
+        print(f"Failed to send email: {str(e)}")
+        return jsonify(msg='Failed to send email'), 500
     
 @api.route('/customer-verify', methods=['POST'])
 def verify_customer():
@@ -235,7 +247,6 @@ def verify_customer():
 def get_work_orders_by_customer_and_license(license_plate):
     current_customer_id = get_jwt_identity()
     current_customer = Customer.query.get(current_customer_id)
-
 
     if not current_customer:
         return jsonify({"msg": "Customer not found"}), 404
