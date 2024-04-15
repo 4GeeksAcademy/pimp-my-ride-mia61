@@ -99,7 +99,7 @@ const NewWorkOrder = () => {
 
   const years = Array.from({ length: 30 }, (_, index) =>
     (new Date().getFullYear() + 1 - index).toString()
-  );       
+  );
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
@@ -121,7 +121,7 @@ const NewWorkOrder = () => {
   };
 
   const handleNewWorkOrder = async (event) => {
-
+    event.preventDefault()
     const success = await actions.createNewWorkOrder({
       customer_id: customer.id,
       wo_stages: woStages,
@@ -130,7 +130,8 @@ const NewWorkOrder = () => {
       color: color,
       vin: vin,
       license_plate: license,
-      comments: comments
+      comments: comments,
+      images: uploadedImages
     });
     if (success) {
       alert("Work Order Created Successfully!");
