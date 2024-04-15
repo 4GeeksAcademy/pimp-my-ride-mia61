@@ -92,7 +92,7 @@ class WorkOrder(db.Model):
             "time_created": self.time_created,
             "time_updated": self.time_updated,
             "comments": [comment.serialize() for comment in self.comments],
-            "images": [image.serialize() for image in self.images]
+            # "images": [image.serialize() for image in self.images]
         }
     
 class Comment(db.Model):
@@ -113,29 +113,29 @@ class Comment(db.Model):
             "message": self.message
         }
     
-# #######################################################################
+# # #######################################################################
 
-class WorkOrderImage(db.Model):
-    __tablename__ = 'work_order_image'
-    """image to be uploaded by the user/owner """
+# class WorkOrderImage(db.Model):
+#     __tablename__ = 'work_order_image'
+#     """image to be uploaded by the user/owner """
 
-    # __table_args__ = (
-    #     db.UniqueConstraint("user_username", name="unique_user_image"),
-    # )
-    id = db.Column(db.Integer, primary_key=True)
-    public_id = db.Column(db.String(500), nullable=False, unique=True)
-    image_url = db.Column(db.String(500), nullable=False, unique=True)
-    work_order_id = db.Column(db.Integer, db.ForeignKey("work_orders.id"), nullable=False)
-    work_order = db.relationship("WorkOrder", back_populates="comments")
+#     # __table_args__ = (
+#     #     db.UniqueConstraint("user_username", name="unique_user_image"),
+#     # )
+#     id = db.Column(db.Integer, primary_key=True)
+#     public_id = db.Column(db.String(500), nullable=False, unique=True)
+#     image_url = db.Column(db.String(500), nullable=False, unique=True)
+#     work_order_id = db.Column(db.Integer, db.ForeignKey("work_orders.id"), nullable=False)
+#     work_order = db.relationship("WorkOrder", back_populates="comments")
 
-    def __init__(self, public_id, image_url, work_order_id):
-        self.public_id = public_id
-        self.image_url = image_url.strip()
-        self.work_order_id = work_order_id.strip()
+#     def __init__(self, public_id, image_url, work_order_id):
+#         self.public_id = public_id
+#         self.image_url = image_url.strip()
+#         self.work_order_id = work_order_id.strip()
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "image_url": self.image_url
-        }
-# #######################################################################
+#     def serialize(self):
+#         return {
+#             "id": self.id,
+#             "image_url": self.image_url
+#         }
+# # #######################################################################
