@@ -30,7 +30,7 @@ const QuickSearchModal = () => {
       license: license
     }); 
     console.log("Sending payload", payload);
-    const response = await fetch("/send-verification-code", {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/send-verification-code`, {
       method: 'POST', 
       headers: {
         "Content-Type": "application/json",
@@ -49,12 +49,12 @@ const QuickSearchModal = () => {
   };
 
   const handleVerify = async () => {
-    const response = await fetch("/customer-verify", {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/customer-verify`, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ verificationCode }),
+      body: JSON.stringify({ email:email, license:license, verificationCode:verificationCode }),
     });
 
     if (response.ok) {

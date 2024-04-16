@@ -16,6 +16,8 @@ class Customer(db.Model):
     address = db.Column(db.String(250), unique=False, nullable=False)
     phone = db.Column(db.String(120), unique=False, nullable=False)
     work_orders = db.relationship("WorkOrder", back_populates="customer")
+    verification_code = db.Column(db.Integer)
+    verification_code_expires = db.Column(db.DateTime)
 
     def __repr__(self):
         return f'<Customer {self.email}>'
@@ -67,7 +69,7 @@ class WorkOrder(db.Model):
     color= db.Column(db.String(120), unique=False, nullable=False)
     vin = db.Column(db.String(50), unique=False, nullable=False)
     license_plate = db.Column(db.String(120), unique=False, nullable=False)
-    images = db.relationship("Image", back_populates="work_order")
+    # images = db.relationship("Image", back_populates="work_order")
     customer = db.relationship("Customer", back_populates="work_orders")
     comments = db.relationship("Comment", back_populates="work_order")
     wo_stages = db.Column(MutableList.as_mutable(ARRAY(db.String(255))), default=[])
@@ -91,7 +93,7 @@ class WorkOrder(db.Model):
             "color": self.color,
             "vin": self.vin,
             "license_plate": self.license_plate,
-            "images": [image.serialize() for image in self.images],
+            # "images": [image.serialize() for image in self.images],
             "time_created": self.time_created,
             "time_updated": self.time_updated,
             "comments": [comment.serialize() for comment in self.comments]
@@ -115,22 +117,22 @@ class Comment(db.Model):
             "message": self.message
         }
     
-class Image(db.Model):
-    __tablename__ = 'images'
+# class Image(db.Model):
+#     __tablename__ = 'images'
 
-    id = db.Column(db.Integer, primary_key=True)
-    work_order_id = db.Column(db.Integer, db.ForeignKey("work_orders.id"), nullable=False)
-    image_url = db.Column(db.String(500), unique=False, nullable=False)
-    public_id = db.Column(db.String(500), nullable=False, unique=True)
-    work_order = db.relationship("WorkOrder", back_populates="images")
+#     id = db.Column(db.Integer, primary_key=True)
+#     work_order_id = db.Column(db.Integer, db.ForeignKey("work_orders.id"), nullable=False)
+#     image_url = db.Column(db.String(500), unique=False, nullable=False)
+#     public_id = db.Column(db.String(500), nullable=False, unique=True)
+#     work_order = db.relationship("WorkOrder", back_populates="images")
 
-    def __init__(self):
-        return f'<Image {self.id}>'
+#     def __init__(self):
+#         return f'<Image {self.id}>'
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "work_order_id": self.work_order_id,
-            "image_url": self.image_url,
-            "public_id": self.public_id
-        }
+#     def serialize(self):
+#         return {
+#             "id": self.id,
+#             "work_order_id": self.work_order_id,
+#             "image_url": self.image_url,
+#             "public_id": self.public_id
+#         }

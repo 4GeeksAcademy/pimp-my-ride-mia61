@@ -234,7 +234,9 @@ def verify_customer():
     customer = Customer.query.filter_by(email=email).one_or_none()
     if not customer:
         return jsonify({'msg': 'Email is not found'}), 404
-    if datetime.datetime.now(timezone.utc) > customer.verification_code_expires:
+    current_time = datetime.now(timezone.utc)
+
+    if (current_time + timedelta(minutes=10)) > customer.verification_code_expires:
         return jsonify({'msg': 'Verification code has expired'}), 410
     if customer.verification_code == submitted_code:
         expiration=timedelta(minutes=5)

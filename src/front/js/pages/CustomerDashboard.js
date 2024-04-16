@@ -141,29 +141,4 @@ export const CustomerDashboard = () => {
 
         </div>
     );
-
-    // return (
-    //     <div className="customer-dashboard">
-
-    //         <div className="profile-form, container pt-5">
-    //             <h2>Welcome to Customer Dashboard!</h2>
-    //             {data ? (
-    //                 <div>
-    //                     <p><strong>Email:</strong> {customerId.data.email}</p>
-    //                     <p><strong>First Name:</strong> {customerId.data.first_name}</p>
-    //                     <p><strong>Last Name:</strong> {customerId.data.last_name}</p>
-    //                     <p><strong>Phone:</strong> {customerId.data.phone}</p>
-    //                     <p><strong>Address:</strong> {customerId.data.address}</p>
-    //                 </div>
-    //             ) : (
-    //                 <p>Loading user data...</p>
-    //             )}
-    //         </div>
-
-    //         <h2>Work Orders</h2>
-    //         <CustomerWorkOrder customerId={store.customerId} />
-
-    //     </div>
-
-    // );
 }

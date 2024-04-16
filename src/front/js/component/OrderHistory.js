@@ -11,7 +11,8 @@ const OrderHistory = ({orders}) => {
     "Labor Begin",
     "Car Repair Complete",
     "Car Being Prepared For Pickup",
-    "Car Ready For Pickup"
+    "Car Ready For Pickup",
+    "Completed"
   ];
 
   const [selectedStatus, setSelectedStatus] = useState(
