@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Customer, WorkOrder, Comment
+from api.models import db, User, Customer, WorkOrder, Comment,WorkOrderImage
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
@@ -12,6 +12,11 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import random
 from datetime import datetime, timedelta, timezone
+import json
+
+# #######################################################################
+import cloudinary.uploader as uploader
+# #######################################################################
 
 
 api = Blueprint('api', __name__)
@@ -168,12 +173,10 @@ def get_current_customer():
         return jsonify({"msg": "No customer found"}), 404
     
     return jsonify(customer.serialize()), 200
-@api.route('/customers', methods=['GET'])
-@jwt_required()
-def get_all_customers():
-    if not User.query.get(get_jwt_identity()).is_admin():
-        return jsonify({"msg": "Access forbidden"}), 403
 
+@api.route('/customers', methods=['GET'])
+@admin_required()
+def get_all_customers():
     customers = Customer.query.all()
     return jsonify([customer.serialize() for customer in customers]), 200
 
@@ -240,6 +243,7 @@ def get_work_orders_by_customer(cust_id):
     work_orders = [wo.serialize() for wo in customer.work_orders]
     return jsonify(work_orders)
 # work order routes
+
 @api.route('/work-order/new', methods=['POST'])
 @admin_required()
 def create_work_order():
@@ -261,14 +265,16 @@ def create_work_order():
                 return False
         return True
     user_id = get_jwt_identity()
-    customer_id = request.json.get("customer_id", None)
-    wo_stages = request.json.get("wo_stages", None)
-    make = request.json.get("make", None)
-    model = request.json.get("model", None)
-    color = request.json.get("color", None) 
-    vin = request.json.get("vin", None) 
-    license_plate  = request.json.get("license_plate", None) 
-    comments = request.json.get("comments", None) 
+    raw_data = request.form.get("data")
+    data = json.loads(raw_data)
+    customer_id = data.get("customer_id", None)
+    wo_stages = data.get("wo_stages", None)
+    make = data.get("make", None)
+    model = data.get("model", None)
+    color = data.get("color", None) 
+    vin = data.get("vin", None) 
+    license_plate  = data.get("license_plate", None) 
+    comments = data.get("comments", None) 
     if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or color is None or vin is None or license_plate  is None:
         return jsonify({"msg": "Some required fields are missing"}), 400
     if is_list_valid(wo_stages) is False:
@@ -279,10 +285,20 @@ def create_work_order():
     user = User.query.filter_by(id=user_id).one_or_none()
     if user is None:
         return jsonify({"msg": "A user with that id does not exist"}), 404
-    work_order = WorkOrder (user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
+    work_order = WorkOrder(user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
     db.session.add(work_order)
     db.session.commit()   
     db.session.refresh(work_order)
+    images = request.files.getlist("file")
+    for image_file in images:
+        if len(WorkOrderImage.query.filter_by(work_order_id=work_order.id).all()) > 11:
+            break
+        response = uploader.upload(image_file)
+        print(f"{response.items()}")
+        new_image = WorkOrderImage(public_id=response["public_id"], image_url=response["secure_url"],work_order_id=work_order.id)
+        db.session.add(new_image)
+        db.session.commit()
+        db.session.refresh(work_order)
     if comments: 
         comment = Comment (work_order_id=work_order.id, message=comments)
         db.session.add(comment)
@@ -364,3 +380,141 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+
+
+
+
+# user images endpoint
+# @app.route("/todos/<username>/images", methods=["POST", "GET"])
+# @app.route("/todos/<username>/images/<int:id>", methods=["DELETE"])
+# def handle_user_images(username, id=0):
+#     """ 
+#         GET to receive all user images as a list of objects,
+#         POST to create a new user image.
+#     """
+#     headers = {
+#         "Content-Type": "application/json"
+#     }
+#     # check if user exists
+#     if User.query.filter_by(username=username).first():
+#         # user exists
+
+#         if request.method == "GET":
+#             # get user images and return them
+#             user_images = UserImage.query.filter_by(user_username=username).all()
+#             response_body = []
+#             if len(user_images) > 0:
+#                 for image in user_images:
+#                     response_body.append(image.serialize())
+#                 status_code = 200
+#             else:
+#                 response_body = []
+#                 status_code = 200
+
+#         elif request.method == "POST":
+#             # check if user has less than 5 images stored
+#             if len(UserImage.query.filter_by(user_username=username).all()) < 5:
+#                 # receive file, secure its name, save it and
+#                 # create object to store title and image_url
+#                 # target = os.path.join(UPLOAD_FOLDER, "images")
+#                 # if not os.path.isdir(target):
+#                 #     os.mkdir(target)
+#                 try:
+#                     image_file = request.files['file']
+#                     # filename = secure_filename(image_file.filename)
+#                     # extension = filename.rsplit(".", 1)[1]
+#                     # hash_name = uuid.uuid4().hex
+#                     # hashed_filename = ".".join([hash_name, extension])
+#                     # destination = os.path.join(target, hashed_filename)
+#                     response = uploader.upload(image_file)
+#                     print(f"{response.items()}")
+#                     try:
+#                         new_image = UserImage(request.form.get("title"), response["public_id"], response["secure_url"], username)
+#                         db.session.add(new_image)
+
+#                         try:
+#                             db.session.commit()
+#                             response_body = {
+#                                 "result": "HTTP_201_CREATED. image created for user"
+#                             }
+#                             status_code = 201
+#                         except Exception as error:
+#                             db.session.rollback()
+#                             response_body = {
+#                                 "result": f"HTTP_400_BAD_REQUEST. {type(error)} {error.args}"
+#                             }
+#                             status_code = 400
+#                     except:
+#                         db.session.rollback()
+#                         status_code = 400
+#                         response_body = {
+#                             "result": "HTTP_400_BAD_REQUEST. no title in key/value"
+#                         }
+#                 except Exception as error:
+#                     status_code = 400
+#                     response_body = {
+#                         "result": f"HTTP_400_BAD_REQUEST. {type(error)} {error.args}"
+#                     }
+                
+                
+#             else:
+#                 # user has 5 images uploaded
+#                 response_body = {
+#                     "result": "HTTP_404_BAD_REQUEST. cannot upload more than five images, please delete one first."
+#                 }
+#                 status_code = 404
+
+#         elif request.method == "DELETE":
+#             # user wants to delete a certain image, check id
+#             if id != 0 and UserImage.query.filter_by(id=id).first():
+#                 image_to_delete = UserImage.query.filter_by(id=id).first()
+#                 response = uploader.destroy(image_to_delete.public_id)
+#                 if "result" in response and response["result"] == "ok":
+#                     db.session.delete(image_to_delete)
+#                     try:
+#                         db.session.commit()
+#                         response_body = {
+#                             "result": "HTTP_204_NO_CONTENT. image deleted."
+#                         }
+#                         status_code = 204
+#                     except Exception as error:
+#                         db.session.rollback()
+#                         response_body = {
+#                             "result": f"HTTP_500_INTERNAL_SERVER_ERROR. {type(error)} {error.args}"
+#                         }
+#                 else:
+#                     response_body = {
+#                         "result": f"HTTP_404_NOT_FOUND. {response['result'] if 'result' in response else 'image not found...'}"
+#                     }
+#                     status_code = 404
+#         else:
+#             # bad request method...
+#             response_body = {
+#                 "result": "HTTP_400_BAD_REQUEST. This is not a valid method for this endpoint."
+#             }
+#             status_code = 400
+#     else:
+#         # user doesn't exist
+#         response_body = {
+#             "result": "HTTP_400_BAD_REQUEST. cannot handle images for non existing user..."
+#         }
+#         status_code = 400
+
+#     return make_response(
+#         jsonify(response_body),
+#         status_code,
+#         headers
+#     )
+
+# static image file serving
+# @app.route("/src/static/images/<filename>", methods=["GET"])
+# def serve_image(filename):
+    
+#     secured_filename = secure_filename(filename)
+# rimage_path  h =mage_path = os.path.join("images", secured_filename)
+    
+#     if os.path.exists(os.path.join(app.static_folder, image_path)):
+#         return send_from_directory(app.static_folder, image_path)
+#     else:
+#         return "HTTP_404_NOT_FOUND"

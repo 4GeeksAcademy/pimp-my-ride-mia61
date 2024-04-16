@@ -72,7 +72,8 @@ class WorkOrder(db.Model):
     wo_stages = db.Column(MutableList.as_mutable(ARRAY(db.String(255))), default=[])
     time_created = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
-
+    images = db.relationship("WorkOrderImage", back_populates="work_order")
+# #######################################################################
 
     def __repr__(self):
         return f'<WorkOrder {self.id}>'
@@ -90,7 +91,8 @@ class WorkOrder(db.Model):
             "license_plate": self.license_plate,
             "time_created": self.time_created,
             "time_updated": self.time_updated,
-            "comments": [comment.serialize() for comment in self.comments]
+            "comments": [comment.serialize() for comment in self.comments],
+            "images": [image.serialize() for image in self.images]
         }
     
 class Comment(db.Model):
@@ -110,3 +112,30 @@ class Comment(db.Model):
             "work_order_id": self.work_order_id,
             "message": self.message
         }
+    
+# #######################################################################
+
+class WorkOrderImage(db.Model):
+    __tablename__ = 'work_order_image'
+    """image to be uploaded by the user/owner """
+
+    # __table_args__ = (
+    #     db.UniqueConstraint("user_username", name="unique_user_image"),
+    # )
+    id = db.Column(db.Integer, primary_key=True)
+    public_id = db.Column(db.String(500), nullable=False, unique=True)
+    image_url = db.Column(db.String(500), nullable=False, unique=True)
+    work_order_id = db.Column(db.Integer, db.ForeignKey("work_orders.id"), nullable=False)
+    work_order = db.relationship("WorkOrder", back_populates="images")
+
+    def __init__(self, public_id, image_url, work_order_id):
+        self.public_id = public_id
+        self.image_url = image_url.strip()
+        self.work_order_id = work_order_id
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "image_url": self.image_url
+        }
+# #######################################################################

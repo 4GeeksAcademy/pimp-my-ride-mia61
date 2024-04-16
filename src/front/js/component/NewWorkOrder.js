@@ -99,29 +99,38 @@ const NewWorkOrder = () => {
 
   const years = Array.from({ length: 30 }, (_, index) =>
     (new Date().getFullYear() + 1 - index).toString()
-  );       
+  );
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
-    const newImages = [];
-    console.log(files);
-    for (let i = 0; i < files.length; i++) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        newImages.push(reader.result);
-        if (newImages.length === files.length) {
-          setUploadedImages([
-            ...uploadedImages,
-            ...newImages.slice(0, 12 - uploadedImages.length),
-          ]);
-        }
-      };
-      reader.readAsDataURL(files[i]);
+    console.log(">>> files", files);
+    const images = [];
+    for (let index = 0; index < files.length; index++) {
+      images.push(files.item(index));
     }
+    setUploadedImages((prev) => ([
+      ...prev,
+      ...images
+    ]));
+    // const newImages = [];
+    // console.log(files);
+    // for (let i = 0; i < files.length; i++) {
+    //   const reader = new FileReader();
+    //   reader.onload = () => {
+    //     newImages.push(reader.result);
+    //     if (newImages.length === files.length) {
+    //       setUploadedImages([
+    //         ...uploadedImages,
+    //         ...newImages.slice(0, 12 - uploadedImages.length),
+    //       ]);
+    //     }
+    //   };
+    //   reader.readAsDataURL(files[i]);
+    // }
   };
 
   const handleNewWorkOrder = async (event) => {
-
+    event.preventDefault()
     const success = await actions.createNewWorkOrder({
       customer_id: customer.id,
       wo_stages: woStages,
@@ -130,7 +139,8 @@ const NewWorkOrder = () => {
       color: color,
       vin: vin,
       license_plate: license,
-      comments: comments
+      comments: comments,
+      images: uploadedImages
     });
     if (success) {
       alert("Work Order Created Successfully!");
@@ -314,14 +324,8 @@ const NewWorkOrder = () => {
             aria-label="Upload"
             multiple
             onChange={handleImageUpload}
+            filename={`${uploadedImages.length > 0 ? uploadedImages.length : "No"} selected file${uploadedImages.length === 1 ? "" : "s"}`}
           />
-          <button
-            className="btn btn-outline-secondary"
-            type="button"
-            id="inputGroupFileAddon04"
-          >
-            Upload
-          </button>
         </div>
         {/* Conditionally render the preview section */}
         {uploadedImages.length > 0 && (
@@ -335,10 +339,11 @@ const NewWorkOrder = () => {
                     maxHeight: "100px",
                     margin: "5px",
                   }}
-                  src={image}
+                  src={URL.createObjectURL(image)}
                   alt={`Uploaded Preview ${index}`}
                 />
                 <button
+                  type="button"
                   onClick={() =>
                     setUploadedImages((imageList) =>
                       imageList.filter((_, imageIndex) => imageIndex !== index)
