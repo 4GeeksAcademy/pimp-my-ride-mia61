@@ -131,7 +131,7 @@ class WorkOrderImage(db.Model):
     def __init__(self, public_id, image_url, work_order_id):
         self.public_id = public_id
         self.image_url = image_url.strip()
-        self.work_order_id = work_order_id.strip()
+        self.work_order_id = work_order_id
 
     def serialize(self):
         return {
