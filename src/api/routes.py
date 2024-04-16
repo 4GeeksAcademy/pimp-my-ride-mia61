@@ -172,6 +172,7 @@ def get_current_customer():
         return jsonify({"msg": "No customer found"}), 404
     
     return jsonify(customer.serialize()), 200
+
 @api.route('/customers', methods=['GET'])
 @admin_required()
 def get_all_customers():
@@ -241,6 +242,7 @@ def get_work_orders_by_customer(cust_id):
     work_orders = [wo.serialize() for wo in customer.work_orders]
     return jsonify(work_orders)
 # work order routes
+
 @api.route('/work-order/new', methods=['POST'])
 @admin_required()
 def create_work_order():
