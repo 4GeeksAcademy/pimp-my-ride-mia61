@@ -21,7 +21,7 @@ const injectContext = PassedComponent => {
 			})
 		);
 
-		useEffect(() => {
+		useEffect(() => {state.actions.getCustomerWorkOrdersByCustomer()
 			
 		}, []);
 

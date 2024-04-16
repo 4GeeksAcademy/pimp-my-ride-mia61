@@ -370,6 +370,16 @@ def get_work_order(work_order_id):
         return jsonify({"msg": "Work order not found"}), 404
     return jsonify({"work_order": work_order.serialize()}), 200
 
+
+@api.route('/customer/work-order/<int:work_order_id>', methods=['GET'])
+@jwt_required()
+def get_customer_work_order(work_order_id):
+    work_order = WorkOrder.query.get(work_order_id)
+    if work_order is None:
+        return jsonify({"msg": "Work order not found"}), 404
+    return jsonify({"work_order": work_order.serialize()}), 200
+
+
 @api.route('/work-order/delete/<int:work_order_id>', methods =['DELETE'])
 @admin_required()
 def delete_work_order(work_order_id):

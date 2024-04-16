@@ -46,7 +46,7 @@ const Layout = () => {
                         <Route element={<UserLogin />} path="/user-log-in" />
                         <Route element={<CustomerLogin />} path="/customer-log-in" />
                         <Route element={<CustomerDashboard />} path="/customer-dashboard" />
-                        <Route element={<CustomerWorkOrder path="/customer-work-order/:workOrderId" />} />
+                        <Route element={<CustomerWorkOrder />} path="/customer-work-order/:workOrderId" />
                         <Route element={<CustomerSignup />} path="/customer-signup" />
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />

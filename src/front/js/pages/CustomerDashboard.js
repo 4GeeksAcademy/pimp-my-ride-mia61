@@ -47,6 +47,9 @@ export const CustomerDashboard = () => {
         }
     };
 
+    const handleWorkOrderClick = (workOrderId) => {
+        navigate(`/customer-work-order/${workOrderId}`);
+    };
 
     return (
         <div className="container pt-5">
@@ -115,7 +118,7 @@ export const CustomerDashboard = () => {
                             <tbody>
                                 {store.customerWorkOrders.map((order, index) => (
                                     <React.Fragment key={index}>
-                                        <tr>
+                                        <tr onClick={() => handleWorkOrderClick(order.id)}>
 
                                             <td>
                                                 {order.make} {order.model}
