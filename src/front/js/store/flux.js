@@ -466,16 +466,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             createNewWorkOrder: async (workOrder) => {
                 let data = JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })
-                let formData = new FormData()
-                formData.append("data", data)
+                let formData = new FormData();
+                formData.append("data", data);
+                console.log(">>> 🍎 image:", workOrder.images);
                 for (let i = 0; i < workOrder.images.length; i++) {
-                    formData.append("file", workOrder.images[i])
+                    formData.append("file", workOrder.images[i]);
                 }
+                // formData.append("files", workOrder.images);
 
                 const response = await fetch(process.env.BACKEND_URL + "/api/work-order/new", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
                         Authorization: "Bearer " + sessionStorage.getItem("token")
                     },
                     body: formData

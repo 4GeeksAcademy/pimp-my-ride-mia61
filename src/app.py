@@ -13,6 +13,7 @@ from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
 
 # #######################################################################
+import cloudinary
 import cloudinary.uploader as uploader
 # #######################################################################
 
@@ -45,13 +46,12 @@ app.config.from_mapping(
     CLOUDINARY_URL=os.environ.get("CLOUDINARY_URL")
 )
 
-import cloudinary
           
-cloudinary.config( 
-  cloud_name = "dufs8hbca", 
-  api_key = "442387455219856", 
-  api_secret = "shYvKGsmGcMnNGftA-RK7Hy7eww" 
-)
+# cloudinary.config( 
+#   cloud_name = "dufs8hbca", 
+#   api_key = "442387455219856", 
+#   api_secret = "shYvKGsmGcMnNGftA-RK7Hy7eww" 
+# )
 UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER')
 
 # #######################################################################

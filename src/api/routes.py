@@ -12,6 +12,7 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import random
 from datetime import datetime, timedelta, timezone
+import json
 
 # #######################################################################
 import cloudinary.uploader as uploader
@@ -262,16 +263,17 @@ def create_work_order():
                 return False
         return True
     user_id = get_jwt_identity()
-    customer_id = request.json.get("customer_id", None)
-    wo_stages = request.json.get("wo_stages", None)
-    make = request.json.get("make", None)
-    model = request.json.get("model", None)
-    color = request.json.get("color", None) 
-    vin = request.json.get("vin", None) 
-    license_plate  = request.json.get("license_plate", None) 
-    comments = request.json.get("comments", None) 
-    images = request.files.getlist("file") 
-    if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or color is None or vin is None or license_plate  is None or image_file is None:
+    raw_data = request.form.get("data")
+    data = json.loads(raw_data)
+    customer_id = data.get("customer_id", None)
+    wo_stages = data.get("wo_stages", None)
+    make = data.get("make", None)
+    model = data.get("model", None)
+    color = data.get("color", None) 
+    vin = data.get("vin", None) 
+    license_plate  = data.get("license_plate", None) 
+    comments = data.get("comments", None) 
+    if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or color is None or vin is None or license_plate  is None:
         return jsonify({"msg": "Some required fields are missing"}), 400
     if is_list_valid(wo_stages) is False:
         return jsonify({"msg": "Please send a valid list of stages"}), 400
@@ -281,20 +283,20 @@ def create_work_order():
     user = User.query.filter_by(id=user_id).one_or_none()
     if user is None:
         return jsonify({"msg": "A user with that id does not exist"}), 404
+    work_order = WorkOrder(user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
+    db.session.add(work_order)
+    db.session.commit()   
+    db.session.refresh(work_order)
+    images = request.files.getlist("file")
     for image_file in images:
+        if len(WorkOrderImage.query.filter_by(work_order_id=work_order.id).all()) > 11:
+            break
         response = uploader.upload(image_file)
         print(f"{response.items()}")
-        work_order = WorkOrder (user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
-        db.session.add(work_order)
-        db.session.commit()   
+        new_image = WorkOrderImage(public_id=response["public_id"], image_url=response["secure_url"],work_order_id=work_order.id)
+        db.session.add(new_image)
+        db.session.commit()
         db.session.refresh(work_order)
-        if len(WorkOrderImage.query.filter_by(work_order_id=work_order.id).all()) < 12:
-            response = uploader.upload(image_file)
-            print(f"{response.items()}")
-            new_image = WorkOrderImage(public_id=response["public_id"], image_url=response["secure_url"],work_order_id=work_order.id)
-            db.session.add(new_image)
-            db.session.commit()
-            db.session.refresh(work_order)
     if comments: 
         comment = Comment (work_order_id=work_order.id, message=comments)
         db.session.add(comment)
