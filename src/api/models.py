@@ -18,6 +18,8 @@ class Customer(db.Model):
     work_orders = db.relationship("WorkOrder", back_populates="customer")
     verification_code = db.Column(db.Integer)
     verification_code_expires = db.Column(db.DateTime)
+    reset_token = db.Column(db.String(120))
+    token_created_at = db.Column(db.DateTime)
 
     def __repr__(self):
         return f'<Customer {self.email}>'

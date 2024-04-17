@@ -448,6 +448,41 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
+            sendPasswordResetEmail: async (email, role ) => {
+                const response = await fetch(process.env.BACKEND_URL + "/api/forgotpassword", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email, role })
+                });
+                if (!response.ok) {
+                    console.error("Failed to send password reset email with status:", response.status);
+                    return false;
+                }
+                const data = await response.json();
+                console.log("Password reset email sent:", data.msg);
+                return true;
+            },
+            
+            resetPassword: async (token, newPassword) => {
+                const url = `${process.env.BACKEND_URL}/reset-password/${encodeURIComponent(token)}`;
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ new_password: newPassword })
+                });
+                if (!response.ok) {
+                    console.error("Failed to reset password with status:", response.status);
+                    return false;
+                }
+                const data = await response.json();
+                console.log("Password reset successful:", data.msg);
+                return true;
+            },
+
             getCustomerWorkOrders: async (custId) => {
                 const response = await fetch(process.env.BACKEND_URL + "/api/work_orders/customer/" + custId, {
                     method: "GET",

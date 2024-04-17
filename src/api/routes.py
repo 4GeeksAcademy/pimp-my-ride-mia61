@@ -14,6 +14,13 @@ import random
 from datetime import datetime, timedelta, timezone
 import cloudinary.uploader as uploader
 from sqlalchemy.exc import SQLAlchemyError
+import uuid
+from urllib.parse import quote
+from email.message import EmailMessage
+import ssl
+import smtplib
+
+
 
 api = Blueprint('api', __name__)
 
@@ -256,6 +263,81 @@ def get_work_orders_by_customer_and_license(license_plate):
 
     work_orders = [wo.serialize() for wo in work_orders]
     return jsonify(work_orders), 200
+
+@api.route('/forgotpassword', methods=['POST'])
+def forgotpassword():
+    try:
+        body = request.get_json()
+        email = body.get("email")
+        role = body.get("role")
+
+        if not email:
+            return jsonify({"message": "No email was provided"}), 400
+
+        if role == "customer":
+            user = Customer.query.filter_by(email=email).first()
+        elif role == "user":
+            user = User.query.filter_by(email=email).first()
+        else:
+            return jsonify({"message": "Invalid role"}), 400
+
+        if not user:
+            return jsonify({"message": "User doesn't exist"}), 404
+
+        # Generate a reset token
+        reset_token = str(uuid.uuid4())
+        user.reset_token = quote(reset_token)
+        db.session.commit()
+
+        expiration_time = datetime.utcnow() + timedelta(hours=1)
+        payload = {
+            'email': email,
+            'exp': expiration_time.timestamp(), 
+            'reset_token': quote(reset_token)
+        }
+        access_token = create_access_token(identity=payload)
+
+        # Email configuration
+        FRONTEND_URL = os.getenv('FRONTEND_URL')
+        email_receiver = email
+        email_subject = "Reset Your Password"
+        email_body = (
+            f"Hello,\n\nYou requested a password reset. "
+            f"If you didn't make this request, please ignore this email.\n\n"
+            f"Please use the following link to reset your password:\n{FRONTEND_URL}/reset-password?token={access_token}\n\n"
+            f"This link is valid for 1 hour.\n\n"
+            f"Regards,\nPimp My Ride"
+        )
+
+        message = EmailMessage()
+        message.set_content(email_body)
+        message['Subject'] = email_subject
+        message['From'] = 'pimpmyride879@gmail.com'
+        message['To'] = email_receiver
+
+        try:
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL('smtp.sendgrid.net', 465, context=context) as server:
+                server.login('apikey', os.getenv('SENDGRID_API_KEY'))
+                server.send_message(message)
+            return jsonify({"message": "Password reset link sent to email."}), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@api.route('/reset-password/<token>', methods=['POST'])
+def reset_password(token):
+    new_password = request.json.get("new_password")
+    user = verify_token_and_find_user(token)
+    if not user:
+        return jsonify({"message": "Invalid or expired token"}), 404
+
+    user.password = generate_password_hash(new_password)
+    user.reset_token = None 
+    db.session.commit()
+    return jsonify({"message": "Password updated successfully"}), 200
 
 
 

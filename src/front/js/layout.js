@@ -11,7 +11,7 @@ import injectContext from "./store/appContext";
 import { Progressbar } from "./component/Progressbar";
 import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
 import { GenerateWoSteps } from "./component/GenerateWoSteps";
-import { PictureSlider } from "./component/PictureSlider"; 
+import { PictureSlider } from "./component/PictureSlider";
 
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
@@ -23,9 +23,10 @@ import { UserLogin } from "./pages/UserLogin";
 import { CustomerLogin } from "./pages/CustomerLogin";
 import { CustomerDashboard } from "./pages/CustomerDashboard";
 import { CustomerSignup } from "./pages/CustomerSignup";
-import {CustomerWorkOrder} from "./pages/CustomerWorkOrder"
+import { CustomerWorkOrder } from "./pages/CustomerWorkOrder"
 import { UserCustomerDetails } from "./pages/UserCustomerDetails";
 import QuickSearchModal from "./component/QuickSearchModal";
+import ResetPassword from "./pages/ResetPassword";
 // import { NewWorkOrder} from "./component/NewWorkOrder";
 
 //create your first component
@@ -34,7 +35,7 @@ const Layout = () => {
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
-    if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
 
     return (
         <div>
@@ -56,10 +57,11 @@ const Layout = () => {
                         <Route element={<UserCustomerDetails />} path="/user-customer-details" />
                         <Route element={<QuickSearchModal />} path="/quick-search" />
                         <Route element={<Single />} path="/single/:theid" />
+                        <Route path="/reset-password" element={<ResetPassword />} />
                         <Route element={<h1>Not found!</h1>} />
-                        <Route path='/services' exact element={ <Services />}></Route>
-                        <Route path='/products' exact element={ <Products />}></Route>
-                        <Route path='/sign-up' exact element={ <SignUp />}></Route>
+                        <Route path='/services' exact element={<Services />}></Route>
+                        <Route path='/products' exact element={<Products />}></Route>
+                        <Route path='/sign-up' exact element={<SignUp />}></Route>
                     </Routes>
                     <Footer />
                 </ScrollToTop>
