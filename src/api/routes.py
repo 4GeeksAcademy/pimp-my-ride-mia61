@@ -152,11 +152,11 @@ def delete(cust_id):
 
 
 
-@api.route('/user//<int:cust_id>', methods=['GET'])
+@api.route('/user/get-customer/<int:cust_id>', methods=['GET'])
 @admin_required()
 def get_customer(cust_id):
-    current_user_id = get_jwt_identity()
-    current_user = User.query.get(current_user_id)
+    # current_user_id = get_jwt_identity()
+    # current_user = User.query.get(current_user_id)
 
     customer = Customer.query.get(cust_id)
     if customer is None:
@@ -271,6 +271,7 @@ def create_work_order():
     wo_stages = data.get("wo_stages", None)
     make = data.get("make", None)
     model = data.get("model", None)
+    
     color = data.get("color", None) 
     vin = data.get("vin", None) 
     license_plate  = data.get("license_plate", None) 

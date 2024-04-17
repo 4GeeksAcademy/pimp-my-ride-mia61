@@ -32,19 +32,30 @@ export const WorkOrderDetails = () => {
 
 
     useEffect(() => {
-        fetch(process.env.BACKEND_URL+ "/api/work-order/" + params.theid,{
-            method: "GET",
-            headers: {
-                "Content-Type" : "application/json",
-                Authorization: "Bearer " + sessionStorage.getItem("token")
-            }
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            let response = actions.getCustomerById(data.work_order.customer_id)
-            setCustomer(response) 
-            setWorkOrder(data.work_order)})
-        .catch ( error => console.log(error))
+        let fetchData = async () => {
+            let resp = await fetch(process.env.BACKEND_URL+ "/api/work-order/" + params.theid,{
+                method: "GET",
+                headers: {
+                    "Content-Type" : "application/json",
+                    Authorization: "Bearer " + sessionStorage.getItem("token")
+                }
+            })
+            let data = await resp.json()
+            if (data) {
+                setWorkOrder(data.work_order)
+                let response = await actions.getCustomerById(data.work_order.customer_id)
+                setCustomer(response)
+                // if (response.status != 200 ) {
+                //     alert("We had touble retriving your order details.")
+                // } 
+                // else {
+                //     let info = await response.json()
+                //     setCustomer(info) 
+                    
+                // }
+            };
+        }
+        fetchData();
     } ,[] )
 
 
