@@ -7,15 +7,15 @@ export const ProgressbarDropdown = () => {
 	const {store, actions} =useContext(Context);
     
     const statusOptions = [
-        "Car Accepted",
-        "Payment or Insurance Accepted",
-        "Payment or Insurance Check Received",
+        "Car accepted",
+        "Supplement sent to insurance",
+        "Supplement approved",
+        "Check received from Insurance",
         "Parts Ordered",
         "Parts Delivered",
-        "Labor Begin",
-        "Car Repair Complete",
-        "Car Being Prepared For Pickup",
-        "Car Ready For Pickup",
+        "Labor in Progress",
+        "Labor completed, car is being prepared for pick-up",
+        "Car is ready for pick-up",
         "Completed"
       ];
     
