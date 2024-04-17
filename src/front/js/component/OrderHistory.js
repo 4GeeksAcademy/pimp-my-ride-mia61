@@ -1,6 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 
 const OrderHistory = ({orders}) => {
+  const { store, actions } = useContext(Context)
+
+  useEffect(() => { 
+    actions.getAllWorkOrders()
+
+
+  }, [])
+
   // Defining an array of car status options:
   const statusOptions = [
     "Car Accepted",
@@ -30,6 +40,7 @@ const OrderHistory = ({orders}) => {
       <table className="table">
         <thead>
           <tr>
+            <th>Order Id</th>
             <th>Name</th>
             <th>Make/Model</th>
             <th>Color</th>
@@ -40,55 +51,64 @@ const OrderHistory = ({orders}) => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order, index) => (
+          {store?.orders.map((order, index) => (
             <React.Fragment key={index}>
-              <tr>
-                <td>
-                  {order.first_name} {order.last_name}
-                </td>
-                <td>
-                  {order.make} {order.model}
-                </td>
-                <td>{order.color}</td>
-                <td>{order.vin}</td>
-                <td>{order.licence_plate}</td>
-                <td>
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-secondary dropdown-toggle"
-                      type="button"
-                      id={`statusDropdown${index}`}
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      {selectedStatus[index] || "Select Status"}
-                    </button>
-                    <ul
-                      className="dropdown-menu"
-                      aria-labelledby={`statusDropdown${index}`}
-                    >
-                      {statusOptions.map((status, i) => (
-                        <li key={i}>
-                          <button
-                            className="dropdown-item"
-                            onClick={() => handleStatusChange(index, status)}
-                          >
-                            {status}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </td>
-                <td>
-                  {/* <button onClick={() => toggleOrderDetails(index)}>
-                    {expandedOrderIndex === index
-                      ? "Hide Details"
-                      : "Show Details"}
-                  </button> */}
-                </td>
-              </tr>
-
+              
+                <tr>
+                  
+                    <td>
+                      <Link to={"/order/details/" + order.id } >
+                        {order.id} 
+                      </Link>
+                    </td>
+                  <td>
+                    {order.first_name} {order.last_name}
+                  </td>
+                  <td>
+                    {order.make} {order.model}
+                  </td>
+                  <td>{order.color}</td>
+                  <td>{order.vin}</td>
+                  <td>{order.license_plate}</td>
+                  {/* <td>{order.current_status}</td> */}
+                  <td>
+                    {/* <div className="dropdown">
+                      <button
+                        className="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        id={`statusDropdown${index}`}
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        {selectedStatus[index] || "Select Status"}
+                      </button>
+                      <ul
+                        className="dropdown-menu"
+                        aria-labelledby={`statusDropdown${index}`}
+                      >
+                        {statusOptions.map((status, i) => (
+                          <li key={i}>
+                            <button
+                              className="dropdown-item"
+                              onClick={() => handleStatusChange(index, status)}
+                            >
+                              {status}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div> */}
+                  </td>
+                  <td>
+                    {/* <button onClick={() => toggleOrderDetails(index)}>
+                      {expandedOrderIndex === index
+                        ? "Hide Details"
+                        : "Show Details"}
+                    </button> */}
+                  </td>
+                  {/* </Link> */}
+                </tr>
+                 
               {/* {expandedOrderIndex === index && (
                 <tr>
                   <td colSpan="3">

@@ -24,7 +24,7 @@ import { CustomerLogin } from "./pages/CustomerLogin";
 import { CustomerDashboard } from "./pages/CustomerDashboard";
 import { CustomerSignup } from "./pages/CustomerSignup";
 import {CustomerWorkOrder} from "./pages/CustomerWorkOrder"
-import { UserCustomerDetails } from "./pages/UserCustomerDetails";
+import { WorkOrderDetails } from "./pages/WorkOrderDetails";
 // import { NewWorkOrder} from "./component/NewWorkOrder";
 
 //create your first component
@@ -51,8 +51,10 @@ const Layout = () => {
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
                         <Route element={<PictureSlider />} path="/picture-slider" />
                         <Route element={<GenerateWoSteps />} path="/generate-wo-steps" />
-                        <Route element={<UserDashboard />} path="/user-dashboard" />
-                        <Route element={<UserCustomerDetails />} path="/user-customer-details" />
+                        <Route element={<UserDashboard />} path="/user-dashboard" /> 
+
+                        <Route element={<WorkOrderDetails />} path="/order/details/:theid" />
+
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                         <Route path='/services' exact element={ <Services />}></Route>

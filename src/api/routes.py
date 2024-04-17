@@ -152,7 +152,7 @@ def delete(cust_id):
 
 
 
-@api.route('/user/get-customer/<int:cust_id>', methods=['GET'])
+@api.route('/user//<int:cust_id>', methods=['GET'])
 @admin_required()
 def get_customer(cust_id):
     current_user_id = get_jwt_identity()
@@ -226,7 +226,6 @@ def verify_customer():
         return jsonify({'msg': 'Invalid verification code'}), 400
 
 
-
 @api.route('/work_orders/customer/<int:cust_id>', methods=['GET'])
 @jwt_required()
 def get_work_orders_by_customer(cust_id):
@@ -242,7 +241,8 @@ def get_work_orders_by_customer(cust_id):
 
     work_orders = [wo.serialize() for wo in customer.work_orders]
     return jsonify(work_orders)
-# work order routes
+
+# work order routes ############################################################################ 
 
 @api.route('/work-order/new', methods=['POST'])
 @admin_required()
@@ -337,6 +337,17 @@ def edit_work_order(work_order_id):
     db.session.refresh(work_order)
     return jsonify({"work_order": work_order.serialize()}), 200
 
+@api.route('/work-order/photos/<int:work_order_id>', methods=['GET'])
+# @admin_required()
+def get_work_order_photos(work_order_id):
+    work_order = WorkOrder.query.get(work_order_id)
+    if work_order is None:
+        return jsonify({"msg": "Work order not found"}), 404
+    
+    photos = WorkOrderImage.query.filter_by(work_order_id=work_order_id).all()
+    serialized_photos = [photo.serialize() for photo in photos]
+    
+    return jsonify({"work_order_photos": serialized_photos}), 200
 
 @api.route('/work-order/all', methods=['GET'])
 # @admin_required()
@@ -362,6 +373,9 @@ def delete_work_order(work_order_id):
     db.session.delete(work_order)
     db.session.commit()
     return jsonify({"msg": "Work order successfully deleted"}), 200
+
+#####################################################################################################################
+
 
 @api.route('/private', methods=['GET'])
 @jwt_required()

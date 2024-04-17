@@ -5,6 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         store: {
             customers: [],
             customerId: sessionStorage.getItem("customerId") || null,
+            orders: [],
             vehicleModels: {
                 Acura: ["ILX", "MDX", "RDX", "RLX", "TLX"],
                 "Alfa Romeo": ["Giulia", "Stelvio"],
@@ -359,7 +360,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error("Customer ID is undefined.");
                     return false;
                 }
-                const response = await fetch(`${process.env.BACKEND_URL}/api/customer/${custId}`, {
+                const response = await fetch(`${process.env.BACKEND_URL}/api/user/get-customer/${custId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -374,7 +375,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 const responseBody = await response.json();
 
-                return true
+                
+
+                return responseBody
             },
             getCurrentCustomer: async () => {
                 const response = await fetch(`${process.env.BACKEND_URL}/api/current-customer`, {
@@ -440,7 +443,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + store.token
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
                     }
                 })
                 if (response.status !== 200) return false;
@@ -454,7 +457,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + store.token
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
                     },
                 })
                 if (response.status !== 200) return false;
@@ -492,7 +495,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + store.token
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
                     },
                     body: JSON.stringify({ user_id: workOrder.user_id, customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate })
                 })
@@ -509,7 +512,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + store.token
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
                     }
                 })
                 if (response.status !== 200) return false;
@@ -523,12 +526,12 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + store.token
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
                     }
                 })
                 if (response.status !== 200) return false;
                 const responseBody = await response.json();
-                console.log(responseBody)
+                setStore({orders: responseBody.work_orders})
                 return true;
             },
 
@@ -537,7 +540,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + store.token
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
                     },
                 })
                 if (response.status !== 200) return false;
