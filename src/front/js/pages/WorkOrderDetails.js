@@ -13,7 +13,7 @@ export const WorkOrderDetails = () => {
         model: "",
         year: "",
         vin: "",
-        license: "",
+        license_plate: "",
         color: "",
         images: [],
         wo_stages: []
@@ -135,7 +135,7 @@ export const WorkOrderDetails = () => {
                                         <h2 className="pt-2 bg-dark text-light">Model: {workOrder.model}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Year: {workOrder.year}</h2>
                                         <h2 className="pt-2 bg-dark text-light">VIN: {workOrder.vin}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">License: {workOrder.license}</h2>
+                                        <h2 className="pt-2 bg-dark text-light">License: {workOrder.license_plate}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Color: {workOrder.color}</h2>
                                     </div>
                                     <div>
