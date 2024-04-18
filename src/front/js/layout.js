@@ -11,7 +11,6 @@ import injectContext from "./store/appContext";
 import { Progressbar } from "./component/Progressbar";
 import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
 import { GenerateWoSteps } from "./component/GenerateWoSteps";
-import { PictureSlider } from "./component/PictureSlider"; 
 
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
@@ -49,7 +48,6 @@ const Layout = () => {
                         <Route element={<CustomerSignup />} path="/customer-signup" />
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
-                        <Route element={<PictureSlider />} path="/picture-slider" />
                         <Route element={<GenerateWoSteps />} path="/generate-wo-steps" />
                         <Route element={<UserDashboard />} path="/user-dashboard" /> 
 

@@ -271,12 +271,12 @@ def create_work_order():
     wo_stages = data.get("wo_stages", None)
     make = data.get("make", None)
     model = data.get("model", None)
-    
+    year = data.get("year", None)    
     color = data.get("color", None) 
     vin = data.get("vin", None) 
     license_plate  = data.get("license_plate", None) 
     comments = data.get("comments", None) 
-    if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or color is None or vin is None or license_plate  is None:
+    if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or year is None or color is None or vin is None or license_plate  is None:
         return jsonify({"msg": "Some required fields are missing"}), 400
     if is_list_valid(wo_stages) is False:
         return jsonify({"msg": "Please send a valid list of stages"}), 400
@@ -286,7 +286,7 @@ def create_work_order():
     user = User.query.filter_by(id=user_id).one_or_none()
     if user is None:
         return jsonify({"msg": "A user with that id does not exist"}), 404
-    work_order = WorkOrder(user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, color=color, vin=vin, license_plate=license_plate)
+    work_order = WorkOrder(user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, year=year, color=color, vin=vin, license_plate=license_plate)
     db.session.add(work_order)
     db.session.commit()   
     db.session.refresh(work_order)
@@ -318,11 +318,12 @@ def edit_work_order(work_order_id):
     wo_stages = data.get("wo_stages")
     make = data.get("make")
     model = data.get("model")
+    year = data.get("year")
     color = data.get("color") 
     vin = data.get("vin") 
     license_plate  = data.get("license_plate")
 
-    if None in (wo_stages, make, model, color, vin, license_plate):
+    if None in (wo_stages, make, model, year, color, vin, license_plate):
         return jsonify({"msg": "Some required fields are missing"}), 400 
 
     work_order = WorkOrder.query.get(work_order_id)
@@ -331,6 +332,7 @@ def edit_work_order(work_order_id):
     work_order.wo_stages = wo_stages
     work_order.make = make
     work_order.model = model
+    work_order.year = year
     work_order.color = color
     work_order.vin = vin
     work_order.license_plate = license_plate

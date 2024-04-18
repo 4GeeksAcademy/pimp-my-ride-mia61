@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-import { PictureSlider } from "../component/PictureSlider";
 import { Progressbar } from "../component/Progressbar";
 import { Link, useParams } from "react-router-dom";
 
@@ -18,6 +17,7 @@ export const WorkOrderDetails = () => {
         images: [],
         wo_stages: []
     })
+    const [pictures, setPictures] = useState([])
 
     const [ customer, setCustomer ] = useState({
         first_name: "",
@@ -43,6 +43,7 @@ export const WorkOrderDetails = () => {
             let data = await resp.json()
             if (data) {
                 setWorkOrder(data.work_order)
+                setPictures(data.work_order.images)
                 let response = await actions.getCustomerById(data.work_order.customer_id)
                 setCustomer(response)
                 // if (response.status != 200 ) {
@@ -99,7 +100,21 @@ export const WorkOrderDetails = () => {
                         paddingTop: '10px', /* Top padding */
                         minHeight: '50vh' /* Ensure container takes up full height of viewport */
                     }}>    
-                    <PictureSlider />
+                    <React.Fragment>
+                        <div className=" d-flex flex-nowrap overflow-scroll" style={{ width: "1200px" }} >
+
+                            {pictures.map((image, index) => {
+                                return <img key={image.id} src={image.image_url} alt="Random" />
+                            } ) }
+                            
+                            
+
+
+                            {/* {store.people.map((person, index) => (
+                            <PersonCard person={person} key={person.uid} />
+                        ))} */}
+                        </div>
+                    </React.Fragment>
                 <div className="div py-3">
                         
                 </div>

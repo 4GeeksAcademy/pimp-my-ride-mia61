@@ -468,7 +468,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
             createNewWorkOrder: async (workOrder) => {
-                let data = JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })
+                let data = JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, year: workOrder.year, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })
                 let formData = new FormData();
                 formData.append("data", data);
                 console.log(">>> 🍎 image:", workOrder.images);
