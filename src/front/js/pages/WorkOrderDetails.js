@@ -83,11 +83,6 @@ export const WorkOrderDetails = () => {
     //     }
     // }, [store.token, navigate]);
 
-
-    
-
-
-
     return (
         <div className="d-flex bg-black flex-column align-items-center text-center" >
             <div className="container-flex">
@@ -102,21 +97,21 @@ export const WorkOrderDetails = () => {
                     }}>    
                     <React.Fragment>
                         <div className=" d-flex flex-nowrap overflow-scroll" style={{ width: "1200px" }} >
-
                             {pictures.map((image, index) => {
-                                return <img key={image.id} src={image.image_url} alt="Random" />
-                            } ) }
-                            
-                            
-
-
-                            {/* {store.people.map((person, index) => (
-                            <PersonCard person={person} key={person.uid} />
-                        ))} */}
+                                return <img 
+                                    key={image.id} 
+                                    src={image.image_url} 
+                                    alt="Random"
+                                    style={{
+                                        maxHeight: "500px",
+                                        width: "auto",
+                                        objectFit: "cover"
+                                    }}
+                                />
+                            })}
                         </div>
                     </React.Fragment>
                 <div className="div py-3">
-                        
                 </div>
                     <div className="container-flex mx-auto ">
                         <div className="container-flex mx-auto noteBook bg-white flex-column">
@@ -127,20 +122,6 @@ export const WorkOrderDetails = () => {
                                         boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)',
                                         padding: '0px'}}  >
                                         <Progressbar />
-
-                                        {/* <h2 className="pt-2 bg-dark text-light">First Name: {customer.first_name}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">Last name: {customer.last_name}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">Email: {customer.email}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">Phone: {customer.phone}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">Address: {customer.address}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">Make: {workOrder.make}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">Model: {workOrder.model}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">Year: {workOrder.year}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">VIN: {workOrder.vin}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">License: {workOrder.license}</h2>
-                                        <h2 className="pt-2 bg-dark text-light">Color: {workOrder.color}</h2> */}
-
-
                                         <h2 className="pt-2 bg-dark text-light">First Name: {customer.first_name}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Last name: {customer.last_name}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Email: {customer.email}</h2>
