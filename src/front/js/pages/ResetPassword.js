@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 import { Context } from "../store/appContext";
 
 const ResetPassword = () => {
@@ -13,6 +13,7 @@ const ResetPassword = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
     const { actions } = useContext(Context);
+    // const navigate = useNavigate();
   
     const handleSubmit = async (event) => {
       event.preventDefault();
@@ -31,6 +32,7 @@ const ResetPassword = () => {
         const success = await actions.resetPassword(token, password);
         if (success) {
           setMessage("Password reset successful");
+          // navigate("/customer-log-in");
         } else {
           setMessage("Failed to reset password. Please try again.");
         }
@@ -38,6 +40,33 @@ const ResetPassword = () => {
         console.error("Error resetting password:", error);
         setMessage("Failed to reset password. Please try again.");
       }
+      // try {
+      //   const response = await api.post("/reset-password", {
+      //     token: token,
+      //     new_password: password,
+      //   });
+  
+      //   if (response.status === 200) {
+      //     const { userType } = response.data;
+      //     setMessage("Password reset successful");
+  
+      //     // Redirect to the appropriate login page based on the user type
+      //     if (userType === "customer") {
+      //       navigate("/customer-log-in");
+      //     } else if (userType === "user") {
+      //       navigate("/user-log-in");
+      //     } else {
+      //       // Default fallback redirection (e.g., to a general login page)
+      //       navigate("/login");
+      //     }
+      //   } else {
+      //     setMessage("Failed to reset password. Please try again.");
+      //   }
+      // } catch (error) {
+      //   console.error("Error resetting password:", error);
+      //   setMessage("Failed to reset password. Please try again.");
+      // }
+
     };
   
     return (
@@ -64,7 +93,7 @@ const ResetPassword = () => {
               required
             />
           </div>
-          <button type="submit">Reset Password</button>
+            <button type="submit">Reset Password</button>
         </form>
         {message && <p>{message}</p>}
       </div>
