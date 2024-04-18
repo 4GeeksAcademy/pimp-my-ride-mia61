@@ -93,9 +93,9 @@ const NewWorkOrder = () => {
     setMake(e.target.value);
   };
 
-  const handleYearChange = (e) => {
-    setYear(e.target.value);
-  };
+  // const handleYearChange = (e) => {
+  //   setYear(e.target.value);
+  // };
 
   const years = Array.from({ length: 30 }, (_, index) =>
     (new Date().getFullYear() + 1 - index).toString()
@@ -136,6 +136,7 @@ const NewWorkOrder = () => {
       wo_stages: woStages,
       make: make,
       model: model,
+      year: year,
       color: color,
       vin: vin,
       license_plate: license,
@@ -143,7 +144,8 @@ const NewWorkOrder = () => {
       images: uploadedImages
     });
     if (success) {
-      alert("Work Order Created Successfully!");
+      await actions.getAllWorkOrders()
+      // alert("Work Order Created Successfully!");
     } else {
       alert("something went wrong");
     }
@@ -262,7 +264,7 @@ const NewWorkOrder = () => {
               className="form-select"
               aria-label="Year"
               disabled={!make || !modelsList.length}
-              onChange={handleYearChange}
+              onChange={(e) => setYear(e.target.value)}
               value={year}
             >
               <option value="" selected disabled>

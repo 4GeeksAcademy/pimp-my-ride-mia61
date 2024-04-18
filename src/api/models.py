@@ -64,6 +64,7 @@ class WorkOrder(db.Model):
     user = db.relationship("User", back_populates="work_orders")
     make = db.Column(db.String(120), unique=False, nullable=False)
     model = db.Column(db.String(120), unique=False, nullable=False)
+    year = db.Column(db.String(4), unique=False, nullable=False)
     color= db.Column(db.String(120), unique=False, nullable=False)
     vin = db.Column(db.String(50), unique=False, nullable=False)
     license_plate = db.Column(db.String(120), unique=False, nullable=False)
@@ -86,6 +87,7 @@ class WorkOrder(db.Model):
             "wo_stages": [stage for stage in self.wo_stages],
             "make": self.make,
             "model": self.model,
+            "year": self.year,
             "color": self.color,
             "vin": self.vin,
             "license_plate": self.license_plate,
