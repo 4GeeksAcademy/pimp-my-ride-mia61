@@ -3,9 +3,15 @@ import { TbFlagSearch } from "react-icons/tb";
 const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
+quick-search-modal
             customerWorkOrders: [],
             customers: [],
             customerId: sessionStorage.getItem("customerId") || null,
+
+            customers: [],
+            customerId: sessionStorage.getItem("customerId") || null,
+            orders: [],
+forgot-password
             vehicleModels: {
                 Acura: ["ILX", "MDX", "RDX", "RLX", "TLX"],
                 "Alfa Romeo": ["Giulia", "Stelvio"],
@@ -339,7 +345,10 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
+ quick-search-modal
             getCustomers: async (custId) => {
+            getCustomers: async () => {
+forgot-password
                 const response = await fetch(process.env.BACKEND_URL + "/api/customers", {
                     method: "GET",
                     headers: {
@@ -349,7 +358,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                 })
                 if (response.status !== 200) return false;
                 const responseBody = await response.json();
+quick-search-modal
                 setStore({ customers: responseBody.customers })
+                console.log(responseBody)
+                setStore({ customers: responseBody })
+forgot-password
                 return true;
             },
 
@@ -358,7 +371,10 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error("Customer ID is undefined.");
                     return false;
                 }
+quick-search-modal
                 const response = await fetch(`${process.env.BACKEND_URL}/api/customer/${custId}`, {
+                const response = await fetch(`${process.env.BACKEND_URL}/api/user/get-customer/${custId}`, {
+forgot-password
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -373,7 +389,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 const responseBody = await response.json();
 
+quick-search-modal
                 return true
+
+                
+
+                return responseBody
+forgot-password
             },
             getCurrentCustomer: async () => {
                 const response = await fetch(`${process.env.BACKEND_URL}/api/current-customer`, {
@@ -448,6 +470,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
+quick-search-modal
             sendPasswordResetEmail: async (email, role ) => {
                 const response = await fetch(process.env.BACKEND_URL + "/api/forgotpassword", {
                     method: "POST",
@@ -483,6 +506,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
+forgot-password
             getCustomerWorkOrders: async (custId) => {
                 const response = await fetch(process.env.BACKEND_URL + "/api/work_orders/customer/" + custId, {
                     method: "GET",
@@ -497,6 +521,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
+quick-search-modal
             getCustomerWorkOrdersByCustomer: async () => {
                 console.log("I'm running")
                 const response = await fetch(process.env.BACKEND_URL + "/api/work_orders/customer", {
@@ -521,6 +546,25 @@ const getState = ({ getStore, getActions, setStore }) => {
                         Authorization: "Bearer " + sessionStorage.getItem("token")
                     },
                     body: JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })
+
+
+            createNewWorkOrder: async (workOrder) => {
+                let data = JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, year: workOrder.year, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })
+                let formData = new FormData();
+                formData.append("data", data);
+                console.log(">>> 🍎 image:", workOrder.images);
+                for (let i = 0; i < workOrder.images.length; i++) {
+                    formData.append("file", workOrder.images[i]);
+                }
+                // formData.append("files", workOrder.images);
+
+                const response = await fetch(process.env.BACKEND_URL + "/api/work-order/new", {
+                    method: "POST",
+                    headers: {
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
+                    },
+                    body: formData
+forgot-password
                 })
                 if (response.status !== 201) return false;
                 const responseBody = await response.json();
@@ -533,7 +577,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
+quick-search-modal
                         Authorization: "Bearer " + store.token
+
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
+forgot-password
                     },
                     body: JSON.stringify({ user_id: workOrder.user_id, customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate })
                 })
@@ -550,7 +598,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
+quick-search-modal
                         Authorization: "Bearer " + store.token
+
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
+forgot-password
                     }
                 })
                 if (response.status !== 200) return false;
@@ -564,12 +616,20 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
+quick-search-modal
                         Authorization: "Bearer " + store.token
+
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
+forgot-password
                     }
                 })
                 if (response.status !== 200) return false;
                 const responseBody = await response.json();
+ quick-search-modal
                 console.log(responseBody)
+
+                setStore({orders: responseBody.work_orders})
+ forgot-password
                 return true;
             },
 
@@ -578,7 +638,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
+ quick-search-modal
                         Authorization: "Bearer " + store.token
+
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
+ forgot-password
                     },
                 })
                 if (response.status !== 200) return false;

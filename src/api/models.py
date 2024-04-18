@@ -68,6 +68,7 @@ class WorkOrder(db.Model):
     user = db.relationship("User", back_populates="work_orders")
     make = db.Column(db.String(120), unique=False, nullable=False)
     model = db.Column(db.String(120), unique=False, nullable=False)
+    year = db.Column(db.String(4), unique=False, nullable=False)
     color= db.Column(db.String(120), unique=False, nullable=False)
     vin = db.Column(db.String(50), unique=False, nullable=False)
     license_plate = db.Column(db.String(120), unique=False, nullable=False)
@@ -78,7 +79,8 @@ class WorkOrder(db.Model):
     current_stage = db.Column(db.String(), nullable=False, default="Car Accepted")
     time_created = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
-
+    images = db.relationship("WorkOrderImage", back_populates="work_order")
+# #######################################################################
 
     def __repr__(self):
         return f'<WorkOrder {self.id}>'
@@ -92,13 +94,15 @@ class WorkOrder(db.Model):
             "current_stage": self.current_stage,
             "make": self.make,
             "model": self.model,
+            "year": self.year,
             "color": self.color,
             "vin": self.vin,
             "license_plate": self.license_plate,
             # "images": [image.serialize() for image in self.images],
             "time_created": self.time_created,
             "time_updated": self.time_updated,
-            "comments": [comment.serialize() for comment in self.comments]
+            "comments": [comment.serialize() for comment in self.comments],
+            "images": [image.serialize() for image in self.images]
         }
     
 class Comment(db.Model):
@@ -119,6 +123,7 @@ class Comment(db.Model):
             "message": self.message
         }
     
+quick-search-modal
 # class Image(db.Model):
 #     __tablename__ = 'images'
 
@@ -138,3 +143,30 @@ class Comment(db.Model):
 #             "image_url": self.image_url,
 #             "public_id": self.public_id
 #         }
+# #######################################################################
+
+class WorkOrderImage(db.Model):
+    __tablename__ = 'work_order_image'
+    """image to be uploaded by the user/owner """
+
+    # __table_args__ = (
+    #     db.UniqueConstraint("user_username", name="unique_user_image"),
+    # )
+    id = db.Column(db.Integer, primary_key=True)
+    public_id = db.Column(db.String(500), nullable=False, unique=True)
+    image_url = db.Column(db.String(500), nullable=False, unique=True)
+    work_order_id = db.Column(db.Integer, db.ForeignKey("work_orders.id"), nullable=False)
+    work_order = db.relationship("WorkOrder", back_populates="images")
+
+    def __init__(self, public_id, image_url, work_order_id):
+        self.public_id = public_id
+        self.image_url = image_url.strip()
+        self.work_order_id = work_order_id
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "image_url": self.image_url
+        }
+# #######################################################################
+forgot-password
