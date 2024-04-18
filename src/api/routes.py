@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Customer, WorkOrder, Comment
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt, decode_token
 from api.decorators import admin_required
 import os
 from sendgrid import SendGridAPIClient
@@ -19,8 +19,8 @@ from urllib.parse import quote
 from email.message import EmailMessage
 import ssl
 import smtplib
-
-
+from werkzeug.security import generate_password_hash
+from .models import User
 
 api = Blueprint('api', __name__)
 
@@ -327,18 +327,30 @@ def forgotpassword():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@api.route('/reset-password/<token>', methods=['POST'])
-def reset_password(token):
+@api.route('/reset-password', methods=['POST'])
+def reset_password():
+    def verify_token_and_find_user(token):
+        decoded_token = decode_token(token)
+        email = decoded_token['sub']['email']
+        user = User.query.filter_by(email=email).first()
+        if user is None:
+            user = Customer.query.filter_by(email=email).first()
+        print (user)
+        # if user and user.reset_token_expires > datetime.utcnow():
+        #     return user
+        return user
+    token = request.args.get('token')
+    if token is None:
+        return jsonify ({"message": "No token on qs"}), 400
     new_password = request.json.get("new_password")
     user = verify_token_and_find_user(token)
-    if not user:
-        return jsonify({"message": "Invalid or expired token"}), 404
+    if user is None:
+        return jsonify({"message": "Invalid or expired token :( "}), 404
 
-    user.password = generate_password_hash(new_password)
+    user.password = new_password
     user.reset_token = None 
     db.session.commit()
     return jsonify({"message": "Password updated successfully"}), 200
-
 
 
 @api.route('/work_orders/customer', methods=['GET'])

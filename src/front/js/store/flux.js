@@ -439,7 +439,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + store.token
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
                     }
                 })
                 if (response.status !== 200) return false;
@@ -466,7 +466,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
             
             resetPassword: async (token, newPassword) => {
-                const url = `${process.env.BACKEND_URL}/reset-password/${encodeURIComponent(token)}`;
+                const url = `${process.env.BACKEND_URL}/api/reset-password?token=${token}`;
                 const response = await fetch(url, {
                     method: "POST",
                     headers: {
@@ -488,7 +488,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: "Bearer " + store.token
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
                     },
                 })
                 if (response.status !== 200) return false;
