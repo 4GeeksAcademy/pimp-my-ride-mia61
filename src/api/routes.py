@@ -186,36 +186,6 @@ def get_all_customers():
     customers = Customer.query.all()
     return jsonify([customer.serialize() for customer in customers]), 200
 
-# @api.route('/send-verification-code', methods=['POST'])
-# def send_verification_code():
-#     email= request.json.get('email')
-#     if not email:
-#         return jsonify({'msg': 'Missing email'}), 400
-
-#     verification_code = ''.join([str(random.randint(0,9)) for _ in range(6)])
-#     expiration = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=10)
-#     customer = Customer.query.filter_by(email=email).one_or_none()
-#     if customer:
-#         customer.verification_code= verification_code
-#         customer.verification_code_expires = expiration
-#         db.session.commit()
-
-#     else:
-#         return jsonify({'mes': 'Email not found'}), 404
-    
-#     message = Mail (
-#         from_email='pimpmyride879@gmail.com',
-#         to_emails=email,
-#         subject='Your Verification Code',
-#         html_content=f'Your verification code is: {verification_code}'
-#     )
-#     try:
-#         sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
-#         response = sg.send(message)
-#         return jsonify({'msg': 'Email send successfully!'}), 200
-#     except Exception as e:
-#         print(e)
-#         return jsonify({'msg': 'Failed to send email'}), 500
 
 @api.route('/send-verification-code', methods=['POST'])
 def send_verification_code():
@@ -233,6 +203,7 @@ def send_verification_code():
 
     verification_code = ''.join([str(random.randint(0,9)) for _ in range(6)])
     expiration = datetime.now(timezone.utc) + timedelta(minutes=10)
+    print(f"send verication code time: {expiration}")
 
     try:
         customer = Customer.query.filter_by(email=email).one_or_none()
@@ -264,36 +235,24 @@ def send_verification_code():
         print(f"Failed to send email: {str(e)}")
         return jsonify(msg='Failed to send email'), 500
     
-# @api.route('/customer-verify', methods=['POST'])
-# def verify_customer():
-#     email = request.json.get('email')
-#     submitted_code = request.json.get('verificationCode')
-#     customer = Customer.query.filter_by(email=email).one_or_none()
-#     if not customer:
-#         return jsonify({'msg': 'Email is not found'}), 404
-#     if datetime.datetime.now(timezone.utc) > customer.verification_code_expires:
-#         return jsonify({'msg': 'Verification code has expired'}), 410
-#     if customer.verification_code == submitted_code:
-#         return jsonify({'msg': 'Verification successful'}), 200
-#     else:
-#         return jsonify({'msg': 'Invalid verification code'}), 400
-utc=pytz.UTC
+# utc=pytz.UTC
 @api.route('/customer-verify', methods=['POST'])
 def verify_customer():
     email = request.json.get('email')
     license= request.json.get('license')
     submitted_code = request.json.get('verificationCode')
-    customer = Customer.query.filter_by(email=email).one_or_none()
+    customer = Customer.query.filter_by(email=email).first()
     if not customer:
         return jsonify({'msg': 'Email is not found'}), 404
-    current_time = datetime.now(timezone.utc)
+    current_time = datetime.now()
 
-    if ((current_time) + (timedelta(minutes=10))) > customer.verification_code_expires:
+    if current_time > customer.verification_code_expires:
         return jsonify({'msg': 'Verification code has expired'}), 410
-    if customer.verification_code == submitted_code:
-        expiration=timedelta(minutes=5)
-        access_token = create_access_token(identity=customer.id, additional_claims={"role": "customer", "license_plate": license}, expires_delta=expiration)
-        return jsonify({'msg': 'Verification successful', "access_token": access_token}), 200
+    if str(customer.verification_code) == submitted_code:
+        # expiration=timedelta(minutes=5)
+        # access_token = create_access_token(identity=customer.id, additional_claims={"role": "customer", "license_plate": license}, expires_delta=expiration)
+        work_order=WorkOrder.query.filter_by(license_plate=license).order_by(WorkOrder.id.desc()).first()
+        return jsonify({'msg': 'success we found your order', "work_order_id": work_order.id}), 200
     return jsonify({'msg': 'Invalid verification code'}), 400
 
 

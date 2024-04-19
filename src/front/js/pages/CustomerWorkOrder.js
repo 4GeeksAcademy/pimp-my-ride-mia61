@@ -8,6 +8,7 @@ export const CustomerWorkOrder = () => {
     const[selectedOrder, setSelectedOrder] = useState(null)
     const[workOrders, setWorkOrders] = useState([])
 
+
     useEffect(() => {
         fetch(process.env.BACKEND_URL + "/api/work_orders/customer", {
             method: "GET",
@@ -17,13 +18,24 @@ export const CustomerWorkOrder = () => {
             },
         }).then(
             response => response.json()
+        // ).then(
+        //     result => setWorkOrders(result)
         ).then(
-            result => setWorkOrders(result)
-        )
+            result => {
+                console.log(result);
+                setWorkOrders(result);
+            }
+        );
         
     }, [] )
     
-    useEffect(() => setSelectedOrder(workOrders.find((order) => order.id === parseInt(workOrderId))), [workOrders])
+    // useEffect(() => setSelectedOrder(workOrders.find((order) => order.id === parseInt(workOrderId))), [workOrders])
+    useEffect(() => {
+        if (workOrders && workOrders.length > 0) {
+            const selectedOrder = workOrders.find(order => order.id === parseInt(workOrderId));
+            setSelectedOrder(selectedOrder);
+        }
+    }, [workOrders, workOrderId]);
 
     
     console.log (workOrders)
