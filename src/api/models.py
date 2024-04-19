@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.types import ARRAY
+import datetime
 
 db = SQLAlchemy()
 
@@ -16,6 +17,10 @@ class Customer(db.Model):
     address = db.Column(db.String(250), unique=False, nullable=False)
     phone = db.Column(db.String(120), unique=False, nullable=False)
     work_orders = db.relationship("WorkOrder", back_populates="customer")
+    verification_code = db.Column(db.Integer)
+    verification_code_expires = db.Column(db.DateTime)
+    reset_token = db.Column(db.String(120))
+    token_created_at = db.Column(db.DateTime)
 
     def __repr__(self):
         return f'<Customer {self.email}>'
@@ -71,6 +76,7 @@ class WorkOrder(db.Model):
     customer = db.relationship("Customer", back_populates="work_orders")
     comments = db.relationship("Comment", back_populates="work_order")
     wo_stages = db.Column(MutableList.as_mutable(ARRAY(db.String(255))), default=[])
+    current_stage = db.Column(db.String(), nullable=False, default="Car Accepted")
     time_created = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
     images = db.relationship("WorkOrderImage", back_populates="work_order")
@@ -85,6 +91,7 @@ class WorkOrder(db.Model):
             "user_id": self.user_id,
             "customer_id": self.customer_id,
             "wo_stages": [stage for stage in self.wo_stages],
+            "current_stage": self.current_stage,
             "make": self.make,
             "model": self.model,
             "year": self.year,

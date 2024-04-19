@@ -11,6 +11,7 @@ import injectContext from "./store/appContext";
 import { Progressbar } from "./component/Progressbar";
 import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
 import { GenerateWoSteps } from "./component/GenerateWoSteps";
+// import { PictureSlider } from "./component/PictureSlider";
 
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
@@ -24,7 +25,8 @@ import { CustomerDashboard } from "./pages/CustomerDashboard";
 import { CustomerSignup } from "./pages/CustomerSignup";
 import {CustomerWorkOrder} from "./pages/CustomerWorkOrder"
 import { WorkOrderDetails } from "./pages/WorkOrderDetails";
-// import { NewWorkOrder} from "./component/NewWorkOrder";
+import QuickSearchModal from "./component/QuickSearchModal";
+import ResetPassword from "./pages/ResetPassword";
 
 //create your first component
 const Layout = () => {
@@ -44,17 +46,18 @@ const Layout = () => {
                         <Route element={<UserLogin />} path="/user-log-in" />
                         <Route element={<CustomerLogin />} path="/customer-log-in" />
                         <Route element={<CustomerDashboard />} path="/customer-dashboard" />
-                        <Route  element={<CustomerWorkOrder path="/customer-work-order/:workOrderId" />} />
+                        <Route element={<CustomerWorkOrder />} path="/customer-work-order/:workOrderId" />
                         <Route element={<CustomerSignup />} path="/customer-signup" />
                         <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
                         <Route element={<GenerateWoSteps />} path="/generate-wo-steps" />
                         <Route element={<UserDashboard />} path="/user-dashboard" /> 
-
+                        <Route element={<QuickSearchModal />} path="/quick-search" />
                         <Route element={<WorkOrderDetails />} path="/order/details/:theid" />
 
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
+                        <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path='/services' exact element={ <Services />}></Route>
                         <Route path='/products' exact element={ <Products />}></Route>
                         <Route path='/sign-up' exact element={ <SignUp />}></Route>
