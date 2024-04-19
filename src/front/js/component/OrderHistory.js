@@ -14,15 +14,16 @@ const OrderHistory = ({orders}) => {
 
   // Defining an array of car status options:
   const statusOptions = [
-    "Car Accepted",
-    "Payment or Insurance Accepted",
-    "Payment or Insurance Check Received",
-    "Parts Ordered",
-    "Parts Delivered",
-    "Labor Begin",
-    "Car Repair Complete",
-    "Car Being Prepared For Pickup",
-    "Car Ready For Pickup"
+        "Car accepted",
+        "Supplement sent to insurance",
+        "Supplement approved",
+        "Check received from Insurance",
+        "Parts Ordered",
+        "Parts Delivered",
+        "Labor in Progress",
+        "Labor completed, car is being prepared for pick-up",
+        "Car is ready for pick-up",
+        "Completed"
   ];
 
   const [selectedStatus, setSelectedStatus] = useState(

@@ -3,9 +3,10 @@ import { TbFlagSearch } from "react-icons/tb";
 const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
+            customerWorkOrders: [],
             customers: [],
             customerId: sessionStorage.getItem("customerId") || null,
-            orders: [],
+            // orders: [],
             vehicleModels: {
                 Acura: ["ILX", "MDX", "RDX", "RLX", "TLX"],
                 "Alfa Romeo": ["Giulia", "Stelvio"],
@@ -339,6 +340,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
+            // getCustomers: async (custId) => {
             getCustomers: async () => {
 
                 const response = await fetch(process.env.BACKEND_URL + "/api/customers", {
@@ -350,6 +352,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 })
                 if (response.status !== 200) return false;
                 const responseBody = await response.json();
+                // setStore({ customers: responseBody.customers })
                 console.log(responseBody)
                 setStore({ customers: responseBody })
                 return true;
@@ -360,6 +363,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error("Customer ID is undefined.");
                     return false;
                 }
+                // const response = await fetch(`${process.env.BACKEND_URL}/api/customer/${custId}`, {
                 const response = await fetch(`${process.env.BACKEND_URL}/api/user/get-customer/${custId}`, {
                     method: "GET",
                     headers: {
@@ -376,9 +380,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const responseBody = await response.json();
 
                 
-
+                // return true
                 return responseBody
             },
+
+
             getCurrentCustomer: async () => {
                 const response = await fetch(`${process.env.BACKEND_URL}/api/current-customer`, {
                     method: "GET",
@@ -419,6 +425,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 return true;
             },
+
             editCustomerbyCustomer: async (customer) => {
                 const response = await fetch(
                     process.env.BACKEND_URL + "/api/customer/edit-by-customer", {
@@ -452,6 +459,63 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
+            sendPasswordResetEmail: async (email, role ) => {
+                const response = await fetch(process.env.BACKEND_URL + "/api/forgotpassword", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ email, role })
+                });
+                if (!response.ok) {
+                    console.error("Failed to send password reset email with status:", response.status);
+                    return false;
+                }
+                const data = await response.json();
+                console.log("Password reset email sent:", data.msg);
+                return true;
+            },
+            
+            // resetPassword: async (token, newPassword) => {
+            //     const url = `${process.env.BACKEND_URL}/api/reset-password?token=${token}`;
+            //     const response = await fetch(url, {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json"
+            //         },
+            //         body: JSON.stringify({ new_password: newPassword })
+            //     });
+            //     if (!response.ok) {
+            //         console.error("Failed to reset password with status:", response.status);
+            //         return false;
+            //     }
+            //     const data = await response.json();
+            //     console.log("Password reset successful:", data.msg);
+            //     return true;
+            // },
+
+            resetPassword: async (token, newPassword) => {
+                const url = `${process.env.BACKEND_URL}/api/reset-password?token=${encodeURIComponent(token)}`;
+                try {
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ new_password: newPassword })
+                    });
+                    const data = await response.json(); // Always parse the JSON to handle the response correctly
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}, message: ${data.message}`);
+                    }
+                    console.log("Password reset successful:", data.message);
+                    return {status: true, role: data.role};
+                } catch (error) {
+                    console.error("Failed to reset password:", error.message || error);
+                    return {status: false, role: data.role};
+                }
+            },
+
             getCustomerWorkOrders: async (custId) => {
                 const response = await fetch(process.env.BACKEND_URL + "/api/work_orders/customer/" + custId, {
                     method: "GET",
@@ -465,6 +529,22 @@ const getState = ({ getStore, getActions, setStore }) => {
                 console.log(responseBody)
                 return true;
             },
+
+            getCustomerWorkOrdersByCustomer: async () => {
+                console.log("I'm running")
+                const response = await fetch(process.env.BACKEND_URL + "/api/work_orders/customer", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + sessionStorage.getItem("token")
+                    },
+                })
+                if (response.status !== 200) return false;
+                const responseBody = await response.json();
+                setStore({ customerWorkOrders: responseBody })
+                return true;
+            },
+
 
 
             createNewWorkOrder: async (workOrder) => {

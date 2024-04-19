@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { Context } from "../store/appContext";
 import { CustomerWorkOrder } from "./CustomerWorkOrder";
+import { BiSort } from "react-icons/bi";
 
 export const CustomerDashboard = () => {
 
@@ -20,6 +21,8 @@ export const CustomerDashboard = () => {
 
     useEffect(() => {
         const getCurrentCustomer = async () => {
+
+            actions.getCustomerWorkOrdersByCustomer()
             setCustomer(await actions.getCurrentCustomer())
         }
         try {
@@ -44,6 +47,9 @@ export const CustomerDashboard = () => {
         }
     };
 
+    const handleWorkOrderClick = (workOrderId) => {
+        navigate(`/customer-work-order/${workOrderId}`);
+    };
 
     return (
         <div className="container pt-5">
@@ -96,35 +102,46 @@ export const CustomerDashboard = () => {
                                 <button onClick={() => setEditMode(true)}>Edit</button>
                             </div>
                         )}
+                    <div>
+                        <h2>Order History</h2>
+                        <table className="table">
+                            <thead>
+                                <tr>
+
+                                    <th>Make/Model</th>
+                                    <th>Color</th>
+                                    <th>VIN</th>
+                                    <th>License Plate</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {store.customerWorkOrders.map((order, index) => (
+                                    <React.Fragment key={index}>
+                                        <tr onClick={() => handleWorkOrderClick(order.id)}>
+
+                                            <td>
+                                                {order.make} {order.model}
+                                            </td>
+                                            <td>{order.color}</td>
+                                            <td>{order.vin}</td>
+                                            <td>{order.license_plate}</td>
+                                            <td>
+                                                {order.current_stage}
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </React.Fragment>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             ) : (
                 <p>Loading user data...</p>
             )}
+
         </div>
     );
-
-    // return (
-    //     <div className="customer-dashboard">
-
-    //         <div className="profile-form, container pt-5">
-    //             <h2>Welcome to Customer Dashboard!</h2>
-    //             {data ? (
-    //                 <div>
-    //                     <p><strong>Email:</strong> {customerId.data.email}</p>
-    //                     <p><strong>First Name:</strong> {customerId.data.first_name}</p>
-    //                     <p><strong>Last Name:</strong> {customerId.data.last_name}</p>
-    //                     <p><strong>Phone:</strong> {customerId.data.phone}</p>
-    //                     <p><strong>Address:</strong> {customerId.data.address}</p>
-    //                 </div>
-    //             ) : (
-    //                 <p>Loading user data...</p>
-    //             )}
-    //         </div>
-
-    //         <h2>Work Orders</h2>
-    //         <CustomerWorkOrder customerId={store.customerId} />
-
-    //     </div>
-
-    // );
 }

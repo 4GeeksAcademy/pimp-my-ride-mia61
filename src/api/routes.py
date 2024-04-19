@@ -5,18 +5,24 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Customer, WorkOrder, Comment,WorkOrderImage
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt, decode_token
 from api.decorators import admin_required
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import random
 from datetime import datetime, timedelta, timezone
-import json
-
-# #######################################################################
 import cloudinary.uploader as uploader
-# #######################################################################
+from sqlalchemy.exc import SQLAlchemyError
+import uuid
+from urllib.parse import quote
+from email.message import EmailMessage
+import ssl
+import smtplib
+from werkzeug.security import generate_password_hash
+from .models import User
+import json
+import pytz
 
 
 api = Blueprint('api', __name__)
@@ -74,7 +80,7 @@ def handle_customer_login():
         return jsonify({"msg": "No email or password"}), 400
     customer = Customer.query.filter_by(email=email).one_or_none()
     if customer is None:
-        return jsonify({"msg": "no such user"}), 404
+        return jsonify({"msg": "No such user"}), 404
     if customer.password != password:
         return jsonify({"msg": "Bad email or password"}), 401
 
@@ -180,55 +186,134 @@ def get_all_customers():
     customers = Customer.query.all()
     return jsonify([customer.serialize() for customer in customers]), 200
 
+# @api.route('/send-verification-code', methods=['POST'])
+# def send_verification_code():
+#     email= request.json.get('email')
+#     if not email:
+#         return jsonify({'msg': 'Missing email'}), 400
+
+#     verification_code = ''.join([str(random.randint(0,9)) for _ in range(6)])
+#     expiration = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=10)
+#     customer = Customer.query.filter_by(email=email).one_or_none()
+#     if customer:
+#         customer.verification_code= verification_code
+#         customer.verification_code_expires = expiration
+#         db.session.commit()
+
+#     else:
+#         return jsonify({'mes': 'Email not found'}), 404
+    
+#     message = Mail (
+#         from_email='pimpmyride879@gmail.com',
+#         to_emails=email,
+#         subject='Your Verification Code',
+#         html_content=f'Your verification code is: {verification_code}'
+#     )
+#     try:
+#         sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
+#         response = sg.send(message)
+#         return jsonify({'msg': 'Email send successfully!'}), 200
+#     except Exception as e:
+#         print(e)
+#         return jsonify({'msg': 'Failed to send email'}), 500
+
 @api.route('/send-verification-code', methods=['POST'])
 def send_verification_code():
-    email= request.json.get('email')
+    data = request.get_json(silent=True)  
+    if not data:
+        return jsonify(msg="Invalid or no JSON payload"), 400
+
+    license = data.get('license')
+    if not license:
+        return jsonify(msg="Missing license"), 400
+
+    email = data.get('email')
     if not email:
-        return jsonify({'msg': 'Missing email'}), 400
+        return jsonify(msg='Missing email'), 400
 
     verification_code = ''.join([str(random.randint(0,9)) for _ in range(6)])
-    expiration = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=10)
-    customer = Customer.query.filter_by(email=email).one_or_none()
-    if customer:
-        customer.verification_code= verification_code
+    expiration = datetime.now(timezone.utc) + timedelta(minutes=10)
+
+    try:
+        customer = Customer.query.filter_by(email=email).one_or_none()
+        if not customer:
+            return jsonify(msg='Email not found'), 404
+
+        work_order = WorkOrder.query.filter_by(customer_id=customer.id, license_plate=license).first()
+        if not work_order:
+            return jsonify(msg="Order not found"), 400
+
+        customer.verification_code = verification_code
         customer.verification_code_expires = expiration
         db.session.commit()
 
-    else:
-        return jsonify({'mes': 'Email not found'}), 404
-    
-    message = Mail (
-        from_email='pimpmyride879@gmail.com',
-        to_emails=email,
-        subject='Your Verification Code',
-        html_content=f'Your verification code is: {verification_code}'
-    )
-    try:
+        message = Mail(
+            from_email='pimpmyride879@gmail.com',
+            to_emails=email,
+            subject='Your Verification Code',
+            html_content=f'Your verification code is: {verification_code}'
+        )
         sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
         response = sg.send(message)
-        return jsonify({'msg': 'Email send successfully!'}), 200
+        return jsonify(msg='Email sent successfully!'), 200
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        print(f"Database error occurred: {str(e)}")
+        return jsonify(msg='Database error, failed to process your request'), 500
     except Exception as e:
-        print(e)
-        return jsonify({'msg': 'Failed to send email'}), 500
+        print(f"Failed to send email: {str(e)}")
+        return jsonify(msg='Failed to send email'), 500
     
+# @api.route('/customer-verify', methods=['POST'])
+# def verify_customer():
+#     email = request.json.get('email')
+#     submitted_code = request.json.get('verificationCode')
+#     customer = Customer.query.filter_by(email=email).one_or_none()
+#     if not customer:
+#         return jsonify({'msg': 'Email is not found'}), 404
+#     if datetime.datetime.now(timezone.utc) > customer.verification_code_expires:
+#         return jsonify({'msg': 'Verification code has expired'}), 410
+#     if customer.verification_code == submitted_code:
+#         return jsonify({'msg': 'Verification successful'}), 200
+#     else:
+#         return jsonify({'msg': 'Invalid verification code'}), 400
+utc=pytz.UTC
 @api.route('/customer-verify', methods=['POST'])
 def verify_customer():
     email = request.json.get('email')
+    license= request.json.get('license')
     submitted_code = request.json.get('verificationCode')
     customer = Customer.query.filter_by(email=email).one_or_none()
     if not customer:
         return jsonify({'msg': 'Email is not found'}), 404
-    if datetime.datetime.now(timezone.utc) > customer.verification_code_expires:
+    current_time = datetime.now(timezone.utc)
+
+    if ((current_time) + (timedelta(minutes=10))) > customer.verification_code_expires:
         return jsonify({'msg': 'Verification code has expired'}), 410
     if customer.verification_code == submitted_code:
-        return jsonify({'msg': 'Verification successful'}), 200
-    else:
-        return jsonify({'msg': 'Invalid verification code'}), 400
+        expiration=timedelta(minutes=5)
+        access_token = create_access_token(identity=customer.id, additional_claims={"role": "customer", "license_plate": license}, expires_delta=expiration)
+        return jsonify({'msg': 'Verification successful', "access_token": access_token}), 200
+    return jsonify({'msg': 'Invalid verification code'}), 400
+
+
+@api.route('/work_orders/customer/<int:license_plate>', methods=['GET'])
+@jwt_required()
+def get_work_orders_by_customer_and_license(license_plate):
+    current_customer_id = get_jwt_identity()
+    current_customer = Customer.query.get(current_customer_id)
+
+    if not current_customer:
+        return jsonify({"msg": "Customer not found"}), 404
+    work_orders=WorkOrder.query.filter_by(customer_id=current_customer_id, license_plate=license_plate,).filter(WorkOrder.current_stage != "Completed").all()
+
+    work_orders = [wo.serialize() for wo in work_orders]
+    return jsonify(work_orders), 200
 
 
 @api.route('/work_orders/customer/<int:cust_id>', methods=['GET'])
-@jwt_required()
-def get_work_orders_by_customer(cust_id):
+@admin_required()
+def get_work_orders_by_customer_id(cust_id):
     current_user_id = get_jwt_identity()
     current_user = User.query.get(current_user_id)
 
@@ -241,6 +326,113 @@ def get_work_orders_by_customer(cust_id):
 
     work_orders = [wo.serialize() for wo in customer.work_orders]
     return jsonify(work_orders)
+
+
+@api.route('/forgotpassword', methods=['POST'])
+def forgotpassword():
+    try:
+        body = request.get_json()
+        email = body.get("email")
+        role = body.get("role")
+
+        if not email:
+            return jsonify({"message": "No email was provided"}), 400
+        isCustomer = Customer.query.filter_by(email=email).first()
+        if isCustomer:
+            role = "customer"
+            user = isCustomer
+        isUser = User.query.filter_by(email=email).first()
+        if isUser:
+            role = "user"
+            user = isUser
+
+        if not user:
+            return jsonify({"message": "User doesn't exist"}), 404
+
+        # Generate a reset token
+        reset_token = str(uuid.uuid4())
+        user.reset_token = quote(reset_token)
+        db.session.commit()
+
+        expiration_time = datetime.utcnow() + timedelta(hours=1)
+        payload = {
+            'email': email,
+            'exp': expiration_time.timestamp(),
+            'role': role,
+            'reset_token': quote(reset_token)
+        }
+        access_token = create_access_token(identity=payload)
+
+        # Email configuration
+        FRONTEND_URL = os.getenv('FRONTEND_URL')
+        email_receiver = email
+        email_subject = "Reset Your Password"
+        email_body = (
+            f"Hello,\n\nYou requested a password reset. "
+            f"If you didn't make this request, please ignore this email.\n\n"
+            f"Please use the following link to reset your password:\n{FRONTEND_URL}/reset-password?token={access_token}\n\n"
+            f"This link is valid for 1 hour.\n\n"
+            f"Regards,\nPimp My Ride"
+        )
+
+        message = EmailMessage()
+        message.set_content(email_body)
+        message['Subject'] = email_subject
+        message['From'] = 'pimpmyride879@gmail.com'
+        message['To'] = email_receiver
+
+        try:
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL('smtp.sendgrid.net', 465, context=context) as server:
+                server.login('apikey', os.getenv('SENDGRID_API_KEY'))
+                server.send_message(message)
+            return jsonify({"message": "Password reset link sent to email."}), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@api.route('/reset-password', methods=['POST'])
+def reset_password():
+    def verify_token_and_find_user(token):
+        decoded_token = decode_token(token)
+        email = decoded_token['sub']['email']
+        user = User.query.filter_by(email=email).first()
+        if user is None:
+            user = Customer.query.filter_by(email=email).first()
+        print (user)
+        print (decoded_token)
+        # if user and user.reset_token_expires > datetime.utcnow():
+        #     return user
+        return user, decoded_token['sub']['role']
+    token = request.args.get('token')
+    if token is None:
+        return jsonify ({"message": "No token on qs"}), 400
+    new_password = request.json.get("new_password")
+    user, role = verify_token_and_find_user(token)
+    if user is None:
+        return jsonify({"message": "Invalid or expired token :( ", "role": role}), 404
+
+    user.password = new_password
+    user.reset_token = None 
+    db.session.commit()
+    return jsonify({"message": "Password updated successfully", "role": role}), 200
+
+
+@api.route('/work_orders/customer', methods=['GET'])
+@jwt_required()
+def get_work_orders_by_customer():
+    cust_id = get_jwt_identity()
+
+    customer = Customer.query.filter_by(id=cust_id).first()
+    if not customer:
+        return jsonify({"msg": "Customer not found"}), 404
+
+    work_orders = [wo.serialize() for wo in customer.work_orders]
+
+    return jsonify(work_orders), 200
+
 
 # work order routes ############################################################################ 
 
