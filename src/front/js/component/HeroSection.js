@@ -2,6 +2,7 @@ import React from 'react';
 import "../../styles/App.css";
 import { Button } from '../pages/Button';
 import "../../styles/HeroSection.css";
+import { Link } from 'react-router-dom';
 
 function HeroSection() {
   return (
@@ -10,21 +11,25 @@ function HeroSection() {
       <h1>EXCEPTIONAL CAR CARE</h1>
       <p>Track your vehicle's progress in real-time</p>
       <div className='hero-btns'>
-        <Button
-          className='btns'
-          buttonStyle='btn--outline'
-          buttonSize='btn--large'
-        >
-          LOG IN
-        </Button>
-        <Button
-          className='btns'
-          buttonStyle='btn--primary'
-          buttonSize='btn--large'
-          onClick={() => console.log('Quick Search')}
-        >
-          QUICK SEARCH <i className='far fa-play-circle' />
-        </Button>
+        <Link to='/customer-log-in'>
+          <Button
+            className='btns'
+            buttonStyle='btn--outline'
+            buttonSize='btn--large'
+          >
+            LOG IN
+          </Button>
+        </Link>
+        <Link to='/quick-search'>
+          <Button
+            className='btns'
+            buttonStyle='btn--primary'
+            buttonSize='btn--large'
+            onClick={() => console.log('Quick Search')}
+          >
+            QUICK SEARCH <i className='far fa-play-circle' />
+          </Button>
+        </Link>
       </div>
     </div>
   );
