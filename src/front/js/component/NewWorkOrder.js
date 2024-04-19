@@ -247,6 +247,7 @@ const NewWorkOrder = () => {
               aria-label="Model"
               disabled={!make}
               onChange={(e) => setModel(e.target.value)}
+              value={model}
             >
               <option value="" selected disabled>
                 Select Model
@@ -291,6 +292,7 @@ const NewWorkOrder = () => {
                 e.target.value = e.target.value.toUpperCase();
               }}
               onChange={(e) => setVin(e.target.value)}
+              value={vin}
               required
             />
           </div>
@@ -301,6 +303,7 @@ const NewWorkOrder = () => {
               name="license_plate"
               placeholder="License plate *"
               onChange={(e) => setLicense(e.target.value)}
+              value={license}
               required
             />
           </div>
@@ -311,6 +314,7 @@ const NewWorkOrder = () => {
               name="color"
               placeholder="Color *"
               onChange={(e) => setColor(e.target.value)}
+              value={color}
               required
             />
           </div>
@@ -327,6 +331,7 @@ const NewWorkOrder = () => {
             multiple
             onChange={handleImageUpload}
             filename={`${uploadedImages.length > 0 ? uploadedImages.length : "No"} selected file${uploadedImages.length === 1 ? "" : "s"}`}
+            value={uploadedImages}
           />
         </div>
         {/* Conditionally render the preview section */}

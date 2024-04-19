@@ -153,7 +153,7 @@ def delete(cust_id):
 
 
 @api.route('/user/get-customer/<int:cust_id>', methods=['GET'])
-@admin_required()
+# @admin_required()
 def get_customer(cust_id):
     # current_user_id = get_jwt_identity()
     # current_user = User.query.get(current_user_id)

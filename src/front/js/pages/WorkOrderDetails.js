@@ -85,7 +85,7 @@ export const WorkOrderDetails = () => {
                 }}>
                     <React.Fragment>
                         <div style={{ width: "1200px", overflowY: "hidden" }}>
-                            <div className="pictureSlider" style={{ display: "flex", flexWrap: "nowrap", overflowX: "scroll" }}>
+                            <div style={{ display: "flex", flexWrap: "nowrap", overflowX: "scroll" }}>
                                 <div style={{ display: "flex" }}>
                                     {pictures.map((image, index) => {
                                         return <img

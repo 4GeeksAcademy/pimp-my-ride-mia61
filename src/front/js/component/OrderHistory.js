@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 
 const OrderHistory = ({orders}) => {
   const { store, actions } = useContext(Context)
+ 
 
   useEffect(() => { 
     actions.getAllWorkOrders()
-
-
   }, [])
+
+  
 
   // Defining an array of car status options:
   const statusOptions = [
@@ -47,7 +48,7 @@ const OrderHistory = ({orders}) => {
             <th>VIN</th>
             <th>Licence Plate</th>
             <th>Status</th>
-            <th>Details</th>
+            <th>Comments</th>
           </tr>
         </thead>
         <tbody>
@@ -62,7 +63,7 @@ const OrderHistory = ({orders}) => {
                       </Link>
                     </td>
                   <td>
-                    {order.first_name} {order.last_name}
+                    {order.customer.first_name} {order.customer.last_name}
                   </td>
                   <td>
                     {order.make} {order.model}
@@ -70,6 +71,8 @@ const OrderHistory = ({orders}) => {
                   <td>{order.color}</td>
                   <td>{order.vin}</td>
                   <td>{order.license_plate}</td>
+                  <td>{order.status}</td>
+                  <td>{order.comments.length > 0 ? order.comments[0].message : ""}</td>
                   {/* <td>{order.current_status}</td> */}
                   <td>
                     {/* <div className="dropdown">

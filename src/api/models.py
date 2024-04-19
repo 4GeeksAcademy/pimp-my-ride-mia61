@@ -84,6 +84,10 @@ class WorkOrder(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "customer_id": self.customer_id,
+            "customer": {
+                "first_name": self.customer.first_name,
+                "last_name": self.customer.last_name
+            },
             "wo_stages": [stage for stage in self.wo_stages],
             "make": self.make,
             "model": self.model,

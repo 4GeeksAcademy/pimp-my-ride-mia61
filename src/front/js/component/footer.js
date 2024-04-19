@@ -35,7 +35,7 @@ function Footer() {
           </div>
           <div className='footer-link-items'>
             <h2>Quick Links</h2>
-            <Link to='/log-in'>Login</Link>
+            <Link to='/user-log-in'>Owner Login</Link>
             <Link to='/profile'>Profile</Link>
             <Link to='/customerpage'>Customer Page</Link>
             <Link to='/customer-signup'>Sign Up</Link>
