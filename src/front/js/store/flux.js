@@ -278,6 +278,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
+
             checkIfTokenInSessionStorage: () => {
                 if (sessionStorage.getItem("token")) {
                     setStore({
@@ -319,6 +320,15 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error("Login failed with status:", response.status);
                     return false;
                 }
+            },
+
+            verifyCustomer: ({access_token, customer_id, ...args}) => {
+                setStore({
+                    token: access_token,
+                    customerId: customer_id
+                });
+                sessionStorage.setItem("token", access_token);
+                sessionStorage.setItem("customerId", customer_id);
             },
 
 
@@ -475,24 +485,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 console.log("Password reset email sent:", data.msg);
                 return true;
             },
-            
-            // resetPassword: async (token, newPassword) => {
-            //     const url = `${process.env.BACKEND_URL}/api/reset-password?token=${token}`;
-            //     const response = await fetch(url, {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json"
-            //         },
-            //         body: JSON.stringify({ new_password: newPassword })
-            //     });
-            //     if (!response.ok) {
-            //         console.error("Failed to reset password with status:", response.status);
-            //         return false;
-            //     }
-            //     const data = await response.json();
-            //     console.log("Password reset successful:", data.msg);
-            //     return true;
-            // },
 
             resetPassword: async (token, newPassword) => {
                 const url = `${process.env.BACKEND_URL}/api/reset-password?token=${encodeURIComponent(token)}`;
@@ -555,7 +547,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 for (let i = 0; i < workOrder.images.length; i++) {
                     formData.append("file", workOrder.images[i]);
                 }
-                // formData.append("files", workOrder.images);
 
                 const response = await fetch(process.env.BACKEND_URL + "/api/work-order/new", {
                     method: "POST",

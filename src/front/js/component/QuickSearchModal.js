@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from '../store/appContext';
+import { useNavigate } from 'react-router-dom';
 
 const QuickSearchModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -6,6 +8,8 @@ const QuickSearchModal = () => {
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [isCodeSent, setIsCodeSent] = useState(false);
+  const {store, actions} = useContext(Context)
+  const navigate = useNavigate()
 
   useEffect(() => {
    openModal();
@@ -59,10 +63,11 @@ const QuickSearchModal = () => {
 
     if (response.ok) {
       const data = await response.json();
+      actions.verifyCustomer(data)
       // const { accessToken } = data;
       const { work_order_id } = data;
       // localStorage.setItem('accessToken', accessToken);
-      window.location.href = `/customer-work-order/${data.work_order_id}`;
+      navigate( `/customer-work-order/${data.work_order_id}`);
     } else {
       console.error("Verification failed");
     }

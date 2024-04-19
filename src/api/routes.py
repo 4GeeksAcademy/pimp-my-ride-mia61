@@ -263,37 +263,29 @@ def send_verification_code():
     except Exception as e:
         print(f"Failed to send email: {str(e)}")
         return jsonify(msg='Failed to send email'), 500
-    
-# @api.route('/customer-verify', methods=['POST'])
-# def verify_customer():
-#     email = request.json.get('email')
-#     submitted_code = request.json.get('verificationCode')
-#     customer = Customer.query.filter_by(email=email).one_or_none()
-#     if not customer:
-#         return jsonify({'msg': 'Email is not found'}), 404
-#     if datetime.datetime.now(timezone.utc) > customer.verification_code_expires:
-#         return jsonify({'msg': 'Verification code has expired'}), 410
-#     if customer.verification_code == submitted_code:
-#         return jsonify({'msg': 'Verification successful'}), 200
-#     else:
-#         return jsonify({'msg': 'Invalid verification code'}), 400
-utc=pytz.UTC
+
+# utc=pytz.UTC
 @api.route('/customer-verify', methods=['POST'])
 def verify_customer():
     email = request.json.get('email')
     license= request.json.get('license')
     submitted_code = request.json.get('verificationCode')
-    customer = Customer.query.filter_by(email=email).one_or_none()
+    customer = Customer.query.filter_by(email=email).first()
     if not customer:
         return jsonify({'msg': 'Email is not found'}), 404
-    current_time = datetime.now(timezone.utc)
+    current_time = datetime.now()
 
-    if ((current_time) + (timedelta(minutes=10))) > customer.verification_code_expires:
+    if current_time > customer.verification_code_expires:
         return jsonify({'msg': 'Verification code has expired'}), 410
-    if customer.verification_code == submitted_code:
-        expiration=timedelta(minutes=5)
-        access_token = create_access_token(identity=customer.id, additional_claims={"role": "customer", "license_plate": license}, expires_delta=expiration)
-        return jsonify({'msg': 'Verification successful', "access_token": access_token}), 200
+    if str(customer.verification_code) == submitted_code:
+        access_token = create_access_token(
+        identity=customer.id,
+        additional_claims = {"role": "customer"} 
+        )
+        # expiration=timedelta(minutes=5)
+        # access_token = create_access_token(identity=customer.id, additional_claims={"role": "customer", "license_plate": license}, expires_delta=expiration)
+        work_order=WorkOrder.query.filter_by(license_plate=license).order_by(WorkOrder.id.desc()).first()
+        return jsonify({'msg': 'success we found your order', "work_order_id": work_order.id, "access_token": access_token, "customer_id":customer.id }), 200
     return jsonify({'msg': 'Invalid verification code'}), 400
 
 
