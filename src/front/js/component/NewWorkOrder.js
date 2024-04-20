@@ -1,37 +1,277 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Context } from "../store/appContext"
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import Progressbar from "./component/Progressbar"
 // import { Link } from "react-router-dom";
-import { GenerateWoSteps } from "../component/GenerateWoSteps";
-import { SearchBar } from "./SearchBar";
+import { GenerateProgressbar } from "./GenerateProgressbar";
 
 const NewWorkOrder = () => {
   const navigate = useNavigate();
-  const { store, actions } = useContext(Context)
 
-  const [customer, setCustomer] = useState({
+  const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     email: "",
-    phone: "",
-    address: ""
-  })
-  const [makeList, setMakeList] = useState([]);
-  const [modelsList, setModelsList] = useState([]);
-  const [make, setMake] = useState("");
-  const [model, setModel] = useState("");
-  const [year, setYear] = useState("");
-  const [vin, setVin] = useState("");
-  const [license, setLicense] = useState("");
-  const [color, setColor] = useState("");
-
+    phone_number: "",
+    vin_number: "",
+    licence_plate: "",
+    text_area: "",
+  });
+  
+  const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState([]);
+  const [selectedMake, setSelectedMake] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
   const [uploadedImages, setUploadedImages] = useState([]);
-  const [woStages, setWoStages] = useState([]);
-  const [comments, setComments] = useState([]);
+  const [progressbarSteps, setProgressbarSteps] = useState([]);
 
   // Defining vechicle models for each make:
-
+  const vechicleModels = {
+    Acura: ["ILX", "MDX", "RDX", "RLX", "TLX"],
+    "Alfa Romeo": ["Giulia", "Stelvio"],
+    "Aston Martin": ["DB11", "DBS Superleggera", "Vantage"],
+    Audi: [
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A7",
+      "A8",
+      "Q3",
+      "Q5",
+      "Q7",
+      "Q8",
+      "TT",
+      "R8",
+    ],
+    Bentley: ["Bentayga", "Continental GT", "Flying Spur", "Mulsanne"],
+    BMW: [
+      "2 Series",
+      "3 Series",
+      "4 Series",
+      "5 Series",
+      "7 Series",
+      "8 Series",
+      "X1",
+      "X2",
+      "X3",
+      "X4",
+      "X5",
+      "X6",
+      "X7",
+      "Z4",
+      "iX",
+      "i4",
+      "i5",
+      "i7",
+      "XM",
+    ],
+    Buick: ["Enclave", "Encore", "Encore GX", "Envision", "LaCrosse", "Regal"],
+    Cadillac: ["CT4", "CT5", "CT6", "Escalade", "XT4", "XT5", "XT6"],
+    Chevrolet: [
+      "Camaro",
+      "Corvette",
+      "Malibu",
+      "Silverado",
+      "Suburban",
+      "Tahoe",
+      "Traverse",
+    ],
+    Chrysler: ["300", "Pacifica", "Voyager"],
+    Dodge: ["Challenger", "Charger", "Durango", "Grand Caravan", "Journey"],
+    Ferrari: [
+      "488 GTB",
+      "488 Spider",
+      "812 Superfast",
+      "F8 Tributo",
+      "Portofino",
+      "Roma",
+      "SF90 Stradale",
+    ],
+    Fiat: ["500", "500X", "500L", "124 Spider", "Tipo"],
+    Ford: [
+      "Escape",
+      "Explorer",
+      "F-150",
+      "Focus",
+      "Mustang",
+      "Ranger",
+      "Transit",
+    ],
+    Genesis: ["G70", "G80", "G90"],
+    GMC: [
+      "Acadia",
+      "Canyon",
+      "Sierra 1500",
+      "Sierra 2500HD",
+      "Sierra 3500HD",
+      "Terrain",
+      "Yukon",
+      "Yukon XL",
+    ],
+    Honda: ["Accord", "Civic", "CR-V", "Fit", "HR-V", "Pilot"],
+    Hyunday: [
+      "Accent",
+      "Elantra",
+      "Ioniq",
+      "Kona",
+      "Nexo",
+      "Palisade",
+      "Santa Fe",
+      "Sonata",
+      "Tucson",
+      "Veloster",
+      "Venue",
+    ],
+    Infinity: ["Q50", "Q60", "Q70", "QX50", "QX60", "QX80"],
+    Jaguar: ["E-PACE", "F-PACE", "F-TYPE", "I-PACE", "XE", "XF", "XJ"],
+    Jeep: [
+      "Cherokee",
+      "Compass",
+      "Gladiator",
+      "Grand Cherokee",
+      "Renegade",
+      "Wrangler",
+    ],
+    Kia: [
+      "Forte",
+      "Optima",
+      "Rio",
+      "Sorento",
+      "Soul",
+      "Sportage",
+      "Stinger",
+      "Telluride",
+    ],
+    Lamborghini: ["Aventador", "Huracán", "Urus"],
+    "Land Rover": [
+      "Defender",
+      "Discovery",
+      "Discovery Sport",
+      "Range Rover",
+      "Range Rover Evoque",
+      "Range Rover Sport",
+      "Range Rover Velar",
+    ],
+    Lexus: ["ES", "GS", "GX", "IS", "LC", "LS", "LX", "NX", "RC", "RX", "UX"],
+    Lincoln: [
+      "Aviator",
+      "Continental",
+      "Corsair",
+      "MKC",
+      "MKT",
+      "MKZ",
+      "Nautilus",
+      "Navigator",
+    ],
+    Lotus: ["Evora", "Elise", "Exige"],
+    Maserati: [
+      "Ghibli",
+      "Levante",
+      "Quattroporte",
+      "GranTurismo",
+      "GranCabrio",
+    ],
+    Mazda: [
+      "Mazda2",
+      "Mazda3",
+      "Mazda6",
+      "MX-5 Miata",
+      "CX-3",
+      "CX-30",
+      "CX-5",
+      "CX-9",
+    ],
+    McLaren: ["GT", "570S", "570GT", "600LT", "720S", "Speedtail"],
+    "Mercedes-Benz": [
+      "A-class",
+      "C-class",
+      "E-class",
+      "S-class",
+      "GLA",
+      "GLC",
+      "GLE",
+      "GLS",
+    ],
+    MINI: [
+      "Cooper",
+      "Cooper S",
+      "Clubman",
+      "Countryman",
+      "Convertible",
+      "Hardtop",
+      "John Cooper Works",
+    ],
+    Mitsubishi: [
+      "Eclipse Cross",
+      "Mirage",
+      "Outlander",
+      "Outlander Sport",
+      "Lancer",
+    ],
+    Nissan: [
+      "Altima",
+      "Armada",
+      "Frontier",
+      "Kicks",
+      "Leaf",
+      "Maxima",
+      "Murano",
+      "Pathfinder",
+      "Rogue",
+      "Sentra",
+      "Titan",
+      "Versa",
+    ],
+    Porshe: ["911", "Boxster", "Cayenne", "Cayman", "Macan", "Panamera"],
+    Ram: ["1500", "2500", "3500"],
+    "Rolls-Royce": ["Phantom", "Ghost", "Wraith", "Dawn", "Cullinan"],
+    Subaru: [
+      "Ascent",
+      "Crosstrek",
+      "Forester",
+      "Impreza",
+      "Legacy",
+      "Outback",
+      "WRX",
+    ],
+    Tesla: [
+      "Model S",
+      "Model 3",
+      "Model X",
+      "Model Y",
+      "Roadster",
+      "Cybertruck",
+    ],
+    Toyota: [
+      "4Runner",
+      "Avalon",
+      "Camry",
+      "Corolla",
+      "Crown",
+      "GR86",
+      "Highlander",
+      "Prius",
+      "RAV4",
+      "Sequoia",
+      "Sienna",
+      "Tacoma",
+      "Tundra",
+    ],
+    Volkswagen: [
+      "Arteon",
+      "Atlas",
+      "Beetle",
+      "Golf",
+      "Jetta",
+      "Passat",
+      "Taos",
+      "Tiguan",
+      "Touareg",
+    ],
+    Volvo: ["S60", "S90", "V60", "V90", "XC40", "XC60", "XC90"],
+  };
 
   useEffect(() => {
     const fetchedMakes = [
@@ -78,24 +318,28 @@ const NewWorkOrder = () => {
       "Volkswagen",
       "Volvo",
     ];
-    setMakeList(fetchedMakes);
+    setMakes(fetchedMakes);
   }, []);
 
   useEffect(() => {
-    if (make) {
-      setModelsList(store.vehicleModels[make] || []);
+    if (selectedMake) {
+      setModels(vechicleModels[selectedMake] || []);
     } else {
-      setModelsList([]);
+      setModels([]);
     }
-  }, [make]);
+  }, [selectedMake]);
 
   const handleMakeChange = (e) => {
-    setMake(e.target.value);
+    setSelectedMake(e.target.value);
+    setSelectedModel("");
+    setSelectedYear("");
   };
 
-  // const handleYearChange = (e) => {
-  //   setYear(e.target.value);
-  // };
+
+  
+  const handleYearChange = (e) => {
+    setSelectedYear(e.target.value);
+  };
 
   const years = Array.from({ length: 30 }, (_, index) =>
     (new Date().getFullYear() + 1 - index).toString()
@@ -103,71 +347,74 @@ const NewWorkOrder = () => {
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
-    console.log(">>> files", files);
-    const images = [];
-    for (let index = 0; index < files.length; index++) {
-      images.push(files.item(index));
+    const newImages = [];
+    console.log(files);
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        newImages.push(reader.result);
+        if (newImages.length === files.length) {
+          setUploadedImages([
+            ...uploadedImages,
+            ...newImages.slice(0, 12 - uploadedImages.length),
+          ]);
+        }
+      };
+      reader.readAsDataURL(files[i]);
     }
-    setUploadedImages((prev) => ([
-      ...prev,
-      ...images
-    ]));
-    // const newImages = [];
-    // console.log(files);
-    // for (let i = 0; i < files.length; i++) {
-    //   const reader = new FileReader();
-    //   reader.onload = () => {
-    //     newImages.push(reader.result);
-    //     if (newImages.length === files.length) {
-    //       setUploadedImages([
-    //         ...uploadedImages,
-    //         ...newImages.slice(0, 12 - uploadedImages.length),
-    //       ]);
-    //     }
-    //   };
-    //   reader.readAsDataURL(files[i]);
-    // }
   };
 
-  const handleNewWorkOrder = async (event) => {
-    event.preventDefault()
-    const success = await actions.createNewWorkOrder({
-      customer_id: customer.id,
-      wo_stages: woStages,
-      make: make,
-      model: model,
-      year: year,
-      color: color,
-      vin: vin,
-      license_plate: license,
-      comments: comments,
-      images: uploadedImages
-    });
-    if (success) {
-      await actions.getAllWorkOrders()
-      // alert("Work Order Created Successfully!");
-    } else {
-      alert("something went wrong");
-    }
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("Submitting Form", formData);
+  };
 
+  // Function to handle input changes
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  
+
+  const handleProcessWorkOrder = async (event) => {
+    const { first_name, last_name, email, phone_number, address } = formData;
+
+    if (!first_name || !last_name || !email || !phone_number || !address) {
+      alert("Please fill out all required fields");
+      return;
+  }
+
+      const success = await actions.createNewWorkOrder({
+        
+        make: selectedMake,
+        model: selectedModel,
+        color: selectedColor, 
+         
+
+      });
+      if (success) {
+         alert("Work Order Created Successfully!");
+      } else {
+          alert("something went wrong");
+      }
   }
 
 
+  // const handleProgressbarChange = (event) => {
+  //   setProgressbarSteps(event.target.value);
+  // };
 
   return (
     <div className="form-container">
-      <SearchBar setCustomer={setCustomer} />
-
-      <form onSubmit={handleNewWorkOrder}>
+      <form onSubmit={handleSubmit}>
         <div className="row input-group mb-3">
           <div className="col-md-6">
             <input
               type="text"
               className="form-control"
               name="first_name"
-              value={customer.first_name}
               placeholder="First name *"
-              onChange={() => setCustomer({ firstName: e.target.value })}
+              onChange={handleChange}
               required
             />
           </div>
@@ -175,10 +422,9 @@ const NewWorkOrder = () => {
             <input
               type="text"
               className="form-control"
-              value={customer.last_name}
               name="last_name"
               placeholder="Last name *"
-              onChange={() => setCustomer({ lastName: e.target.value })}
+              onChange={handleChange}
               required
             />
           </div>
@@ -191,8 +437,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="email"
               placeholder="Email *"
-              value={customer.email}
-              onChange={() => setCustomer({ email: e.target.value })}
+              onChange={handleChange}
               required
             />
           </div>
@@ -202,38 +447,24 @@ const NewWorkOrder = () => {
               className="form-control"
               name="phone_number"
               placeholder="Phone number *"
-              value={customer.phone}
-              onChange={() => setCustomer({ phone: e.target.value })}
+              onChange={handleChange}
               required
             />
           </div>
+        </div>
 
-        </div>
-        <div className="row input-group mb-3">
-          <div className="col-md-12">
-            <input
-              type="text"
-              className="form-control"
-              name="address"
-              placeholder="123 Main St."
-              value={customer.address}
-              onChange={() => setCustomer({ address: e.target.value })}
-              required
-            />
-          </div>
-        </div>
         <div className="row input-group mb-3">
           <div className="col-md-4">
             <select
               className="form-select"
               aria-label="Make"
               onChange={handleMakeChange}
-              value={make}
+              value={selectedMake}
             >
               <option value="" selected disabled>
                 Select Make
               </option>
-              {makeList.map((make, index) => (
+              {makes.map((make, index) => (
                 <option key={index} value={make}>
                   {make}
                 </option>
@@ -245,13 +476,12 @@ const NewWorkOrder = () => {
             <select
               className="form-select"
               aria-label="Model"
-              disabled={!make}
-              onChange={(e) => setModel(e.target.value)}
+              disabled={!selectedMake}
             >
               <option value="" selected disabled>
                 Select Model
               </option>
-              {modelsList.sort().map((model, index) => (
+              {models.sort().map((model, index) => (
                 <option key={index} value={model}>
                   {model}
                 </option>
@@ -263,9 +493,9 @@ const NewWorkOrder = () => {
             <select
               className="form-select"
               aria-label="Year"
-              disabled={!make || !modelsList.length}
-              onChange={(e) => setYear(e.target.value)}
-              value={year}
+              disabled={!selectedMake || !models.length}
+              onChange={handleYearChange}
+              value={selectedYear}
             >
               <option value="" selected disabled>
                 Select Year
@@ -290,7 +520,7 @@ const NewWorkOrder = () => {
               onInput={(e) => {
                 e.target.value = e.target.value.toUpperCase();
               }}
-              onChange={(e) => setVin(e.target.value)}
+              onChange={handleChange}
               required
             />
           </div>
@@ -298,9 +528,9 @@ const NewWorkOrder = () => {
             <input
               type="text"
               className="form-control"
-              name="license_plate"
-              placeholder="License plate *"
-              onChange={(e) => setLicense(e.target.value)}
+              name="licence_plate"
+              placeholder="Licence plate *"
+              onChange={handleChange}
               required
             />
           </div>
@@ -310,7 +540,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="color"
               placeholder="Color *"
-              onChange={(e) => setColor(e.target.value)}
+              onChange={handleChange}
               required
             />
           </div>
@@ -326,8 +556,14 @@ const NewWorkOrder = () => {
             aria-label="Upload"
             multiple
             onChange={handleImageUpload}
-            filename={`${uploadedImages.length > 0 ? uploadedImages.length : "No"} selected file${uploadedImages.length === 1 ? "" : "s"}`}
           />
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            id="inputGroupFileAddon04"
+          >
+            Upload
+          </button>
         </div>
         {/* Conditionally render the preview section */}
         {uploadedImages.length > 0 && (
@@ -341,11 +577,10 @@ const NewWorkOrder = () => {
                     maxHeight: "100px",
                     margin: "5px",
                   }}
-                  src={URL.createObjectURL(image)}
+                  src={image}
                   alt={`Uploaded Preview ${index}`}
                 />
                 <button
-                  type="button"
                   onClick={() =>
                     setUploadedImages((imageList) =>
                       imageList.filter((_, imageIndex) => imageIndex !== index)
@@ -373,21 +608,31 @@ const NewWorkOrder = () => {
           <textarea
             className="form-control"
             name="text_area"
-            placeholder="Comments"
-            onChange={(e) => setComments(e.target.value)}
+            placeholder="Enter text"
+            onChange={handleChange}
           ></textarea>
         </div>
 
         <div className="mb-3"></div>
 
         <div>
-          <GenerateWoSteps setWoStages={setWoStages} woStages={woStages} />
+          <GenerateProgressbar onSelectedStagesChange={setFormData} progressStages={formData.progressStages} />
+          <label htmlFor="progressbar">
+            {/* Repair stages to Generate Progressbar: */}
+          </label>
+          {/* <textarea
+            id="progressbar"
+            name="progressbar"
+            onChange={handleProgressbarChange}
+            value={progressbarSteps}
+            required
+          /> */}
         </div>
 
         <div>
-          <button
-            type="submit" className="btn btn-primary"
-            onClick={handleNewWorkOrder}>
+          <button 
+          type="submit" className="btn btn-primary"
+          onClick={handleProcessWorkOrder}>
             Create new order
           </button>
         </div>
@@ -397,8 +642,3 @@ const NewWorkOrder = () => {
 };
 
 export default NewWorkOrder;
-
-//  for picutrse send 2 fourmat fields,,
-//  second request to send a file 
-
-//  Flux and make a new fetch that takes a arr []
