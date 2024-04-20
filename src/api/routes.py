@@ -323,9 +323,12 @@ def get_work_orders_by_customer_id(cust_id):
 @api.route('/forgotpassword', methods=['POST'])
 def forgotpassword():
     try:
-        body = request.get_json()
-        email = body.get("email")
-        role = body.get("role")
+        # body = request.get_json()
+        # email = body.get("email")
+        # role = body.get("role")
+        data = request.get_json()
+        email = data.get("email")
+        role = data.get("role")
 
         if not email:
             return jsonify({"message": "No email was provided"}), 400
