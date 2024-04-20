@@ -331,7 +331,6 @@ const NewWorkOrder = () => {
             multiple
             onChange={handleImageUpload}
             filename={`${uploadedImages.length > 0 ? uploadedImages.length : "No"} selected file${uploadedImages.length === 1 ? "" : "s"}`}
-            value={uploadedImages}
           />
         </div>
         {/* Conditionally render the preview section */}
