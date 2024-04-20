@@ -6,7 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             customerWorkOrders: [],
             customers: [],
             customerId: sessionStorage.getItem("customerId") || null,
-            // orders: [],
+            orders: [],
             vehicleModels: {
                 Acura: ["ILX", "MDX", "RDX", "RLX", "TLX"],
                 "Alfa Romeo": ["Giulia", "Stelvio"],
