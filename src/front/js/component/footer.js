@@ -29,31 +29,29 @@ function Footer() {
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
             <h2>About Us</h2>
-            <Link to='/demo'>Demo</Link>
             <Link to='/services'>Services</Link>
             <Link to='/products'>Products</Link>
           </div>
           <div className='footer-link-items'>
             <h2>Quick Links</h2>
             <Link to='/user-log-in'>Owner Login</Link>
-            <Link to='/profile'>Profile</Link>
-            <Link to='/customerpage'>Customer Page</Link>
-            <Link to='/customer-signup'>Sign Up</Link>
+            <Link to='/customer-dashboard'>Customer Page</Link>
+            <Link to='/customer-signup'>Customer Sign Up</Link>
           </div>
         </div>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
             <h2>Progress Tracking</h2>
-            <Link to='/progressbar'>Progress Bar</Link>
-            <Link to='/user-customer-details'>User Customer Details</Link>
+            <Link to='/quick-search'>Quick Search</Link>
+            <Link to='/user-dashboard'>User Dashboard</Link>
           </div>
           <div className='footer-link-items'>
             <h2>Follow Us</h2>
             {/* Replace # with your actual social media links */}
-            <Link to='#'>Instagram</Link>
-            <Link to='#'>Facebook</Link>
-            <Link to='#'>YouTube</Link>
-            <Link to='#'>Twitter</Link>
+            <Link to='https://www.instagram.com/mechanicsdoingthings/'>Instagram</Link>
+            <Link to='https://www.facebook.com/groups/350896951721690/'>Facebook</Link>
+            <Link to='https://www.youtube.com/watch?v=igQE5YnFV7g'>YouTube</Link>
+            <Link to='https://twitter.com/i/status/1479581108526223361'>Twitter</Link>
           </div>
         </div>
       </div>
@@ -70,7 +68,7 @@ function Footer() {
             {/* Update these links to your shop's social media profiles */}
             <a
               className='social-icon-link facebook'
-              href='#'
+              href='https://www.facebook.com/'
               target='_blank'
               aria-label='Facebook'
             >
@@ -78,7 +76,7 @@ function Footer() {
             </a>
             <a
               className='social-icon-link instagram'
-              href='#'
+              href='https://www.instagram.com/'
               target='_blank'
               aria-label='Instagram'
             >
@@ -86,7 +84,7 @@ function Footer() {
             </a>
             <a
               className='social-icon-link youtube'
-              href='#'
+              href='https://www.youtube.com/'
               target='_blank'
               aria-label='Youtube'
             >
@@ -94,7 +92,7 @@ function Footer() {
             </a>
             <a
               className='social-icon-link twitter'
-              href='#'
+              href='https://twitter.com/'
               target='_blank'
               aria-label='Twitter'
             >

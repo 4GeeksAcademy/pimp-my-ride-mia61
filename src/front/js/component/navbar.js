@@ -6,6 +6,7 @@ import { Button } from '../pages/Button';
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
+    const{isLoggedIn, setIsLoggedIn} = useState(false);
     const navigate = useNavigate();
 
     const handleClick = () => setClick(!click);
@@ -19,6 +20,12 @@ function Navbar() {
         }
     };
 
+    const handleLogout = () => {
+        console.log('User logged out');
+        setIsLoggedIn(false);
+        navigate('/')
+    }
+
     useEffect(() => {
         window.addEventListener("resize", showButton);
         showButton(); 
@@ -30,7 +37,7 @@ function Navbar() {
             <nav className="navbar">
                 <div className="navbar-container">
                     <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-                        PIMP MY RIDE
+                        PIMP MY RIDE <i className='fab fa-typo3 navbar-logo' />
                     </Link>
                     <div className="menu-icon" onClick={handleClick}>
                         <i className={click ? "fas fa-times" : "fas fa-bars"} />
@@ -51,17 +58,18 @@ function Navbar() {
                                 Products
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link to="/customer-signup" className="nav-links" onClick={closeMobileMenu}>
-                                Sign Up
-                            </Link>
-                        </li>
                     </ul>
-                    {button && (
-                        <Button buttonStyle="btn--outline" onClick={() => navigate('/customer-signup')}>
-                            SIGN UP
+                    {isLoggedIn ? (
+                        <Button buttonStyle="btn--outline" onClick={handleLogout}>
+                        LOG OUT
                         </Button>
-                    )}
+                    ) : (
+                        button && (
+                         <Button buttonStyle="btn--outline" onClick={() => navigate('/customer-signup')}>
+                        SIGN UP
+                        </Button>
+                         )
+                        )}
                 </div>
             </nav>
         </>
