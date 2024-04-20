@@ -38,14 +38,13 @@ function Footer() {
             <Link to='/log-in'>Login</Link>
             <Link to='/profile'>Profile</Link>
             <Link to='/customerpage'>Customer Page</Link>
-            <Link to='/customer-signup'>Sign Up</Link>
+            <Link to='/sign-up'>Sign Up</Link>
           </div>
         </div>
         <div className='footer-link-wrapper'>
           <div className='footer-link-items'>
             <h2>Progress Tracking</h2>
             <Link to='/progressbar'>Progress Bar</Link>
-            <Link to='/user-customer-details'>User Customer Details</Link>
           </div>
           <div className='footer-link-items'>
             <h2>Follow Us</h2>

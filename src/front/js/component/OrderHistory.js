@@ -1,28 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 const OrderHistory = ({orders}) => {
-  const { store, actions } = useContext(Context)
-
-  useEffect(() => { 
-    actions.getAllWorkOrders()
-
-
-  }, [])
-
   // Defining an array of car status options:
   const statusOptions = [
-        "Car accepted",
-        "Supplement sent to insurance",
-        "Supplement approved",
-        "Check received from Insurance",
-        "Parts Ordered",
-        "Parts Delivered",
-        "Labor in Progress",
-        "Labor completed, car is being prepared for pick-up",
-        "Car is ready for pick-up",
-        "Completed"
+    "Car Accepted",
+    "Inshurance Check Received(Payment or Insurance accepted, Payment or Insurance check received)",
+    "Parts Ordered",
+    "Parts Delivered",
+    "Labor Begin",
+    "Repair Completed (this should start showing estimate completion date)",
+    "Car Being Prepared For Pick Up",
+    "Car Ready For Pickup (should generate and send message to the client that he should pick up the car in 48 hours)",
   ];
 
   const [selectedStatus, setSelectedStatus] = useState(
@@ -41,7 +29,6 @@ const OrderHistory = ({orders}) => {
       <table className="table">
         <thead>
           <tr>
-            <th>Order Id</th>
             <th>Name</th>
             <th>Make/Model</th>
             <th>Color</th>
@@ -52,64 +39,55 @@ const OrderHistory = ({orders}) => {
           </tr>
         </thead>
         <tbody>
-          {store?.orders.map((order, index) => (
+          {orders.map((order, index) => (
             <React.Fragment key={index}>
-              
-                <tr>
-                  
-                    <td>
-                      <Link to={"/order/details/" + order.id } >
-                        {order.id} 
-                      </Link>
-                    </td>
-                  <td>
-                    {order.first_name} {order.last_name}
-                  </td>
-                  <td>
-                    {order.make} {order.model}
-                  </td>
-                  <td>{order.color}</td>
-                  <td>{order.vin}</td>
-                  <td>{order.license_plate}</td>
-                  {/* <td>{order.current_status}</td> */}
-                  <td>
-                    {/* <div className="dropdown">
-                      <button
-                        className="btn btn-secondary dropdown-toggle"
-                        type="button"
-                        id={`statusDropdown${index}`}
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
-                        {selectedStatus[index] || "Select Status"}
-                      </button>
-                      <ul
-                        className="dropdown-menu"
-                        aria-labelledby={`statusDropdown${index}`}
-                      >
-                        {statusOptions.map((status, i) => (
-                          <li key={i}>
-                            <button
-                              className="dropdown-item"
-                              onClick={() => handleStatusChange(index, status)}
-                            >
-                              {status}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div> */}
-                  </td>
-                  <td>
-                    {/* <button onClick={() => toggleOrderDetails(index)}>
-                      {expandedOrderIndex === index
-                        ? "Hide Details"
-                        : "Show Details"}
-                    </button> */}
-                  </td>
-                  {/* </Link> */}
-                </tr>
-                 
+              <tr>
+                <td>
+                  {order.first_name} {order.last_name}
+                </td>
+                <td>
+                  {order.make} {order.model}
+                </td>
+                <td>{order.color}</td>
+                <td>{order.vin}</td>
+                <td>{order.licence_plate}</td>
+                <td>
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      id={`statusDropdown${index}`}
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      {selectedStatus[index] || "Select Status"}
+                    </button>
+                    <ul
+                      className="dropdown-menu"
+                      aria-labelledby={`statusDropdown${index}`}
+                    >
+                      {statusOptions.map((status, i) => (
+                        <li key={i}>
+                          <button
+                            className="dropdown-item"
+                            onClick={() => handleStatusChange(index, status)}
+                          >
+                            {status}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </td>
+                <td>
+                  {/* <button onClick={() => toggleOrderDetails(index)}>
+                    {expandedOrderIndex === index
+                      ? "Hide Details"
+                      : "Show Details"}
+                  </button> */}
+                </td>
+              </tr>
+
               {/* {expandedOrderIndex === index && (
                 <tr>
                   <td colSpan="3">

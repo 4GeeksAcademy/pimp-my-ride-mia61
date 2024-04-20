@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const GenerateWoSteps = ({ woStages, setWoStages }) => {
+export const GenerateProgressbar = ({ progressStages, setProgressStages }) => {
     const [selectedSteps, setSelectedSteps] = useState([]);
 
     const stepDescriptions = [
@@ -12,23 +12,22 @@ export const GenerateWoSteps = ({ woStages, setWoStages }) => {
         "Parts Delivered",
         "Labor in Progress",
         "Labor completed, car is being prepared for pick-up",
-        "Car is ready for pick-up",
-        "Completed"
+        "Car is ready for pick-up"
     ];
 
     const handleCheckboxChange = (step) => {
-        setWoStages(prevSelectedSteps => {
+        setSelectedSteps(prevSelectedSteps => {
             const index = prevSelectedSteps.indexOf(step);
-            let progressbarSteps = index > -1
-                ? prevSelectedSteps.filter(item => item !== step)
-                : [...prevSelectedSteps, step];
+            let newSelectedSteps = index > -1
+              ? prevSelectedSteps.filter(item => item !== step)
+              : [...prevSelectedSteps, step];
 
             // Asynchronously notify the parent component of the updated steps
-            // if (typeof setWoStages === "function") {
-            //     onSelectedStagesChange(progressbarSteps);
-            // }
+            if (typeof setProgressStages === "function") {
+                onSelectedStagesChange(newSelectedSteps);
+            }
 
-            return progressbarSteps;
+            return newSelectedSteps;
         });
     };
 
@@ -48,7 +47,7 @@ export const GenerateWoSteps = ({ woStages, setWoStages }) => {
                                     className="form-check-input"
                                     type="checkbox"
                                     id={`custom-checkbox-${index}`}
-                                    checked={woStages.includes(step)}
+                                    checked={selectedSteps.includes(step)}
                                     onChange={() => handleCheckboxChange(step)}
                                 />
                                 <label className="form-check-label" htmlFor={`custom-checkbox-${index}`}>
@@ -56,7 +55,7 @@ export const GenerateWoSteps = ({ woStages, setWoStages }) => {
                                 </label>
                             </div>
                         ))}
-                        <button className="btn btn-primary mt-3" onClick={() => console.log(woStages)}>Log Selected Stages</button>
+                        <button className="btn btn-primary mt-3" onClick={() => console.log(selectedSteps)}>Log Selected Stages</button>
                     </div>
                 </div>
             </div>
