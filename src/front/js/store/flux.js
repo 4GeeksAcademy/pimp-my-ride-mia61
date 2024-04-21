@@ -3,6 +3,7 @@ import { TbFlagSearch } from "react-icons/tb";
 const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
+            isLoggedIn: false,
             customerWorkOrders: [],
             customers: [],
             customerId: sessionStorage.getItem("customerId") || null,
@@ -271,7 +272,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                 if (response.status !== 201) return false;
                 const responseBody = await response.json();
                 setStore({
-                    token: responseBody.access_token
+                    token: responseBody.access_token,
+                    isLoggedIn: true
                 });
                 sessionStorage.setItem("token", responseBody.access_token);
 
@@ -293,12 +295,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             logUserOut: () => {
                 setStore({
-                    token: undefined
+                    token: undefined,
+                    customerId: undefined
                 });
-                if (sessionStorage.getItem("token")) {
-                    sessionStorage.removeItem("token");
-                }
-                console.log(getStore().token)
+                sessionStorage.removeItem("token"); 
+                sessionStorage.removeItem("customerId");
+                setStore({isLoggedIn: false});
+                
+                console.log("Logged out:", getStore().token)
             },
 
             logInCustomer: async (customerCredentials) => {
@@ -311,7 +315,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                     const data = await response.json();
                     setStore({
                         token: data.access_token,
-                        customerId: data.customer_id
+                        customerId: data.customer_id,
+                        isLoggedIn: true
                     });
                     sessionStorage.setItem("token", data.access_token);
                     sessionStorage.setItem("customerId", data.customer_id);
