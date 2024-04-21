@@ -89,8 +89,8 @@ const NewWorkOrder = () => {
     }
   }, [make]);
 
-  const handleMakeChange = (e) => {
-    setMake(e.target.value);
+  const handleMakeChange = (event) => {
+    setMake(event.target.value);
   };
 
   // const handleYearChange = (e) => {
@@ -167,7 +167,7 @@ const NewWorkOrder = () => {
               name="first_name"
               value={customer.first_name}
               placeholder="First name *"
-              onChange={() => setCustomer({ firstName: e.target.value })}
+              onChange={() => setCustomer({ firstName: event.target.value })}
               required
             />
           </div>
@@ -178,7 +178,7 @@ const NewWorkOrder = () => {
               value={customer.last_name}
               name="last_name"
               placeholder="Last name *"
-              onChange={() => setCustomer({ lastName: e.target.value })}
+              onChange={() => setCustomer({ lastName: event.target.value })}
               required
             />
           </div>
@@ -192,7 +192,7 @@ const NewWorkOrder = () => {
               name="email"
               placeholder="Email *"
               value={customer.email}
-              onChange={() => setCustomer({ email: e.target.value })}
+              onChange={() => setCustomer({ email: event.target.value })}
               required
             />
           </div>
@@ -203,7 +203,7 @@ const NewWorkOrder = () => {
               name="phone_number"
               placeholder="Phone number *"
               value={customer.phone}
-              onChange={() => setCustomer({ phone: e.target.value })}
+              onChange={() => setCustomer({ phone: event.target.value })}
               required
             />
           </div>
@@ -217,7 +217,7 @@ const NewWorkOrder = () => {
               name="address"
               placeholder="123 Main St."
               value={customer.address}
-              onChange={() => setCustomer({ address: e.target.value })}
+              onChange={() => setCustomer({ address: event.target.value })}
               required
             />
           </div>
@@ -246,7 +246,7 @@ const NewWorkOrder = () => {
               className="form-select"
               aria-label="Model"
               disabled={!make}
-              onChange={(e) => setModel(e.target.value)}
+              onChange={(event) => setModel(event.target.value)}
               value={model}
             >
               <option value="" selected disabled>
@@ -265,7 +265,7 @@ const NewWorkOrder = () => {
               className="form-select"
               aria-label="Year"
               disabled={!make || !modelsList.length}
-              onChange={(e) => setYear(e.target.value)}
+              onChange={(event) => setYear(event.target.value)}
               value={year}
             >
               <option value="" selected disabled>
@@ -288,10 +288,10 @@ const NewWorkOrder = () => {
               name="vin_number"
               placeholder="VIN Number *"
               maxLength={17}
-              onInput={(e) => {
-                e.target.value = e.target.value.toUpperCase();
+              onInput={(event) => {
+                event.target.value = event.target.value.toUpperCase();
               }}
-              onChange={(e) => setVin(e.target.value)}
+              onChange={(event) => setVin(event.target.value)}
               value={vin}
               required
             />
@@ -302,7 +302,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="license_plate"
               placeholder="License plate *"
-              onChange={(e) => setLicense(e.target.value)}
+              onChange={(event) => setLicense(event.target.value)}
               value={license}
               required
             />
@@ -313,7 +313,7 @@ const NewWorkOrder = () => {
               className="form-control"
               name="color"
               placeholder="Color *"
-              onChange={(e) => setColor(e.target.value)}
+              onChange={(event) => setColor(event.target.value)}
               value={color}
               required
             />
@@ -378,7 +378,7 @@ const NewWorkOrder = () => {
             className="form-control"
             name="text_area"
             placeholder="Comments"
-            onChange={(e) => setComments(e.target.value)}
+            onChange={(event) => setComments(event.target.value)}
           ></textarea>
         </div>
 

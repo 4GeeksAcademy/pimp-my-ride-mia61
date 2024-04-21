@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
@@ -32,19 +32,21 @@ import ResetPassword from "./pages/ResetPassword";
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const basename = process.env.BASENAME || "";
 
     if(!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL/ >;
+
 
     return (
         <div>
             <BrowserRouter basename={basename}>
                 <ScrollToTop>
-                    <Navbar />
+                    <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<UserLogin />} path="/user-log-in" />
-                        <Route element={<CustomerLogin />} path="/customer-log-in" />
+                        <Route element={<UserLogin setIsLoggedIn={setIsLoggedIn} />} path="/user-log-in" />
+                        <Route element={<CustomerLogin setIsLoggedIn={setIsLoggedIn} />} path="/customer-log-in" />
                         <Route element={<CustomerDashboard />} path="/customer-dashboard" />
                         <Route element={<CustomerWorkOrder />} path="/customer-work-order/:workOrderId" />
                         <Route element={<CustomerSignup />} path="/customer-signup" />

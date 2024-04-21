@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, {useContext, useState, useEffect } from 'react';
+import { Context } from "../store/appContext"
 import { Link, useNavigate } from 'react-router-dom';
 import "../../styles/Navbar.css";
 import { Button } from '../pages/Button';
 
+
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
-    const{isLoggedIn, setIsLoggedIn} = useState(false);
+    const {isLoggedIn, setIsLoggedIn} = useState(false);
     const navigate = useNavigate();
+    const [isMounted, setIsMounted] = useState(false);
+    const { store, actions } = useContext(Context);
 
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
@@ -21,10 +25,12 @@ function Navbar() {
     };
 
     const handleLogout = () => {
-        console.log('User logged out');
-        setIsLoggedIn(false);
-        navigate('/')
+        actions.logUserOut();
+        console.log('Logged out');
+        navigate('/');
     }
+
+
 
     useEffect(() => {
         window.addEventListener("resize", showButton);
@@ -59,7 +65,7 @@ function Navbar() {
                             </Link>
                         </li>
                     </ul>
-                    {isLoggedIn ? (
+                    {store.isLoggedIn ? (
                         <Button buttonStyle="btn--outline" onClick={handleLogout}>
                         LOG OUT
                         </Button>
