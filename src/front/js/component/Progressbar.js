@@ -19,9 +19,6 @@ export const Progressbar = () => {
     "Completed"
   ];
 
-
-
-
   const handleClick = (step) => {
     setActiveStep(step);
   };
