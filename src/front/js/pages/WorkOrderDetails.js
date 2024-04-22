@@ -141,6 +141,7 @@ export const WorkOrderDetails = () => {
                                 </div>
                             </div>
                         </div>
+                        <h2 className="pt-2 bg-dark text-light">ActiveStep: {activeStep}</h2>
                         #### PROGRESSBAR END ####
                     </div>
                     <div className="container-flex mx-auto ">
