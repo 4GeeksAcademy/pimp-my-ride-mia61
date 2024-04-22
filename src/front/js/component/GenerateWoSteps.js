@@ -56,7 +56,7 @@ export const GenerateWoSteps = ({ woStages, setWoStages }) => {
                                 </label>
                             </div>
                         ))}
-                        <button className="btn btn-primary mt-3" onClick={() => console.log(woStages)}>Log Selected Stages</button>
+                        {/* <button className="btn btn-primary mt-3" onClick={() => console.log(woStages)}>Log Selected Stages</button> */}
                     </div>
                 </div>
             </div>

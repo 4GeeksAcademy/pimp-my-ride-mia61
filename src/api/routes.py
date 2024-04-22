@@ -463,6 +463,7 @@ def create_work_order():
     vin = data.get("vin", None) 
     license_plate  = data.get("license_plate", None) 
     comments = data.get("comments", None) 
+    
     if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or year is None or color is None or vin is None or license_plate  is None:
         return jsonify({"msg": "Some required fields are missing"}), 400
     if is_list_valid(wo_stages) is False:
@@ -509,6 +510,7 @@ def edit_work_order(work_order_id):
     color = data.get("color") 
     vin = data.get("vin") 
     license_plate  = data.get("license_plate")
+    current_stage = data.get("current_stage")
 
     if None in (wo_stages, make, model, year, color, vin, license_plate):
         return jsonify({"msg": "Some required fields are missing"}), 400 
@@ -523,6 +525,8 @@ def edit_work_order(work_order_id):
     work_order.color = color
     work_order.vin = vin
     work_order.license_plate = license_plate
+    work_order.current_stage = current_stage
+
     db.session.commit()
     db.session.refresh(work_order)
     return jsonify({"work_order": work_order.serialize()}), 200

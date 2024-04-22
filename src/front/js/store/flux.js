@@ -419,8 +419,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return responseBody
             },
 
-
-
             editCustomer: async (customer) => {
                 const response = await fetch(
                     process.env.BACKEND_URL + "/api/customer/edit/" + customer.id, {
@@ -541,8 +539,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 setStore({ customerWorkOrders: responseBody })
                 return true;
             },
-
-
 
             createNewWorkOrder: async (workOrder) => {
                 let data = JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, year: workOrder.year, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-import { Progressbar } from "../component/Progressbar";
+import { GenerateWoSteps } from "../component/GenerateWoSteps";
 import { Link, useParams } from "react-router-dom";
 
 
@@ -64,6 +64,10 @@ export const WorkOrderDetails = () => {
         setActiveStep(step);
     };
     // PROGRESSBAR END
+    // PROGRESSBAR EDIT
+    const [editedSelectedSteps, setEditedSelectedSteps] = useState([]);
+    // PROGRESSBAR EDIT
+
 
     
 
@@ -82,7 +86,6 @@ export const WorkOrderDetails = () => {
     return (
         <div className="d-flex bg-black flex-column align-items-center text-center" >
             <div className="container-flex">
-                {/* <h1 className="pt-2 text-light">{full_name}</h1> */}
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -112,7 +115,7 @@ export const WorkOrderDetails = () => {
                         </div>
                     </React.Fragment>
                     <div className="div bg-light m-5 p-5" style={{ width: "1200px" }}>
-                    #### PROGRESSBAR START ####
+                    {/* #### PROGRESSBAR START #### */}
                         <div className="container-fluid">
                             <div className="row">
                                 <div className="col-md-12">
@@ -142,7 +145,9 @@ export const WorkOrderDetails = () => {
                             </div>
                         </div>
                         <h2 className="pt-2 bg-dark text-light">ActiveStep: {activeStep}</h2>
-                        #### PROGRESSBAR END ####
+                        <button className="btn-large pt-2 bg-dark text-light" > Reconfigure Progressbar Button </button>
+                        {/* <GenerateWoSteps className="d-none" setWoStages={} woStages={} /> */}
+                        {/* #### PROGRESSBAR END #### */}
                     </div>
 
                     <div className="container-flex mx-auto d-flex justify-content-between">
@@ -160,6 +165,7 @@ export const WorkOrderDetails = () => {
                                         <h2 className="pt-2 bg-dark text-light">Email: {customer.email}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Phone: {customer.phone}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Address: {customer.address}</h2>
+                                        <button className="btn-large pt-2 bg-dark text-light" > Edit Customer Button </button>
                                         
                                     </div>
                                     <div>
@@ -183,6 +189,7 @@ export const WorkOrderDetails = () => {
                                         <h2 className="pt-2 bg-dark text-light">VIN: {workOrder.vin}</h2>
                                         <h2 className="pt-2 bg-dark text-light">License: {workOrder.license_plate}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Color: {workOrder.color}</h2>
+                                        <button className="btn-large pt-2 bg-dark text-light" > Edit Work Order Button </button>
                                     </div>
                                     <div>
                                         <button className='mt-5' onClick="" >
