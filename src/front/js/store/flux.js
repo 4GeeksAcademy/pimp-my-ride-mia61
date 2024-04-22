@@ -1,12 +1,10 @@
-import { TbFlagSearch } from "react-icons/tb";
-
 const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
             isLoggedIn: false,
             customerWorkOrders: [],
             customers: [],
-            customerId: sessionStorage.getItem("customerId") || null,
+            customerId: undefined,
             orders: [],
             vehicleModels: {
                 Acura: ["ILX", "MDX", "RDX", "RLX", "TLX"],
@@ -280,19 +278,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
-
-            checkIfTokenInSessionStorage: () => {
-                if (sessionStorage.getItem("token")) {
-                    setStore({
-                        token: sessionStorage.getItem("token")
-                    });
-                };
-                setStore({
-                    sessionStorageChecked: true
-                });
-            },
-
-
             logUserOut: () => {
                 setStore({
                     token: undefined,
@@ -337,7 +322,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 
             checkStorage: () => {
-               const token = sessionStorage.getItem("token", undefined)  
+                const token = sessionStorage.getItem("token", undefined)  
                 const customer_id = sessionStorage.getItem("customerId", undefined)
                 setStore({
                     token: token,
