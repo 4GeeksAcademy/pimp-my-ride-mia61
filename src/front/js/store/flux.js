@@ -283,10 +283,10 @@ const getState = ({ getStore, getActions, setStore }) => {
                     token: undefined,
                     customerId: undefined
                 });
-                sessionStorage.removeItem("token"); 
+                sessionStorage.removeItem("token");
                 sessionStorage.removeItem("customerId");
-                setStore({isLoggedIn: false});
-                
+                setStore({ isLoggedIn: false });
+
                 console.log("Logged out:", getStore().token)
             },
 
@@ -312,7 +312,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
-            verifyCustomer: ({access_token, customer_id, ...args}) => {
+            verifyCustomer: ({ access_token, customer_id, ...args }) => {
                 setStore({
                     token: access_token,
                     customerId: customer_id
@@ -388,7 +388,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
                 const responseBody = await response.json();
 
-                
+
                 // return true
                 return responseBody
             },
@@ -413,8 +413,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return responseBody
             },
 
-
-
             editCustomer: async (customer) => {
                 const response = await fetch(
                     process.env.BACKEND_URL + "/api/customer/edit/" + customer.id, {
@@ -424,7 +422,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                         "Authorization": `Bearer ${sessionStorage.getItem("token")}`
 
                     },
-                    body: JSON.stringify({ first_name: customer.first_name, email: customer.email, password: customer.password, last_name: customer.last_name, address: customer.address, phone: customer.phone })
+                    body: JSON.stringify({ first_name: customer.first_name, email: customer.email, last_name: customer.last_name, address: customer.address, phone: customer.phone })
 
                 }
                 );
@@ -468,7 +466,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
-            sendPasswordResetEmail: async (email, role ) => {
+            sendPasswordResetEmail: async (email, role) => {
                 const response = await fetch(process.env.BACKEND_URL + "/api/forgotpassword", {
                     method: "POST",
                     headers: {
@@ -500,10 +498,10 @@ const getState = ({ getStore, getActions, setStore }) => {
                         throw new Error(`HTTP error! status: ${response.status}, message: ${data.message}`);
                     }
                     console.log("Password reset successful:", data.message);
-                    return {status: true, role: data.role};
+                    return { status: true, role: data.role };
                 } catch (error) {
                     console.error("Failed to reset password:", error.message || error);
-                    return {status: false, role: data.role};
+                    return { status: false, role: data.role };
                 }
             },
 
@@ -536,8 +534,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 return true;
             },
 
-
-
             createNewWorkOrder: async (workOrder) => {
                 let data = JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, year: workOrder.year, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })
                 let formData = new FormData();
@@ -567,7 +563,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                         "Content-Type": "application/json",
                         Authorization: "Bearer " + sessionStorage.getItem("token")
                     },
-                    body: JSON.stringify({ user_id: workOrder.user_id, customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate })
+                    body: JSON.stringify({ user_id: workOrder.user_id, customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, current_stage: workOrder.current_stage, year: workOrder.year })
                 })
                 if (response.status !== 200) return false;
                 const responseBody = await response.json();
@@ -601,7 +597,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 })
                 if (response.status !== 200) return false;
                 const responseBody = await response.json();
-                setStore({orders: responseBody.work_orders})
+                setStore({ orders: responseBody.work_orders })
                 return true;
             },
 
