@@ -122,7 +122,9 @@ export const WorkOrderDetails = () => {
                         </div>
                     </React.Fragment>
                     <div className="div bg-light m-5 p-5" style={{ width: "1200px" }}>
-                        {/* #### PROGRESSBAR START #### */}
+
+                    {/* #### PROGRESSBAR START #### */}
+
                         <div className="container-fluid">
                             <div className="row">
                                 <div className="col-md-12">
@@ -151,9 +153,12 @@ export const WorkOrderDetails = () => {
                                 </div>
                             </div>
                         </div>
+
+
                         <div><h2 className="pt-2 bg-dark text-light">Current Stage: {workOrder.wo_stages[activeStep - 1]} </h2></div>
                         <button className="btn-large pt-2 bg-dark text-light" > Add Steps to the progressbar </button>
                         {/* <GenerateWoSteps className="d-none" setWoStages={} woStages={} /> */}
+
                         {/* #### PROGRESSBAR END #### */}
                     </div>
 
