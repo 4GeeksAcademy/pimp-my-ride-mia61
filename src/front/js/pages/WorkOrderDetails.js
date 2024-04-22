@@ -18,7 +18,6 @@ export const WorkOrderDetails = () => {
         wo_stages: []
     })
     const [pictures, setPictures] = useState([])
-
     const [customer, setCustomer] = useState({
         first_name: "",
         last_name: "",
@@ -29,7 +28,6 @@ export const WorkOrderDetails = () => {
 
     const navigate = useNavigate();
     const params = useParams();
-
 
     useEffect(() => {
         let fetchData = async () => {
@@ -58,6 +56,16 @@ export const WorkOrderDetails = () => {
         }
         fetchData();
     }, [])
+
+    // PROGRESSBAR START
+    const [activeStep, setActiveStep] = useState(1);
+    const lengthOfWorkOrderWoStages = workOrder.wo_stages.length;
+    const handleClick = (step) => {
+        setActiveStep(step);
+    };
+    // PROGRESSBAR END
+
+    
 
 
 
@@ -103,7 +111,37 @@ export const WorkOrderDetails = () => {
                             </div>
                         </div>
                     </React.Fragment>
-                    <div className="div py-3">
+                    <div className="div bg-light m-5 p-5" style={{ width: "1200px" }}>
+                    #### PROGRESSBAR START ####
+                        <div className="container-fluid">
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="progressBarContainer">
+                                    {[...Array(lengthOfWorkOrderWoStages).keys()].map((index) => (
+                                        <React.Fragment key={index}>
+                                        <button
+                                            className={`stepButton ${index + 1 <= activeStep ? "completed" : ""}`}
+                                            onClick={() => handleClick(index + 1)}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                        {index < 8 && (
+                                            <div
+                                            className={`stepConnector ${index + 1 < activeStep ? "completed" : ""}`}
+                                            ></div>
+                                        )}
+                                        {activeStep === index + 1 && (
+                                            <div className="stepDescription">
+                                            {workOrder.wo_stages[index]}
+                                            </div>
+                                        )}
+                                        </React.Fragment>
+                                    ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        #### PROGRESSBAR END ####
                     </div>
                     <div className="container-flex mx-auto ">
                         <div className="container-flex mx-auto noteBook bg-white flex-column">
@@ -114,7 +152,7 @@ export const WorkOrderDetails = () => {
                                         boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)',
                                         padding: '0px'
                                     }}  >
-                                        <Progressbar />
+                                        
                                         <h2 className="pt-2 bg-dark text-light">First Name: {customer.first_name}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Last name: {customer.last_name}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Email: {customer.email}</h2>
