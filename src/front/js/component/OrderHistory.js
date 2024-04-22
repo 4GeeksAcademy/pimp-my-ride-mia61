@@ -72,10 +72,11 @@ const OrderHistory = ({orders}) => {
                   <td>{order.color}</td>
                   <td>{order.vin}</td>
                   <td>{order.license_plate}</td>
-                  <td>{order.status}</td>
+                  <td>{order.current_stage}</td>
                   <td>{order.comments.length > 0 ? order.comments[0].message : ""}</td>
-                  {/* <td>{order.current_status}</td> */}
+                  
                   <td>
+                    
                     {/* <div className="dropdown">
                       <button
                         className="btn btn-secondary dropdown-toggle"
