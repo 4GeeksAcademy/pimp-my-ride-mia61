@@ -112,7 +112,7 @@ export const WorkOrderDetails = () => {
                         </div>
                     </React.Fragment>
                     <div className="div bg-light m-5 p-5" style={{ width: "1200px" }}>
-                    #### PROGRESSBAR START ####
+                    {/* #### PROGRESSBAR START #### */}
                         <div className="container-fluid">
                             <div className="row">
                                 <div className="col-md-12">
@@ -142,7 +142,7 @@ export const WorkOrderDetails = () => {
                             </div>
                         </div>
                         <h2 className="pt-2 bg-dark text-light">ActiveStep: {activeStep}</h2>
-                        #### PROGRESSBAR END ####
+                        {/* #### PROGRESSBAR END #### */}
                     </div>
 
                     <div className="container-flex mx-auto d-flex justify-content-between">

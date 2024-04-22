@@ -9,6 +9,8 @@ export const CustomerWorkOrder = () => {
     const[workOrders, setWorkOrders] = useState([])
 
     useEffect(() => {
+        if (!store.token) return;
+    
         fetch(process.env.BACKEND_URL + "/api/work_orders/customer", {
             method: "GET",
             headers: {
@@ -26,7 +28,7 @@ export const CustomerWorkOrder = () => {
             }
         );
         
-    }, [] )
+    }, [store] )
     
     // useEffect(() => setSelectedOrder(workOrders.find((order) => order.id === parseInt(workOrderId))), [workOrders])
     useEffect(() => {

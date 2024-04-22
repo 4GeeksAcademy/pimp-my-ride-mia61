@@ -336,6 +336,15 @@ const getState = ({ getStore, getActions, setStore }) => {
                 sessionStorage.setItem("customerId", customer_id);
             },
 
+            checkStorage: () => {
+               const token = sessionStorage.getItem("token", undefined)  
+                const customer_id = sessionStorage.getItem("customerId", undefined)
+                setStore({
+                    token: token,
+                    customerId: customer_id
+                });
+            },
+
 
 
             signUpCustomer: async (customer) => {
