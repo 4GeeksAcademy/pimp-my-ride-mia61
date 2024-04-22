@@ -144,9 +144,10 @@ export const WorkOrderDetails = () => {
                         <h2 className="pt-2 bg-dark text-light">ActiveStep: {activeStep}</h2>
                         #### PROGRESSBAR END ####
                     </div>
-                    <div className="container-flex mx-auto ">
+
+                    <div className="container-flex mx-auto d-flex justify-content-between">
                         <div className="container-flex mx-auto noteBook bg-white flex-column">
-                            <div className="container-flex mx-auto border d-felx flex-column">
+                        <div className="container-flex mx-auto border d-felx flex-column">
                                 <div className="div align-items-center fs-4 mx-auto p-5" style={{ textShadow: '0px 10px 10px #234D3C' }}>
                                     <div className="div border p-5" style={{
                                         background: '#fff',
@@ -159,6 +160,23 @@ export const WorkOrderDetails = () => {
                                         <h2 className="pt-2 bg-dark text-light">Email: {customer.email}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Phone: {customer.phone}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Address: {customer.address}</h2>
+                                        
+                                    </div>
+                                    <div>
+                                        <button className='mt-5' onClick="" >
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="container-flex mx-auto noteBook bg-white flex-column">
+                        <div className="container-flex mx-auto border d-felx flex-column">
+                                <div className="div align-items-center fs-4 mx-auto p-5" style={{ textShadow: '0px 10px 10px #234D3C' }}>
+                                    <div className="div border p-5" style={{
+                                        background: '#fff',
+                                        boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)',
+                                        padding: '0px'
+                                    }}  >
                                         <h2 className="pt-2 bg-dark text-light">Make: {workOrder.make}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Model: {workOrder.model}</h2>
                                         <h2 className="pt-2 bg-dark text-light">Year: {workOrder.year}</h2>
