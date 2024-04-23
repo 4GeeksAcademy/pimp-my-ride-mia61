@@ -5,7 +5,7 @@ import { Context } from "../store/appContext";
 export const CustomerWorkOrder = () => {
     const { workOrderId } = useParams();
     const { store, actions } = useContext(Context);
-    const [selectedOrder, setSelectedOrder] = useState(null)
+    const [selectedOrder, setSelectedOrder] = useState()
     const [workOrders, setWorkOrders] = useState([])
 
     useEffect(() => {
@@ -29,13 +29,19 @@ export const CustomerWorkOrder = () => {
         );
 
     }, [store.token]);
+    const [activeStep, setActiveStep] = useState(1);
     // useEffect(() => setSelectedOrder(workOrders.find((order) => order.id === parseInt(workOrderId))), [workOrders])
     useEffect(() => {
         if (workOrders && workOrders.length > 0) {
             const selectedOrder = workOrders.find(order => order.id === parseInt(workOrderId));
             setSelectedOrder(selectedOrder);
+            console.log("selectedOrder, current_stage", selectedOrder, selectedOrder.current_stage)
+            setActiveStep(selectedOrder.wo_stages.indexOf(
+                selectedOrder.current_stage
+            ) + 1);
         }
     }, [workOrders, workOrderId]);
+
 
 
     console.log(workOrders)
@@ -43,7 +49,37 @@ export const CustomerWorkOrder = () => {
     return (
         <div>
             <div>
-                PROGRESSBAR
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="progressBarContainer">
+                                {selectedOrder && [...Array(selectedOrder.wo_stages.length).keys()].map((index) => (
+                                    <React.Fragment key={index}>
+                                        <button
+                                            className={`stepButton ${index + 1 <= activeStep ? "completed" : ""}`}
+                                        >
+                                            {index + 1}
+                                        </button>
+                                        {index < 8 && (
+                                            <div
+                                                className={`stepConnector ${index + 1 < activeStep ? "completed" : ""}`}
+                                            ></div>
+                                        )}
+                                        {activeStep === index + 1 && (
+                                            <div className="stepDescription">
+                                                {selectedOrder.wo_stages[index]}
+                                            </div>
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                {selectedOrder && (<React.Fragment><div><h2 className="pt-2 bg-dark text-light">Current Stage: {selectedOrder.current_stage} </h2></div>
+                    <div><h2 className="pt-2 bg-dark text-light">all Stages: {selectedOrder.wo_stages} </h2></div></React.Fragment>)}
             </div>
             <div>
                 {selectedOrder && (
