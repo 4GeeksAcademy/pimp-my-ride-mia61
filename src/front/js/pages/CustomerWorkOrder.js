@@ -43,9 +43,6 @@ export const CustomerWorkOrder = () => {
     }, [workOrders, workOrderId]);
 
 
-    // const lengthOfWorkOrderWoStages = selectedOrder.wo_stages.length;
-
-
 
     console.log(workOrders)
 
