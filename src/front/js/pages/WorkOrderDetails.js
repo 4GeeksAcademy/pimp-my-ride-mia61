@@ -156,9 +156,10 @@ export const WorkOrderDetails = () => {
                                                     ></div>
                                                 )}
                                                 {activeStep === index + 1 && (
-                                                    <div className="stepDescription">
-                                                        {workOrder.wo_stages[index]}
-                                                    </div>
+                                                    <div className="stepDescription text-center">
+                                                        <img src="https://res.cloudinary.com/dufs8hbca/image/upload/v1713900729/progress_bar_car_qa6han.png" className="img-fluid" alt="..." style={{height: "50px" }} / >
+                                                        <p>{workOrder.wo_stages[index]}</p>
+                                                   </div>
                                                 )}
                                             </React.Fragment>
                                         ))}
