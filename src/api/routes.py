@@ -13,6 +13,8 @@ from sendgrid.helpers.mail import Mail
 import random
 from datetime import datetime, timedelta, timezone
 import cloudinary.uploader as uploader
+from cloudinary.uploader import destroy
+from cloudinary.api import delete_resources_by_tag
 from sqlalchemy.exc import SQLAlchemyError
 import uuid
 from urllib.parse import quote
@@ -564,6 +566,14 @@ def delete_work_order(work_order_id):
     work_order = WorkOrder.query.get(work_order_id)
     if work_order is None:
         return jsonify({"msg": "work order not found" }), 404
+    
+    picture_public_ids = [image.image_url.split("/")[-1].split(".")[0] for image in work_order.images]
+
+    for public_id in picture_public_ids:
+        delete_response = destroy(public_id)
+        if delete_response.get("result") != "ok":
+            print(f"Failed to delete picture with public ID: {public_id}")
+
     db.session.delete(work_order)
     db.session.commit()
     return jsonify({"msg": "Work order successfully deleted"}), 200
