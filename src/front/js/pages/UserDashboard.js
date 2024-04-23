@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from "../store/appContext";
 import NewWorkOrder from "../component/NewWorkOrder";
 import OrderHistory from "../component/OrderHistory";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UserDashboard = () => {
-
+    const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
+    
+    // useEffect(() => {
+    //     if (!store.token) {
+    //         navigate("/user-log-in");
+    //     }
+    // }, [store.token, navigate]);
+
     return (
         <div>
             <h1>Welcome to the Business Owner Home Page</h1>

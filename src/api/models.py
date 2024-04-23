@@ -74,12 +74,12 @@ class WorkOrder(db.Model):
     vin = db.Column(db.String(50), unique=False, nullable=False)
     license_plate = db.Column(db.String(120), unique=False, nullable=False)
     customer = db.relationship("Customer", back_populates="work_orders")
-    comments = db.relationship("Comment", back_populates="work_order")
+    comments = db.relationship("Comment", back_populates="work_order", cascade="all, delete")
     wo_stages = db.Column(MutableList.as_mutable(ARRAY(db.String(255))), default=[])
     current_stage = db.Column(db.String(), nullable=False, default="Car Accepted")
     time_created = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
-    images = db.relationship("WorkOrderImage", back_populates="work_order")
+    images = db.relationship("WorkOrderImage", back_populates="work_order",cascade="all, delete")
 # #######################################################################
 
     def __repr__(self):

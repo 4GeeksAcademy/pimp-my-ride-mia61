@@ -75,6 +75,19 @@ export const WorkOrderDetails = () => {
     const [editedSelectedSteps, setEditedSelectedSteps] = useState([]);
     // PROGRESSBAR EDIT
 
+    const handleDeleteWorkOrder = async () => {
+        if (window.confirm("Are you sure you want to delete this work order?")) {
+            const deleted = await actions.deleteWorkOrder(params.theid);
+            if (deleted) {
+                // Redirect or perform any necessary actions after successful deletion
+                navigate("/success-page");
+            } else {
+                // Display error message or handle the failure case
+                console.error("Failed to delete work order");
+            }
+        }
+    };
+
 
 
 
@@ -180,10 +193,6 @@ export const WorkOrderDetails = () => {
                                         <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editCustomer(customer)}> Edit Customer Button </button>
 
                                     </div>
-                                    <div>
-                                        <button className='mt-5' onClick="" >
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -203,14 +212,15 @@ export const WorkOrderDetails = () => {
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Color: </label><input onChange={(e) => setWorkOrder({ ...workOrder, color: e.target.value })} value={workOrder.color} /></div>
                                         <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)} > Edit Work Order Button </button>
                                     </div>
-                                    <div>
-                                        <button className='mt-5' onClick="" >
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="d-grid gap-2 p-5">
+                <button className="btn btn-danger" onClick={handleDeleteWorkOrder}>
+                    Warning! Delete Work Order... Warning!
+                </button>
                 </div>
             </div>
         </div >
