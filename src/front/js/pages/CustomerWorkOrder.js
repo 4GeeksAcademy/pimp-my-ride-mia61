@@ -36,9 +36,11 @@ export const CustomerWorkOrder = () => {
             const selectedOrder = workOrders.find(order => order.id === parseInt(workOrderId));
             setSelectedOrder(selectedOrder);
             console.log("selectedOrder, current_stage", selectedOrder, selectedOrder.current_stage)
-            setActiveStep(selectedOrder.wo_stages.indexOf(
-                selectedOrder.current_stage
-            ) + 1);
+            for (let i = 0; i < selectedOrder.wo_stages.length; i++) {
+                if (selectedOrder.wo_stages[i] == selectedOrder.current_stage) {
+                    setActiveStep(i + 1)
+                }
+            }
         }
     }, [workOrders, workOrderId]);
 
@@ -66,9 +68,10 @@ export const CustomerWorkOrder = () => {
                                             ></div>
                                         )}
                                         {activeStep === index + 1 && (
-                                            <div className="stepDescription">
-                                                {selectedOrder.wo_stages[index]}
-                                            </div>
+                                            <div className="stepDescription text-center">
+                                            <img src="https://res.cloudinary.com/dufs8hbca/image/upload/v1713900729/progress_bar_car_qa6han.png" className="img-fluid" alt="..." style={{height: "50px" }} / >
+                                            <p>{selectedOrder.wo_stages[index]}</p>
+                                       </div>
                                         )}
                                     </React.Fragment>
                                 ))}
@@ -91,8 +94,9 @@ export const CustomerWorkOrder = () => {
                         <p>License Plate: {selectedOrder.license_plate}</p>
                         <p>Status: {selectedOrder.current_stage}</p>
                     </div>
-                )}</div>
-
+                )}
+            </div>
+            <WorkOrderComments writeAccess = {false}/>
         </div>
     );
 };

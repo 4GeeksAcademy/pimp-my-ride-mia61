@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import { GenerateWoSteps } from "../component/GenerateWoSteps";
 import { Link, useParams } from "react-router-dom";
+import { WorkOrderComments } from "../component/WorkOrderComments";
 
 
 export const WorkOrderDetails = () => {
@@ -136,7 +137,7 @@ export const WorkOrderDetails = () => {
                     </React.Fragment>
                     <div className="div bg-light m-5 p-5" style={{ width: "1200px" }}>
 
-                    {/* #### PROGRESSBAR START #### */}
+                        {/* #### PROGRESSBAR START #### */}
 
                         <div className="container-fluid">
                             <div className="row">
@@ -156,13 +157,16 @@ export const WorkOrderDetails = () => {
                                                     ></div>
                                                 )}
                                                 {activeStep === index + 1 && (
-                                                    <div className="stepDescription">
-                                                        {workOrder.wo_stages[index]}
+                                                    <div className="stepDescription text-center">
+                                                        <img src="https://res.cloudinary.com/dufs8hbca/image/upload/v1713900729/progress_bar_car_qa6han.png" className="img-fluid" alt="..." style={{ height: "50px" }} />
+                                                        <p>{workOrder.wo_stages[index]}</p>
                                                     </div>
                                                 )}
                                             </React.Fragment>
                                         ))}
+
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -195,8 +199,6 @@ export const WorkOrderDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="container-flex mx-auto noteBook bg-white flex-column">
                             <div className="container-flex mx-auto border d-felx flex-column">
                                 <div className="div align-items-center fs-4 mx-auto p-5" style={{ textShadow: '0px 10px 10px #234D3C' }}>
                                     <div className="div border p-5" style={{
@@ -215,12 +217,23 @@ export const WorkOrderDetails = () => {
                                 </div>
                             </div>
                         </div>
+                        <div className="container-flex mx-auto noteBook bg-white flex-column">
+                            <div className="div align-items-center fs-4 mx-auto p-5" style={{ textShadow: '0px 10px 10px #234D3C' }}>
+                                <div className="div border p-5" style={{
+                                    background: '#fff',
+                                    boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)',
+                                    padding: '0px'
+                                }}  >
+                                    <WorkOrderComments writeAccess={true} comments = {workOrder.comments} />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="d-grid gap-2 p-5">
-                <button className="btn btn-danger" onClick={handleDeleteWorkOrder}>
-                    Warning! Delete Work Order... Warning!
-                </button>
+                    <button className="btn btn-danger" onClick={handleDeleteWorkOrder}>
+                        Warning! Delete Work Order... Warning!
+                    </button>
                 </div>
             </div>
         </div >
