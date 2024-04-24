@@ -96,7 +96,6 @@ export const CustomerWorkOrder = () => {
                     </div>
                 )}
             </div>
-            <WorkOrderComments writeAccess = {false}/>
         </div>
     );
 };
