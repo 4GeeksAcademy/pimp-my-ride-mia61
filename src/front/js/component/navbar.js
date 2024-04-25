@@ -59,11 +59,11 @@ function Navbar() {
                                 Services
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <Link to="/products" className="nav-links" onClick={closeMobileMenu}>
                                 Products
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                     {store.isLoggedIn ? (
                         <Button buttonStyle="btn--outline" onClick={handleLogout}>

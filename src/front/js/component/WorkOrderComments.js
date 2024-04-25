@@ -6,9 +6,6 @@ export const WorkOrderComments = ({ comments, writeAccess }) => {
   const { store, actions } = useContext(Context);
 
 
-
-
-
   return (
     <div>
       <div class="mb-3">
