@@ -57,11 +57,17 @@ export const CustomerWorkOrder = () => {
                             <div className="progressBarContainer">
                                 {selectedOrder && [...Array(selectedOrder.wo_stages.length).keys()].map((index) => (
                                     <React.Fragment key={index}>
-                                        <button
-                                            className={`stepButton ${index + 1 <= activeStep ? "completed" : ""}`}
-                                        >
-                                            {index + 1}
-                                        </button>
+                                        <div>
+                                            <button
+                                                className={`stepButton ${index + 1 <= activeStep ? "completed" : ""}`}
+                                            >
+                                                {index + 1}
+                                                {/* {selectedOrder.wo_stages[index]} */}
+                                            </button>
+                                            <p>{selectedOrder.wo_stages[index]}</p>
+                                        </div>
+                                        
+                                        
                                         {index < 8 && (
                                             <div
                                                 className={`stepConnector ${index + 1 < activeStep ? "completed" : ""}`}
@@ -70,7 +76,7 @@ export const CustomerWorkOrder = () => {
                                         {activeStep === index + 1 && (
                                             <div className="stepDescription text-center">
                                                 <img src="https://res.cloudinary.com/dufs8hbca/image/upload/v1713900729/progress_bar_car_qa6han.png" className="img-fluid" alt="..." style={{ height: "50px" }} />
-                                                <p>{selectedOrder.wo_stages[index]}</p>
+                                                {/* <p>{selectedOrder.wo_stages[index]}</p> */}
                                             </div>
                                         )}
                                     </React.Fragment>

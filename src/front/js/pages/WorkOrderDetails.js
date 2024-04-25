@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-import { GenerateWoSteps } from "../component/GenerateWoSteps";
 import { Link, useParams } from "react-router-dom";
 import { WorkOrderComments } from "../component/WorkOrderComments";
 
@@ -51,14 +50,6 @@ export const WorkOrderDetails = () => {
             setPictures(data.work_order.images)
             let response = await actions.getCustomerById(data.work_order.customer_id)
             setCustomer(response)
-            // if (response.status != 200 ) {
-            //     alert("We had touble retriving your order details.")
-            // } 
-            // else {
-            //     let info = await response.json()
-            //     setCustomer(info) 
-
-            // }
         };
     }
 
@@ -67,45 +58,23 @@ export const WorkOrderDetails = () => {
         fetchData();
     }, [store.token])
 
-    // PROGRESSBAR START
     const [activeStep, setActiveStep] = useState(1);
     const lengthOfWorkOrderWoStages = workOrder.wo_stages.length;
     const handleClick = (step) => {
         setActiveStep(step);
         setWorkOrder({ ...workOrder, current_stage: workOrder.wo_stages[step - 1] })
     };
-    // PROGRESSBAR END
-    // PROGRESSBAR EDIT
-    const [editedSelectedSteps, setEditedSelectedSteps] = useState([]);
-    // PROGRESSBAR EDIT
 
     const handleDeleteWorkOrder = async () => {
         if (window.confirm("Are you sure you want to delete this work order?")) {
             const deleted = await actions.deleteWorkOrder(params.theid);
             if (deleted) {
-                // Redirect or perform any necessary actions after successful deletion
                 navigate("/success-page");
             } else {
-                // Display error message or handle the failure case
                 console.error("Failed to delete work order");
             }
         }
     };
-
-
-
-
-
-
-    //   const [uploadedImages, setUploadedImages] = useState([]);
-    //   const [woStages, setWoStages] = useState([]);
-    //   const [comments, setComments] = useState([]);
-
-    // useEffect(() => {
-    //     if (!store.token) {
-    //         navigate("/user-log-in");
-    //     }
-    // }, [store.token, navigate]);
 
     return (
         <div className="d-flex bg-black flex-column align-items-center text-center" >
@@ -147,13 +116,19 @@ export const WorkOrderDetails = () => {
                                 <div className="col-md-12">
                                     <div className="progressBarContainer">
                                         {[...Array(lengthOfWorkOrderWoStages).keys()].map((index) => (
-                                            <React.Fragment key={index}>
-                                                <button
-                                                    className={`stepButton ${index + 1 <= activeStep ? "completed" : ""}`}
-                                                    onClick={() => handleClick(index + 1)}
-                                                >
-                                                    {index + 1}
-                                                </button>
+                                            <React.Fragment key={index} className="d-flex flex-column align-items-center" >
+                                                <div className="d-flex flex-column align-items-center">
+                                                    <button
+                                                        className={`stepButton ${index + 1 <= activeStep ? "completed" : ""}`}
+                                                        onClick={() => handleClick(index + 1)}
+                                                    >
+                                                        {index + 1}
+                                                    </button>
+                                                    <p><small>{workOrder.wo_stages[index]}</small></p>
+
+
+                                                </div>
+                                                
                                                 {index < 8 && (
                                                     <div
                                                         className={`stepConnector ${index + 1 < activeStep ? "completed" : ""}`}
@@ -177,7 +152,6 @@ export const WorkOrderDetails = () => {
 
                         <div><h2 className="pt-2 bg-dark text-light">Current Stage: {workOrder.wo_stages[activeStep - 1]} </h2></div>
                         <button className="btn-large pt-2 bg-dark text-light" > Add Steps to the progressbar </button>
-                        {/* <GenerateWoSteps className="d-none" setWoStages={} woStages={} /> */}
 
                         {/* #### PROGRESSBAR END #### */}
                     </div>
@@ -232,7 +206,6 @@ export const WorkOrderDetails = () => {
                                     refreshWorkOrder = {fetchData} 
                                     comments = {workOrder.comments} 
                                     creationDate={workOrder.time_created} 
-                                    // updatedDate={workOrder.time_updated} 
                                     woId = {workOrder.id} />
                                 </div>
                             </div>
