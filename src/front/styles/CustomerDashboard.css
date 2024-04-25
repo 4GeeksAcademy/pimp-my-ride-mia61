@@ -1,0 +1,100 @@
+.dashboard-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #2b2a2a;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0.5);
+    text-align: center;
+    color: #fff;
+}
+
+.dashboard-title {
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+.dashboard-edit-mode input[type="text"] {
+    width: calc(100% - 20px);
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    background: #222;
+    color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.dashboard-edit-mode input[type="text"]:focus {
+    border-color: #f0ad4e;
+}
+
+.dashboard-button {
+    padding: 12px 20px;
+    background: linear-gradient(to right, #575757, #6c757d);
+    border: 1px solid #333;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.dashboard-button:hover,
+.dashboard-button:focus {
+    background: linear-gradient(to right, #6c757d, #575757);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    
+}
+
+.dashboard-edit-button {
+    padding: 8px 20px !important;
+    background:#575757 !important;
+    border: 1px solid #333 !important;
+    border-radius: 4px !important;
+    color: #fff !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    letter-spacing: 1px !important;
+    outline: none !important;
+    cursor: pointer !important;
+    display: inline-block;
+}
+
+.dashboard-table {
+    border-spacing: 0;
+    width: 100%;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.dashboard-table thead {
+    background: #333;
+}
+
+.dashboard-table thead th {
+    color: #fff;
+    padding: 15px;
+}
+
+.dashboard-table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-table tbody tr:nth-child(odd) {
+    background-color: #2b2b2b;;
+}
+
+.dashboard-table tbody tr:hover {
+    background-color: #1e1e1e;;
+}
+
+.dashboard-table td {
+    padding: 15px;
+    color: #fff;
+    border-bottom: 1px solid #444;
+}
+

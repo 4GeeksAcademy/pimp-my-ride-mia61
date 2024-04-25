@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Context } from "../store/appContext";
 import { CustomerWorkOrder } from "./CustomerWorkOrder";
 import { BiSort } from "react-icons/bi";
+import '../../styles/CustomerDashboard.css';
 
 export const CustomerDashboard = () => {
 
@@ -52,13 +53,13 @@ export const CustomerDashboard = () => {
     };
 
     return (
-        <div className="container pt-5">
-            <h2>Welcome to Customer Dashboard</h2>
+        <div className="dashboard-container pt-5">
+            <h2 className="dashboard-title">Welcome to Customer Dashboard</h2>
             {customer.id != null ? (
                 <div>
                     {editMode ?
                         (
-                            <div>
+                            <div className="dashboard-edit-mode">
                                 <input
                                     type="text"
                                     name="first_name"
@@ -89,7 +90,7 @@ export const CustomerDashboard = () => {
                                     value={customer.address}
                                     onChange={(e) => setCustomer({ ...customer, address: e.target.value })}
                                 />
-                                <button onClick={handleEditSubmit}>Save</button>
+                                <button className="dashboard-edit-button" onClick={handleEditSubmit}>Save</button>
                             </div>
                         ) :
                         (
@@ -99,12 +100,12 @@ export const CustomerDashboard = () => {
                                 <p><strong>Last Name:</strong> {customer.last_name}</p>
                                 <p><strong>Phone:</strong> {customer.phone}</p>
                                 <p><strong>Address:</strong> {customer.address}</p>
-                                <button onClick={() => setEditMode(true)}>Edit</button>
+                                <button className="dashboard-edit-button" onClick={() => setEditMode(true)}>Edit</button>
                             </div>
                         )}
                     <div>
-                        <h2>Order History</h2>
-                        <table className="table">
+                        <h2 className="dashboard-title">Order History</h2>
+                        <table className="dashboard-table">
                             <thead>
                                 <tr>
 
