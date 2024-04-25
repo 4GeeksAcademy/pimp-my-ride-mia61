@@ -115,6 +115,7 @@ class Comment(db.Model):
     work_order_id = db.Column(db.Integer, db.ForeignKey("work_orders.id"), nullable=False)
     message = db.Column(db.String(500), unique=False, nullable=False)
     work_order = db.relationship("WorkOrder", back_populates="comments")
+    time_created = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
 
     def __repr__(self):
         return f'<Comment {self.id}>'
@@ -123,7 +124,8 @@ class Comment(db.Model):
         return {
             "id": self.id,
             "work_order_id": self.work_order_id,
-            "message": self.message
+            "message": self.message,
+            "time_created": self.time_created,
         }
     
 # #######################################################################
