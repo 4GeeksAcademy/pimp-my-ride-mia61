@@ -29,6 +29,7 @@ const NewWorkOrder = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
   const [woStages, setWoStages] = useState([]);
   const [comments, setComments] = useState([]);
+  const [imageSizeError, setImageSizeError] = useState(false)
 
   // Defining vechicle models for each make:
 
@@ -103,7 +104,11 @@ const NewWorkOrder = () => {
 
   const handleImageUpload = (event) => {
     const files = event.target.files;
-    console.log(">>> files", files);
+    let file_size = event.target.files[0].size;
+    console.log (file_size)
+    if (file_size <= 100000 ){
+      console.log(">>> files", files);
+      setImageSizeError (false)
     const images = [];
     for (let index = 0; index < files.length; index++) {
       images.push(files.item(index));
@@ -112,21 +117,11 @@ const NewWorkOrder = () => {
       ...prev,
       ...images
     ]));
-    // const newImages = [];
-    // console.log(files);
-    // for (let i = 0; i < files.length; i++) {
-    //   const reader = new FileReader();
-    //   reader.onload = () => {
-    //     newImages.push(reader.result);
-    //     if (newImages.length === files.length) {
-    //       setUploadedImages([
-    //         ...uploadedImages,
-    //         ...newImages.slice(0, 12 - uploadedImages.length),
-    //       ]);
-    //     }
-    //   };
-    //   reader.readAsDataURL(files[i]);
-    // }
+    } else {
+      setImageSizeError (true)
+    }
+    
+    
   };
 
   const handleNewWorkOrder = async (event) => {
@@ -332,6 +327,10 @@ const NewWorkOrder = () => {
             onChange={handleImageUpload}
             filename={`${uploadedImages.length > 0 ? uploadedImages.length : "No"} selected file${uploadedImages.length === 1 ? "" : "s"}`}
           />
+          {imageSizeError ? (
+            <p className="text-danger">The image file you chose is too large to upload</p>
+
+          ): ""}
         </div>
         {/* Conditionally render the preview section */}
         {uploadedImages.length > 0 && (

@@ -26,9 +26,6 @@ export const WorkOrderComments = ({ comments, woId, creationDate, updatedDate, r
   
   
 
-
-
-
   return (
     <div>
       <div class="mb-3">

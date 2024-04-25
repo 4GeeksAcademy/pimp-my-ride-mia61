@@ -7,16 +7,12 @@ import Home from "./pages/home";
 
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
-
-import { Progressbar } from "./component/Progressbar";
-import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
 import { GenerateWoSteps } from "./component/GenerateWoSteps";
-// import { PictureSlider } from "./component/PictureSlider";
 
 import Navbar from "./component/navbar";
 import Footer from "./component/footer";
 import Services from './pages/Services';
-import Products from './pages/Products';
+// import Products from './pages/Products';
 import SignUp from './pages/SignUp';
 import UserDashboard from "./pages/UserDashboard";
 import { UserLogin } from "./pages/UserLogin";
@@ -50,9 +46,9 @@ const Layout = () => {
                         <Route element={<CustomerDashboard />} path="/customer-dashboard" />
                         <Route element={<CustomerWorkOrder />} path="/customer-work-order/:workOrderId" />
                         <Route element={<CustomerSignup />} path="/customer-signup" />
-                        <Route element={<Progressbar />} path="/progressbar" />
-                        <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
-                        <Route element={<GenerateWoSteps />} path="/generate-wo-steps" />
+                        {/* <Route element={<Progressbar />} path="/progressbar" />
+                        <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" /> */}
+                        {/* <Route element={<GenerateWoSteps />} path="/generate-wo-steps" /> */}
                         <Route element={<UserDashboard />} path="/user-dashboard" /> 
                         <Route element={<QuickSearchModal />} path="/quick-search" />
                         <Route element={<WorkOrderDetails />} path="/order/details/:theid" />
@@ -61,7 +57,7 @@ const Layout = () => {
                         <Route element={<h1>Not found!</h1>} />
                         <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path='/services' exact element={ <Services />}></Route>
-                        <Route path='/products' exact element={ <Products />}></Route>
+                        {/* <Route path='/products' exact element={ <Products />}></Route> */}
                         <Route path='/sign-up' exact element={ <SignUp />}></Route>
                     </Routes>
                     <Footer />

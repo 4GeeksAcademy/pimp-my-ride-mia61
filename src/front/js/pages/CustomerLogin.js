@@ -49,7 +49,8 @@ export const CustomerLogin = () => {
         <div className="container pt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.2)' }}>
+                    <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.2)', marginBottom: "50px" }}>
+                    {/* <div style={{maxWidth: '320px', width:'90%', backgroundColor:'#le2833', padding:'10px', borderRadius:'4px', transform:'translate(-50%, -50%)', position:'absolute', top:'50%', left:'50%', color:'#fff', boxShadow:'3px 3px 4px rgba(0,0,0,0.2)'}}> */}
                         <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Login</h2>
                         <div style={{ marginBottom: '20px' }}>
                             <input

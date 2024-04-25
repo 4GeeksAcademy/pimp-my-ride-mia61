@@ -69,9 +69,9 @@ export const CustomerWorkOrder = () => {
                                         )}
                                         {activeStep === index + 1 && (
                                             <div className="stepDescription text-center">
-                                            <img src="https://res.cloudinary.com/dufs8hbca/image/upload/v1713900729/progress_bar_car_qa6han.png" className="img-fluid" alt="..." style={{height: "50px" }} / >
-                                            <p>{selectedOrder.wo_stages[index]}</p>
-                                       </div>
+                                                <img src="https://res.cloudinary.com/dufs8hbca/image/upload/v1713900729/progress_bar_car_qa6han.png" className="img-fluid" alt="..." style={{ height: "50px" }} />
+                                                <p>{selectedOrder.wo_stages[index]}</p>
+                                            </div>
                                         )}
                                     </React.Fragment>
                                 ))}
@@ -81,8 +81,8 @@ export const CustomerWorkOrder = () => {
                 </div>
 
 
-                {selectedOrder && (<React.Fragment><div><h2 className="pt-2 bg-dark text-light">Current Stage: {selectedOrder.current_stage} </h2></div>
-                    <div><h2 className="pt-2 bg-dark text-light">all Stages: {selectedOrder.wo_stages} </h2></div></React.Fragment>)}
+                {/* {selectedOrder && (<React.Fragment><div><h2 className="pt-2 bg-dark text-light">Current Stage: {selectedOrder.current_stage} </h2></div>
+                    <div><h2 className="pt-2 bg-dark text-light">all Stages: {selectedOrder.wo_stages} </h2></div></React.Fragment>)} */}
             </div>
             <div>
                 {selectedOrder && (
@@ -96,7 +96,6 @@ export const CustomerWorkOrder = () => {
                     </div>
                 )}
             </div>
-            <WorkOrderComments writeAccess = {false}/>
         </div>
     );
 };
