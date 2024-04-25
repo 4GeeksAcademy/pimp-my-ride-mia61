@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../store/appContext"
 import { useNavigate } from "react-router-dom";
-// import Progressbar from "./component/Progressbar"
-// import { Link } from "react-router-dom";
 import { GenerateWoSteps } from "../component/GenerateWoSteps";
 import { SearchBar } from "./SearchBar";
 
@@ -140,6 +138,24 @@ const NewWorkOrder = () => {
     });
     if (success) {
       await actions.getAllWorkOrders()
+      setCustomer({
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone: "",
+        address: ""
+      });
+      setMake("");
+      setModel("");
+      setYear("");
+      setVin("");
+      setLicense("");
+      setColor("");
+      setUploadedImages([]);
+      setWoStages([]);
+      setComments([]);
+      setImageSizeError(false);
+      document.querySelector("#imageInput").value=null
       // alert("Work Order Created Successfully!");
     } else {
       alert("something went wrong");
@@ -320,12 +336,13 @@ const NewWorkOrder = () => {
           <input
             type="file"
             className="form-control"
-            id="inputGroupFile04"
+            id="imageInput"
             aria-describedby="inputGroupFileAddon04"
             aria-label="Upload"
             multiple
             onChange={handleImageUpload}
             filename={`${uploadedImages.length > 0 ? uploadedImages.length : "No"} selected file${uploadedImages.length === 1 ? "" : "s"}`}
+            
           />
           {imageSizeError ? (
             <p className="text-danger">The image file you chose is too large to upload</p>
@@ -378,6 +395,7 @@ const NewWorkOrder = () => {
             name="text_area"
             placeholder="Comments"
             onChange={(event) => setComments(event.target.value)}
+            value={comments}
           ></textarea>
         </div>
 

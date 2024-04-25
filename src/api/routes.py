@@ -161,7 +161,7 @@ def delete(cust_id):
 
 
 @api.route('/user/get-customer/<int:cust_id>', methods=['GET'])
-# @admin_required()
+@admin_required()
 def get_customer(cust_id):
     # current_user_id = get_jwt_identity()
     # current_user = User.query.get(current_user_id)
@@ -187,37 +187,6 @@ def get_current_customer():
 def get_all_customers():
     customers = Customer.query.all()
     return jsonify([customer.serialize() for customer in customers]), 200
-
-# @api.route('/send-verification-code', methods=['POST'])
-# def send_verification_code():
-#     email= request.json.get('email')
-#     if not email:
-#         return jsonify({'msg': 'Missing email'}), 400
-
-#     verification_code = ''.join([str(random.randint(0,9)) for _ in range(6)])
-#     expiration = datetime.datetime.now(timezone.utc) + datetime.timedelta(minutes=10)
-#     customer = Customer.query.filter_by(email=email).one_or_none()
-#     if customer:
-#         customer.verification_code= verification_code
-#         customer.verification_code_expires = expiration
-#         db.session.commit()
-
-#     else:
-#         return jsonify({'mes': 'Email not found'}), 404
-    
-#     message = Mail (
-#         from_email='pimpmyride879@gmail.com',
-#         to_emails=email,
-#         subject='Your Verification Code',
-#         html_content=f'Your verification code is: {verification_code}'
-#     )
-#     try:
-#         sg = SendGridAPIClient(os.getenv('SENDGRID_API_KEY'))
-#         response = sg.send(message)
-#         return jsonify({'msg': 'Email send successfully!'}), 200
-#     except Exception as e:
-#         print(e)
-#         return jsonify({'msg': 'Failed to send email'}), 500
 
 @api.route('/send-verification-code', methods=['POST'])
 def send_verification_code():
@@ -266,7 +235,6 @@ def send_verification_code():
         print(f"Failed to send email: {str(e)}")
         return jsonify(msg='Failed to send email'), 500
 
-# utc=pytz.UTC
 @api.route('/customer-verify', methods=['POST'])
 def verify_customer():
     email = request.json.get('email')
@@ -325,9 +293,6 @@ def get_work_orders_by_customer_id(cust_id):
 @api.route('/forgotpassword', methods=['POST'])
 def forgotpassword():
     try:
-        # body = request.get_json()
-        # email = body.get("email")
-        # role = body.get("role")
         data = request.get_json()
         email = data.get("email")
         role = data.get("role")
@@ -400,8 +365,6 @@ def reset_password():
             user = Customer.query.filter_by(email=email).first()
         print (user)
         print (decoded_token)
-        # if user and user.reset_token_expires > datetime.utcnow():
-        #     return user
         return user, decoded_token['sub']['role']
     token = request.args.get('token')
     if token is None:
@@ -431,7 +394,7 @@ def get_work_orders_by_customer():
     return jsonify(work_orders), 200
 
 
-# work order routes ############################################################################ 
+# work order routes 
 
 @api.route('/work-order/new', methods=['POST'])
 @admin_required()
@@ -534,7 +497,7 @@ def edit_work_order(work_order_id):
     return jsonify({"work_order": work_order.serialize()}), 200
 
 @api.route('/work-order/photos/<int:work_order_id>', methods=['GET'])
-# @admin_required()
+@admin_required()
 def get_work_order_photos(work_order_id):
     work_order = WorkOrder.query.get(work_order_id)
     if work_order is None:
@@ -546,7 +509,7 @@ def get_work_order_photos(work_order_id):
     return jsonify({"work_order_photos": serialized_photos}), 200
 
 @api.route('/work-order/all', methods=['GET'])
-# @admin_required()
+@admin_required()
 def get_all_work_orders():
     work_orders = WorkOrder.query.all()
     serialized_work_orders = [wo.serialize() for wo in work_orders]
@@ -593,26 +556,7 @@ def add_comment_to_work_order(work_order_id):
     new_comment = Comment(
         work_order_id=work_order_id,
         message=message)
-    # work_order.comments.append(new_comment)
     db.session.add(new_comment)
     db.session.commit()
     return jsonify({"msg": "Comment added successfully", "comment": new_comment.serialize()}), 201
 
-#####################################################################################################################
-
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
-
-    return jsonify(response_body), 200
-
-@api.route('/private', methods=['GET'])
-@jwt_required()
-def handle_private_data():
-    user_id = get_jwt_identity()
-    user = User.query.get(user_id)
-    message = f"of these are all my recent secrets, I use {user.email} and have a {user.id}"
-    return jsonify(message), 200
