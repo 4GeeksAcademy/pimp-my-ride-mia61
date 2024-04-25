@@ -569,7 +569,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const responseBody = await response.json();
                 console.log(responseBody)
                 return true;
-
             },
 
             deleteWorkOrder: async (workOrderId) => {
@@ -614,6 +613,33 @@ const getState = ({ getStore, getActions, setStore }) => {
                 console.log(responseBody)
                 return true;
             },
+
+            NewCommentWorkOrder: async (workOrderId, message) => {
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/work-order/add-comment/${workOrderId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: "Bearer " + getStore().token
+                        },
+                        body: JSON.stringify({ text: message }),
+                    });
+                    
+                    if (!response.ok) {
+                        // Handle the case where the request was not successful
+                        throw new Error('Failed to add comment to work order');
+                    }
+                    
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    // Handle any errors that occurred during the process
+                    console.error('Error adding comment to work order:', error);
+                    throw error;
+                }
+            }
+
+
         }
     };
 };

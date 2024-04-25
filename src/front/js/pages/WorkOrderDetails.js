@@ -15,6 +15,7 @@ export const WorkOrderDetails = () => {
         vin: "",
         license_plate: "",
         color: "",
+        time_created: "",
         images: [],
         wo_stages: []
     })
@@ -30,39 +31,41 @@ export const WorkOrderDetails = () => {
     const navigate = useNavigate();
     const params = useParams();
 
+    let fetchData = async () => {
+        let resp = await fetch(process.env.BACKEND_URL + "/api/work-order/" + params.theid, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + store.token
+            }
+        })
+        let data = await resp.json()
+        if (data) {
+            setWorkOrder(data.work_order)
+            for (let i = 0; i < data.work_order.wo_stages.length; i++) {
+                if (data.work_order.wo_stages[i] == data.work_order.current_stage) {
+                    setActiveStep(i + 1)
+                }
+            }
+
+            setPictures(data.work_order.images)
+            let response = await actions.getCustomerById(data.work_order.customer_id)
+            setCustomer(response)
+            // if (response.status != 200 ) {
+            //     alert("We had touble retriving your order details.")
+            // } 
+            // else {
+            //     let info = await response.json()
+            //     setCustomer(info) 
+
+            // }
+        };
+    }
+
     useEffect(() => {
-        let fetchData = async () => {
-            let resp = await fetch(process.env.BACKEND_URL + "/api/work-order/" + params.theid, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + sessionStorage.getItem("token")
-                }
-            })
-            let data = await resp.json()
-            if (data) {
-                setWorkOrder(data.work_order)
-                for (let i = 0; i < data.work_order.wo_stages.length; i++) {
-                    if (data.work_order.wo_stages[i] == data.work_order.current_stage) {
-                        setActiveStep(i + 1)
-                    }
-                }
-
-                setPictures(data.work_order.images)
-                let response = await actions.getCustomerById(data.work_order.customer_id)
-                setCustomer(response)
-                // if (response.status != 200 ) {
-                //     alert("We had touble retriving your order details.")
-                // } 
-                // else {
-                //     let info = await response.json()
-                //     setCustomer(info) 
-
-                // }
-            };
-        }
+        if(!store.token) return
         fetchData();
-    }, [])
+    }, [store.token])
 
     // PROGRESSBAR START
     const [activeStep, setActiveStep] = useState(1);
@@ -212,6 +215,7 @@ export const WorkOrderDetails = () => {
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">VIN: </label><input onChange={(e) => setWorkOrder({ ...workOrder, vin: e.target.value })} value={workOrder.vin} /></div>
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">License: </label><input onChange={(e) => setWorkOrder({ ...workOrder, license_plate: e.target.value })} value={workOrder.license_plate} /></div>
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Color: </label><input onChange={(e) => setWorkOrder({ ...workOrder, color: e.target.value })} value={workOrder.color} /></div>
+                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Date Created: </label><input onChange={(e) => setWorkOrder({ ...workOrder, time_created: e.target.value })} value={workOrder.time_created} /></div>
                                         <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)} > Edit Work Order Button </button>
                                     </div>
                                 </div>
@@ -224,7 +228,12 @@ export const WorkOrderDetails = () => {
                                     boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)',
                                     padding: '0px'
                                 }}  >
-                                    <WorkOrderComments writeAccess={true} comments = {workOrder.comments} />
+                                    <WorkOrderComments 
+                                    refreshWorkOrder = {fetchData} 
+                                    comments = {workOrder.comments} 
+                                    creationDate={workOrder.time_created} 
+                                    // updatedDate={workOrder.time_updated} 
+                                    woId = {workOrder.id} />
                                 </div>
                             </div>
                         </div>
