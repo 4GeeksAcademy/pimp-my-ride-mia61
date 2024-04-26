@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 import "../../styles/ProgressBar.css";
 
 
-export const WorkOrderComments = ({ comments, woId, creationDate, updatedDate, refreshWorkOrder }) => {
+export const WorkOrderComments = ({ comments, woId, creationDate, updatedDate, refreshWorkOrder,  formatTime}) => {
   const { store, actions } = useContext(Context);
   const [newComment, setNewComment] = useState("");
 
@@ -19,13 +19,8 @@ export const WorkOrderComments = ({ comments, woId, creationDate, updatedDate, r
       alert("something went wrong");
     }
   }
-
-  function formatTime(time) {return `${time.getMonth()}/${time.getDate()}/${time.getYear()} ${time.getHours()}:${time.getMinutes()} ${parseInt(time.getHours())< 12 ? "AM":"PM" }`}
   
   
-  
-  
-
   return (
     <div>
       <div class="mb-3">
@@ -40,7 +35,7 @@ export const WorkOrderComments = ({ comments, woId, creationDate, updatedDate, r
       </div>
       <div>
         <div class="list-group">
-        <p class="mb-1"> {creationDate} </p>
+        {/* <p class="mb-1"> {creationDate} </p> */}
           { comments?.map((comment, index) => (
             <React.Fragment key={index}>
               <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
@@ -53,7 +48,7 @@ export const WorkOrderComments = ({ comments, woId, creationDate, updatedDate, r
               
             </React.Fragment>
           ))}
-          <button className="btn-large pt-2 bg-dark text-light" onClick={ async () => {
+          <button class="btn-large pt-2 bg-dark text-light" onClick={ async () => {
                 const success = await actions.NewCommentWorkOrder(woId, newComment)
                 if(success) {
                   refreshWorkOrder()

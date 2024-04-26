@@ -24,11 +24,11 @@ export const UserLogin = (props) => {
 
 
     return (
-		<div className="container pt-5 bg-black ">
+		<div className="container pt-5 bg-black">
             {/* Apply animation classes based on formVisible state */}
             <div className="row justify-content-center"  >
                 <div className="col-md-6" >
-                    <div style={{ padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(255, 255, 255, 0.2)', border: '1px solid white' }}>
+                    <div style={{ marginBottom:'50px', padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(255, 255, 255, 0.2)', border: '1px solid white' }}>
                         <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Login</h2>
                         <div style={{ marginBottom: '20px' }}>
                             <input

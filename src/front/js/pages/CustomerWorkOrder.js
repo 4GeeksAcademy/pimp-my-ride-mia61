@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import '../../styles/CustomerWorkOrder.css';
 
 export const CustomerWorkOrder = () => {
     const { workOrderId } = useParams();
@@ -29,8 +30,9 @@ export const CustomerWorkOrder = () => {
         );
 
     }, [store.token]);
+
     const [activeStep, setActiveStep] = useState(1);
-    // useEffect(() => setSelectedOrder(workOrders.find((order) => order.id === parseInt(workOrderId))), [workOrders])
+
     useEffect(() => {
         if (workOrders && workOrders.length > 0) {
             const selectedOrder = workOrders.find(order => order.id === parseInt(workOrderId));
@@ -85,12 +87,9 @@ export const CustomerWorkOrder = () => {
                         </div>
                     </div>
                 </div>
-
-
-                {/* {selectedOrder && (<React.Fragment><div><h2 className="pt-2 bg-dark text-light">Current Stage: {selectedOrder.current_stage} </h2></div>
-                    <div><h2 className="pt-2 bg-dark text-light">all Stages: {selectedOrder.wo_stages} </h2></div></React.Fragment>)} */}
             </div>
-            <div>
+
+            <div className="selected-order-info">
                 {selectedOrder && (
                     <div>
                         <h2>Customer Work Order Details</h2>
