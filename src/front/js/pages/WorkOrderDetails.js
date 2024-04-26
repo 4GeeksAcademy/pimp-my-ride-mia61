@@ -78,6 +78,7 @@ export const WorkOrderDetails = () => {
 
     
     function formatTime(time) {return `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()} ${parseInt(time.getHours())< 12 ? "AM":"PM" }`}
+    function formatTimeNoHours(time) {return `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()}`}
 
 
     return (
@@ -194,7 +195,7 @@ export const WorkOrderDetails = () => {
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">License: </label><input onChange={(e) => setWorkOrder({ ...workOrder, license_plate: e.target.value })} value={workOrder.license_plate} /></div>
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Color: </label><input onChange={(e) => setWorkOrder({ ...workOrder, color: e.target.value })} value={workOrder.color} /></div>
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Date Created: </label><input disabled value={formatTime(new Date(workOrder.time_created))} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Estimated Completion Date: </label><input disabled value={formatTime(new Date(workOrder.est_completion))} /></div>
+                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Estimated Completion Date: </label><input disabled value={formatTimeNoHours(new Date(workOrder.est_completion))} /></div>
                                         <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)} > Edit Work Order Button </button>
                                     </div>
                                 </div>
