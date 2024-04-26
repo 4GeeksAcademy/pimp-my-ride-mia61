@@ -54,7 +54,7 @@ export const CustomerDashboard = () => {
 
     return (
         <div className="dashboard-container pt-5">
-            <h2 className="dashboard-title">Welcome to Customer Dashboard</h2>
+            <h2 className="dashboard-title">Welcome to Customer Dashboard!</h2>
             {customer.id != null ? (
                 <div>
                     {editMode ?
