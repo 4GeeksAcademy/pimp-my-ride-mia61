@@ -535,7 +535,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 
             createNewWorkOrder: async (workOrder) => {
-                let data = JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, year: workOrder.year, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments })
+                let data = JSON.stringify({ customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, year: workOrder.year, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, comments: workOrder.comments, est_completion: workOrder.estCompletion })
                 let formData = new FormData();
                 formData.append("data", data);
                 console.log(">>> 🍎 image:", workOrder.images);
@@ -563,7 +563,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                         "Content-Type": "application/json",
                         Authorization: "Bearer " + sessionStorage.getItem("token")
                     },
-                    body: JSON.stringify({ user_id: workOrder.user_id, customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, current_stage: workOrder.current_stage, year: workOrder.year })
+                    body: JSON.stringify({ user_id: workOrder.user_id, customer_id: workOrder.customer_id, wo_stages: workOrder.wo_stages, make: workOrder.make, model: workOrder.model, color: workOrder.color, vin: workOrder.vin, license_plate: workOrder.license_plate, current_stage: workOrder.current_stage, year: workOrder.year, est_completion: workOrder.est_completion })
                 })
                 if (response.status !== 200) return false;
                 const responseBody = await response.json();

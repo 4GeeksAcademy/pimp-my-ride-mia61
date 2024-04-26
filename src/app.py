@@ -110,7 +110,7 @@ def submit():
     email = request.form['email']
     phone_number = request.form['phone_number']
     vin_number = request.form['vin_number']
-    licence_plate = request.form['licence_plate']
+    license_plate = request.form['license_plate']
     text_area = request.form['text_area']
 
     # Process the form data here
