@@ -272,7 +272,6 @@ def get_work_orders_by_customer_and_license(license_plate):
     work_orders = [wo.serialize() for wo in work_orders]
     return jsonify(work_orders), 200
 
-
 @api.route('/work_orders/customer/<int:cust_id>', methods=['GET'])
 @admin_required()
 def get_work_orders_by_customer_id(cust_id):
@@ -288,7 +287,6 @@ def get_work_orders_by_customer_id(cust_id):
 
     work_orders = [wo.serialize() for wo in customer.work_orders]
     return jsonify(work_orders)
-
 
 @api.route('/forgotpassword', methods=['POST'])
 def forgotpassword():
@@ -427,9 +425,10 @@ def create_work_order():
     color = data.get("color", None) 
     vin = data.get("vin", None) 
     license_plate  = data.get("license_plate", None) 
-    comments = data.get("comments", None) 
+    comments = data.get("comments", None)
+    est_completion = data.get("est_completion", None) 
     
-    if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or year is None or color is None or vin is None or license_plate  is None:
+    if user_id is None or customer_id is None or wo_stages is None or make is None or model is None or year is None or color is None or vin is None or license_plate is None or est_completion is None:
         return jsonify({"msg": "Some required fields are missing"}), 400
     if is_list_valid(wo_stages) is False:
         return jsonify({"msg": "Please send a valid list of stages"}), 400
@@ -439,7 +438,8 @@ def create_work_order():
     user = User.query.filter_by(id=user_id).one_or_none()
     if user is None:
         return jsonify({"msg": "A user with that id does not exist"}), 404
-    work_order = WorkOrder(user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, year=year, color=color, vin=vin, license_plate=license_plate)
+    est_completion = datetime.strptime(est_completion, '%Y-%m-%d').date()
+    work_order = WorkOrder(user_id=user_id, customer_id=customer_id, wo_stages=wo_stages, make=make, model=model, year=year, color=color, vin=vin, license_plate=license_plate, est_completion=est_completion)
     db.session.add(work_order)
     db.session.commit()   
     db.session.refresh(work_order)
@@ -476,10 +476,11 @@ def edit_work_order(work_order_id):
     vin = data.get("vin") 
     license_plate  = data.get("license_plate")
     current_stage = data.get("current_stage")
+    est_completion = data.get("est_completion")
 
-    if None in (wo_stages, make, model, year, color, vin, license_plate):
+    if None in (wo_stages, make, model, year, color, vin, license_plate, est_completion):
         return jsonify({"msg": "Some required fields are missing"}), 400 
-
+    est_completion = datetime.strptime(est_completion, '%Y-%m-%d').date()
     work_order = WorkOrder.query.get(work_order_id)
     if work_order is None:
         return jsonify({"msg": "Work order not found"}), 404
@@ -491,6 +492,7 @@ def edit_work_order(work_order_id):
     work_order.vin = vin
     work_order.license_plate = license_plate
     work_order.current_stage = current_stage
+    work_order.est_completion = est_completion
 
     db.session.commit()
     db.session.refresh(work_order)

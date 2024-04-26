@@ -47,7 +47,7 @@ const OrderHistory = ({orders}) => {
             <th>Make/Model</th>
             <th>Color</th>
             <th>VIN</th>
-            <th>Licence Plate</th>
+            <th>License Plate</th>
             <th>Status</th>
             <th>Comments</th>
           </tr>

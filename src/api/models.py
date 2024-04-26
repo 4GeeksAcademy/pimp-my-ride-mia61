@@ -79,6 +79,7 @@ class WorkOrder(db.Model):
     current_stage = db.Column(db.String(), nullable=False, default="Car Accepted")
     time_created = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     time_updated = db.Column(db.DateTime(timezone=True), onupdate=db.func.now())
+    est_completion = db.Column(db.Date, unique=False, nullable=False)
     images = db.relationship("WorkOrderImage", back_populates="work_order",cascade="all, delete")
 # #######################################################################
 
@@ -104,6 +105,7 @@ class WorkOrder(db.Model):
             "license_plate": self.license_plate,
             "time_created": self.time_created,
             "time_updated": self.time_updated,
+            "est_completion": self.est_completion,
             "comments": [comment.serialize() for comment in self.comments],
             "images": [image.serialize() for image in self.images]
         }

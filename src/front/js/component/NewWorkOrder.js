@@ -23,6 +23,7 @@ const NewWorkOrder = () => {
   const [vin, setVin] = useState("");
   const [license, setLicense] = useState("");
   const [color, setColor] = useState("");
+  const [estCompletion, setEstCompletion] = useState("");
 
   const [uploadedImages, setUploadedImages] = useState([]);
   const [woStages, setWoStages] = useState([]);
@@ -134,7 +135,8 @@ const NewWorkOrder = () => {
       vin: vin,
       license_plate: license,
       comments: comments,
-      images: uploadedImages
+      images: uploadedImages,
+      estCompletion: estCompletion
     });
     if (success) {
       await actions.getAllWorkOrders()
@@ -155,6 +157,7 @@ const NewWorkOrder = () => {
       setWoStages([]);
       setComments([]);
       setImageSizeError(false);
+      setEstCompletion("");
       document.querySelector("#imageInput").value=null
       // alert("Work Order Created Successfully!");
     } else {
@@ -397,6 +400,20 @@ const NewWorkOrder = () => {
             onChange={(event) => setComments(event.target.value)}
             value={comments}
           ></textarea>
+        </div>
+        <div className="input-group">
+          <span className="input-group-text">Notes:</span>
+          <input
+            className="form-control"
+            name="est_completion"
+            placeholder="est_completion"
+            type="date"
+            onChange={(event) => {
+              const newDate = event.target.value;
+              setEstCompletion(newDate)
+            } }
+            value={estCompletion}
+          ></input>
         </div>
 
         <div className="mb-3"></div>
