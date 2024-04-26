@@ -1,6 +1,6 @@
 .quick-search-container {
     /* width: 100% !important; */
-    max-width: 600px !important;
+    max-width: 40% !important;
     margin: 100px auto !important;
     /* padding: 20px !important; */
     background-color: #2b2a2a !important;
@@ -20,7 +20,7 @@
     margin-bottom: 20px !important;
     border: 1px solid #444 !important;
     border-radius: 5px !important;
-    /* background-color: #2b2a2a !important; */
+    background-color: #2b2a2a !important;
     background-color: red;
     color: #fff !important;
     outline: none !important;
