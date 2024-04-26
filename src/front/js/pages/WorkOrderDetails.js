@@ -76,6 +76,10 @@ export const WorkOrderDetails = () => {
         }
     };
 
+    
+    function formatTime(time) {return `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()} ${parseInt(time.getHours())< 12 ? "AM":"PM" }`}
+
+
     return (
         <div className="d-flex bg-black flex-column align-items-center text-center" >
             <div className="container-flex">
@@ -189,7 +193,7 @@ export const WorkOrderDetails = () => {
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">VIN: </label><input onChange={(e) => setWorkOrder({ ...workOrder, vin: e.target.value })} value={workOrder.vin} /></div>
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">License: </label><input onChange={(e) => setWorkOrder({ ...workOrder, license_plate: e.target.value })} value={workOrder.license_plate} /></div>
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Color: </label><input onChange={(e) => setWorkOrder({ ...workOrder, color: e.target.value })} value={workOrder.color} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Date Created: </label><input onChange={(e) => setWorkOrder({ ...workOrder, time_created: e.target.value })} value={workOrder.time_created} /></div>
+                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Date Created: </label><input disabled value={formatTime(new Date(workOrder.time_created))} /></div>
                                         <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)} > Edit Work Order Button </button>
                                     </div>
                                 </div>
@@ -203,6 +207,7 @@ export const WorkOrderDetails = () => {
                                     padding: '0px'
                                 }}  >
                                     <WorkOrderComments 
+                                    formatTime={formatTime}
                                     refreshWorkOrder = {fetchData} 
                                     comments = {workOrder.comments} 
                                     creationDate={workOrder.time_created} 
