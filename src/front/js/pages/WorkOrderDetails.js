@@ -54,7 +54,7 @@ export const WorkOrderDetails = () => {
     }
 
     useEffect(() => {
-        if(!store.token) return
+        if (!store.token) return
         fetchData();
     }, [store.token])
 
@@ -76,9 +76,13 @@ export const WorkOrderDetails = () => {
         }
     };
 
-    
-    function formatTime(time) {return `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()} ${parseInt(time.getHours())< 12 ? "AM":"PM" }`}
-    function formatTimeNoHours(time) {return `${time.getMonth()+1}/${time.getDate()}/${time.getFullYear()}`}
+
+    function formatTime(time) { return `${time.getMonth()}/${time.getDate()}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()} ${parseInt(time.getHours()) < 12 ? "AM" : "PM"}` }
+    function formatTimeNoHours(time) {
+        const oneDayMilliseconds = 24 * 60 * 60 * 1000; // Number of milliseconds in one day
+        const nextDay = new Date(time.getTime() + oneDayMilliseconds); // Add one day to the provided time
+        return `${nextDay.getMonth() + 1}/${nextDay.getDate()}/${nextDay.getFullYear()}`;
+    }
 
 
     return (
@@ -121,7 +125,7 @@ export const WorkOrderDetails = () => {
                                 <div className="col-md-12">
                                     <div className="progressBarContainer">
                                         {[...Array(lengthOfWorkOrderWoStages).keys()].map((index) => (
-                                            <React.Fragment key={index} className="d-flex flex-column align-items-center" >
+                                            <div key={index} className="d-flex flex-column align-items-center" >
                                                 <div className="d-flex flex-column align-items-center">
                                                     <button
                                                         className={`stepButton ${index + 1 <= activeStep ? "completed" : ""}`}
@@ -133,7 +137,7 @@ export const WorkOrderDetails = () => {
 
 
                                                 </div>
-                                                
+
                                                 {index < 8 && (
                                                     <div
                                                         className={`stepConnector ${index + 1 < activeStep ? "completed" : ""}`}
@@ -145,7 +149,7 @@ export const WorkOrderDetails = () => {
                                                         <p>{workOrder.wo_stages[index]}</p>
                                                     </div>
                                                 )}
-                                            </React.Fragment>
+                                            </div>
                                         ))}
 
                                     </div>
@@ -194,8 +198,20 @@ export const WorkOrderDetails = () => {
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">VIN: </label><input onChange={(e) => setWorkOrder({ ...workOrder, vin: e.target.value })} value={workOrder.vin} /></div>
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">License: </label><input onChange={(e) => setWorkOrder({ ...workOrder, license_plate: e.target.value })} value={workOrder.license_plate} /></div>
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Color: </label><input onChange={(e) => setWorkOrder({ ...workOrder, color: e.target.value })} value={workOrder.color} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Date Created: </label><input disabled value={formatTime(new Date(workOrder.time_created))} /></div>
+                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Date Created: </label><input disabled value={formatTimeNoHours(new Date(workOrder.time_created))} /></div>
                                         <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Estimated Completion Date: </label><input disabled value={formatTimeNoHours(new Date(workOrder.est_completion))} /></div>
+                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Edit Estimated Completion Date: </label>
+                                            {/* Show stored date in an editable input */}
+                                            <input
+                                                className="form-control"
+                                                name="est_completion"
+                                                type="date"
+                                                onChange={(event) => setWorkOrder({ ...workOrder, est_completion: event.target.value })}
+                                                value={workOrder.est_completion}
+                                            />
+                                        </div>
+
+
                                         <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)} > Edit Work Order Button </button>
                                     </div>
                                 </div>
@@ -208,12 +224,12 @@ export const WorkOrderDetails = () => {
                                     boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)',
                                     padding: '0px'
                                 }}  >
-                                    <WorkOrderComments 
-                                    formatTime={formatTime}
-                                    refreshWorkOrder = {fetchData} 
-                                    comments = {workOrder.comments} 
-                                    creationDate={workOrder.time_created} 
-                                    woId = {workOrder.id} />
+                                    <WorkOrderComments
+                                        formatTime={formatTime}
+                                        refreshWorkOrder={fetchData}
+                                        comments={workOrder.comments}
+                                        creationDate={workOrder.time_created}
+                                        woId={workOrder.id} />
                                 </div>
                             </div>
                         </div>
