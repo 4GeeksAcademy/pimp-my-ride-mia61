@@ -7,8 +7,8 @@ export const CustomerSignup = () => {
     const { store, actions } = useContext(Context);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [first_name, setFirst_name] = useState("");
+    const [last_name, setLast_name] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [invalidItems, setInvalidItems] = useState([]);
@@ -24,8 +24,8 @@ export const CustomerSignup = () => {
             const success = await actions.signUpCustomer({
                 email: email,
                 password: password,
-                firstName: firstName,
-                lastName: lastName,
+                first_name: first_name,
+                last_name: last_name,
                 phone: phone,
                 address: address
             });
@@ -37,69 +37,69 @@ export const CustomerSignup = () => {
             }
         } else {
             console.log("Invalid inputs:", invalidItems);
-            
+
         }
     }
 
     const validateEmail = () => {
         let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (email.match(validRegex)) {
-          return true;
+            return true;
         } else {
-          setInvalidItems([...invalidItems, "email"]);
-          return false;
+            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "email"]);
+            return false;
         }
-      };
+    };
 
-      const validatePhone = () => {
-        if (phone.trim() === "" || phone.length <= 10 || phone.length > 25 ) {
-          setInvalidItems([...invalidItems, "phone"]);
-          return false;
+    const validatePhone = () => {
+        if (phone.trim() === "" || phone.length <= 9 || phone.length > 15) {
+            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "phone"]);
+            return false;
         }
         return true;
-      };
+    };
 
-      const validateFirstName = () => {
-        if (firstName.trim() === "" || firstName.length <= 2 || firstName.length > 25 ) {
-          setInvalidItems([...invalidItems, "firstName"]);
-          return false;
+    const validateFirstName = () => {
+        if (first_name.trim() === "" || first_name.length <= 2 || first_name.length > 25) {
+            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "first_name"]);
+            return false;
         }
         return true;
-      };
+    };
 
-      const validateLastName = () => {
-        if (lastName.trim() === "" || lastName.length <= 2 || lastName.length > 25 ) {
-          setInvalidItems([...invalidItems, "lastName"]);
-          return false;
+    const validateLastName = () => {
+        if (last_name.trim() === "" || last_name.length <= 2 || last_name.length > 25) {
+            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "last_name"]);
+            return false;
         }
         return true;
-      };
-    
-      const validatePassword = () => {
-        if (password.trim() === "" || password.length <= 6 || password.length > 20 ) {
-          setInvalidItems([...invalidItems, "password"]);
-          return false;
-        }
-        return true;
-      };
-      const validateAddress = () => {
-        if (address.trim() === "" || address.length <= 6 || address.length > 20 ) {
-          setInvalidItems([...invalidItems, "address"]);
-          return false;
-        }
-        return true;
-      };
+    };
 
-     
+    const validatePassword = () => {
+        if (password.trim() === "" || password.length <= 5 || password.length > 20) {
+            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "password"]);
+            return false;
+        }
+        return true;
+    };
+    const validateAddress = () => {
+        if (address.trim() === "" || address.length <= 6 || address.length > 20) {
+            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "address"]);
+            return false;
+        }
+        return true;
+    };
+
+
 
     // const handleLogin = async(event) => {
-	// 	const success = await actions.logInCustomer({
-	// 		email: email,
-	// 		password: password
-	// 	});
-	// 	if (success) {
+    // 	const success = await actions.logInCustomer({
+    // 		email: email,
+    // 		password: password
+    // 	});
+    // 	if (success) {
     //         navigate("/customer-profile");
-	//     } else {
+    //     } else {
     //     alert("something went wrong");
     //     }
     // }
@@ -124,7 +124,7 @@ export const CustomerSignup = () => {
                                     onChange={(event) => setEmail(event.target.value)}
                                     required
                                 />
-                                 {invalidItems.includes("email") && <label className="error-label">Invalid email format</label>}
+                                {invalidItems.includes("email") && <label className="error-label">Invalid email format</label>}
                             </div>
                             <div style={{ marginBottom: '20px' }}>
                                 <input
@@ -139,25 +139,25 @@ export const CustomerSignup = () => {
                             </div>
                             <div style={{ marginBottom: '20px' }}>
                                 <input
-                                    type="firstName"
+                                    type="first_name"
                                     style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ced4da' }}
                                     placeholder="First Name"
-                                    value={firstName}
-                                    onChange={(event) => setFirstName(event.target.value)}
+                                    value={first_name}
+                                    onChange={(event) => setFirst_name(event.target.value)}
                                     required
                                 />
-                                {invalidItems.includes("firstName") && <label className="error-label">First Name is required</label>}
+                                {invalidItems.includes("first_name") && <label className="error-label">First Name is required</label>}
                             </div>
                             <div style={{ marginBottom: '20px' }}>
                                 <input
-                                    type="lastName"
+                                    type="last_name"
                                     style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ced4da' }}
                                     placeholder="Last Name"
-                                    value={lastName}
-                                    onChange={(event) => setLastName(event.target.value)}
+                                    value={last_name}
+                                    onChange={(event) => setLast_name(event.target.value)}
                                     required
                                 />
-                                {invalidItems.includes("lastName") && <label className="error-label">Last Name is required</label>}
+                                {invalidItems.includes("last_name") && <label className="error-label">Last Name is required</label>}
                             </div>
                             <div style={{ marginBottom: '20px' }}>
                                 <input
