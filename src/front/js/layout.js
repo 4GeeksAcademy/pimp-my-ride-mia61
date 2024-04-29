@@ -46,9 +46,6 @@ const Layout = () => {
                         <Route element={<CustomerDashboard />} path="/customer-dashboard" />
                         <Route element={<CustomerWorkOrder />} path="/customer-work-order/:workOrderId" />
                         <Route element={<CustomerSignup />} path="/customer-signup" />
-                        {/* <Route element={<Progressbar />} path="/progressbar" />
-                        <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" /> */}
-                        {/* <Route element={<GenerateWoSteps />} path="/generate-wo-steps" /> */}
                         <Route element={<UserDashboard />} path="/user-dashboard" /> 
                         <Route element={<QuickSearchModal />} path="/quick-search" />
                         <Route element={<WorkOrderDetails />} path="/order/details/:theid" />

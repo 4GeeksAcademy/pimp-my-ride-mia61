@@ -30,12 +30,12 @@ function Footer() {
           <div className='footer-link-items'>
             <h2>About Us</h2>
             <Link to='/services'>Services</Link>
-            <Link to='/products'>Products</Link>
+            {/* <Link to='/products'>Products</Link> */}
           </div>
           <div className='footer-link-items'>
             <h2>Quick Links</h2>
-            <Link to='/user-log-in'>Owner Login</Link>
-            <Link to='/customer-dashboard'>Customer Page</Link>
+            <Link to='/user-log-in'>Business Login</Link>
+            <Link to='/customer-dashboard'>Customer Dashboard</Link>
             <Link to='/customer-signup'>Customer Sign Up</Link>
           </div>
         </div>

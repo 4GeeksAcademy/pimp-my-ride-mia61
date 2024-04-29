@@ -92,7 +92,7 @@ export const CustomerWorkOrder = () => {
             <div className="selected-order-info">
                 {selectedOrder && (
                     <div>
-                        <h2>Customer Work Order Details</h2>
+                        <h2>Work Order Details:</h2>
                         <p>Make/Model: {selectedOrder.make} {selectedOrder.model}</p>
                         <p>Color: {selectedOrder.color}</p>
                         <p>VIN: {selectedOrder.vin}</p>
