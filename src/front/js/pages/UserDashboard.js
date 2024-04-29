@@ -15,6 +15,15 @@ const UserDashboard = () => {
     //     }
     // }, [store.token, navigate]);
 
+    // checkIfTokenInSessionStorage
+
+    useEffect(() => {
+        actions.checkIfTokenInSessionStorage();
+        if(!store.token) {
+            navigate("/user-log-in");
+        }
+    }, [store.token])
+
     return (
         <div>
             <h1>Welcome to the Business Owner Home Page</h1>

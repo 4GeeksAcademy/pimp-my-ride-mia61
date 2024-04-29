@@ -392,7 +392,7 @@ const NewWorkOrder = () => {
         <div className="mb-3"></div>
 
         <div className="input-group">
-          <span className="input-group-text">Notes:</span>
+          <span className="input-group-text">Comments:</span>
           <textarea
             className="form-control"
             name="text_area"
@@ -402,7 +402,7 @@ const NewWorkOrder = () => {
           ></textarea>
         </div>
         <div className="input-group">
-          <span className="input-group-text">Notes:</span>
+          <span className="input-group-text">Estimated Completion Date:</span>
           <input
             className="form-control"
             name="est_completion"

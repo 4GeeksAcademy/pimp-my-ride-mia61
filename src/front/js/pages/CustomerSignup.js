@@ -82,6 +82,7 @@ export const CustomerSignup = () => {
         }
         return true;
     };
+    
     const validateAddress = () => {
         if (address.trim() === "" || address.length <= 6 || address.length > 20) {
             setInvalidItems(prevInvalidItems => [...prevInvalidItems, "address"]);
