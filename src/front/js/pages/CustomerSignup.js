@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
+import { ValidateEmail, ValidateFirstName, ValidateLastName, ValidatePassword, ValidateAddress, ValidatePhone } from "../component/Validators";
 
 export const CustomerSignup = () => {
     const navigate = useNavigate();
@@ -14,12 +15,12 @@ export const CustomerSignup = () => {
     const [invalidItems, setInvalidItems] = useState([]);
 
     const handleSignup = async () => {
-        let isEmailValid = validateEmail();
-        let isFirstNameValid = validateFirstName();
-        let isLastNameValid = validateLastName();
-        let isPasswordValid = validatePassword();
-        let isAddressValid = validateAddress();
-        let isPhoneValid = validatePhone();
+        let isEmailValid = ValidateEmail(email, setInvalidItems);
+        let isFirstNameValid = ValidateFirstName(first_name, setInvalidItems);
+        let isLastNameValid = ValidateLastName(last_name, setInvalidItems);
+        let isPasswordValid = ValidatePassword(password, setInvalidItems);
+        let isAddressValid = ValidateAddress(address, setInvalidItems);
+        let isPhoneValid = ValidatePhone(phone, setInvalidItems);
         if (isEmailValid && isFirstNameValid && isLastNameValid && isPasswordValid && isAddressValid && isPhoneValid) {
             const success = await actions.signUpCustomer({
                 email: email,
@@ -41,58 +42,6 @@ export const CustomerSignup = () => {
         }
     }
 
-    const validateEmail = () => {
-        let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-        if (email.match(validRegex)) {
-            return true;
-        } else {
-            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "email"]);
-            return false;
-        }
-    };
-
-    const validatePhone = () => {
-        if (phone.trim() === "" || phone.length <= 9 || phone.length > 15) {
-            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "phone"]);
-            return false;
-        }
-        return true;
-    };
-
-    const validateFirstName = () => {
-        if (first_name.trim() === "" || first_name.length <= 2 || first_name.length > 25) {
-            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "first_name"]);
-            return false;
-        }
-        return true;
-    };
-
-    const validateLastName = () => {
-        if (last_name.trim() === "" || last_name.length <= 2 || last_name.length > 25) {
-            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "last_name"]);
-            return false;
-        }
-        return true;
-    };
-
-    const validatePassword = () => {
-        if (password.trim() === "" || password.length <= 5 || password.length > 20) {
-            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "password"]);
-            return false;
-        }
-        return true;
-    };
-    
-    const validateAddress = () => {
-        if (address.trim() === "" || address.length <= 6 || address.length > 20) {
-            setInvalidItems(prevInvalidItems => [...prevInvalidItems, "address"]);
-            return false;
-        }
-        return true;
-    };
-
-
-
     // const handleLogin = async(event) => {
     // 	const success = await actions.logInCustomer({
     // 		email: email,
@@ -107,6 +56,8 @@ export const CustomerSignup = () => {
 
 
     return (
+
+
         <form onSubmit={(event) => {
             event.preventDefault();
             handleSignup();
@@ -117,6 +68,7 @@ export const CustomerSignup = () => {
                         <div style={{ padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(255, 255, 255, 0.2)', border: '1px solid white' }}>
                             <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Sign Up</h2>
                             <div style={{ marginBottom: '20px' }}>
+
                                 <input
                                     type="email"
                                     style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ced4da' }}
