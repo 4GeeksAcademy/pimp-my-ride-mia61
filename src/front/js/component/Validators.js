@@ -53,7 +53,95 @@ export const ValidateAddress = (address, setInvalidItems) => {
     return true;
 };
 
+export const ValidateMake = (make, setInvalidItems) => {
+    if (make === null || make.trim() === "" || make.length <= 1 || make.length > 20) {
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "make"]);
+        return false;
+    }
+    return true;
+};
 
-  
-  
- 
+export const ValidateModel = (model, setInvalidItems) => {
+    if (model.trim() === "" || model.length <= 1 || model.length > 20) {
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "model"]);
+        return false;
+    }
+    return true;
+};
+
+export const ValidateYear = (year, setInvalidItems) => {
+    if (year.trim() === "" || year.length < 4 || year.length < 4) {
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "year"]);
+        return false;
+    }
+    return true;
+};
+
+export const ValidateVin = (vin, setInvalidItems) => {
+    // Regular expression for VIN validation
+    const vinRegex = /^[A-HJ-NPR-Z0-9]{17}$/;
+
+    if (vinRegex.test(vin)) {
+        // VIN is valid
+        return true;
+    } else {
+        // VIN is invalid
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "vin"]);
+        return false;
+    }
+};
+
+export const ValidateLicense = (license, setInvalidItems) => {
+    if (license.trim() === "" || license.length < 1 || license.length > 10) {
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "license"]);
+        return false;
+    }
+    return true;
+};
+
+export const ValidateColor = (color, setInvalidItems) => {
+    if (color.trim() === "" || color.length <= 2 || color.length > 20) {
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "color"]);
+        return false;
+    }
+    return true;
+};
+
+export const ValidateImages = (uploadedImages, setInvalidItems) => {
+    if (uploadedImages.length === 0 ) {
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "uploadedImages"]);
+        return false;
+    }
+    return true;
+};
+
+export const ValidateWoStages = (woStages, setInvalidItems) => {
+    if (woStages[0] === "" || woStages.length <= 2 || woStages.length > 12) {
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "woStages"]);
+        return false;
+    }
+    return true;
+};
+
+export const ValidateComments = (comments, setInvalidItems) => {
+    if (comments === "" || comments.length <= 2 || comments.length > 20) {
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "comments"]);
+        return false;
+    }
+    return true;
+};
+
+export function ValidateEstCompletion (est_completion, setInvalidItems) {
+    console.log(est_completion)
+    var currentDate = new Date();
+    let formattedCurrentDate = new Date(est_completion)
+    console.log(currentDate)
+    console.log(formattedCurrentDate)
+
+    if (formattedCurrentDate <= currentDate || est_completion.trim() === "" || est_completion.length <= 6 || est_completion.length > 20 ) {
+        setInvalidItems(prevInvalidItems => [...prevInvalidItems, "est_completion"]);
+        return false;
+    }
+
+    return true;
+}

@@ -46,6 +46,13 @@ export const CustomerWorkOrder = () => {
         }
     }, [workOrders, workOrderId]);
 
+    function formatTime(time) { return `${time.getMonth()}/${time.getDate()}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()} ${parseInt(time.getHours()) < 12 ? "AM" : "PM"}` }
+    function formatTimeNoHours(time) {
+        const oneDayMilliseconds = 24 * 60 * 60 * 1000; // Number of milliseconds in one day
+        const nextDay = new Date(time.getTime() + oneDayMilliseconds); // Add one day to the provided time
+        return `${nextDay.getMonth() + 1}/${nextDay.getDate()}/${nextDay.getFullYear()}`;
+    }
+
 
 
     console.log(workOrders)
@@ -98,6 +105,7 @@ export const CustomerWorkOrder = () => {
                         <p>VIN: {selectedOrder.vin}</p>
                         <p>License Plate: {selectedOrder.license_plate}</p>
                         <p>Status: {selectedOrder.current_stage}</p>
+                        <p>Status: {formatTimeNoHours(new Date((selectedOrder.est_completion)))}</p>
                     </div>
                 )}
             </div>
