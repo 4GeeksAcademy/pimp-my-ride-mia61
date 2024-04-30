@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
+import '../../styles/OrderHistory.css';
 
 const OrderHistory = ({orders}) => {
   const { store, actions } = useContext(Context)
@@ -37,8 +38,8 @@ const OrderHistory = ({orders}) => {
   };
 
   return (
-    <div>
-      <h2>Order History</h2>
+    <div className='order-history-container'>
+      <h2 style={{ color: '#333' }}>Order History</h2>
       <table className="table">
         <thead>
           <tr>
@@ -59,7 +60,7 @@ const OrderHistory = ({orders}) => {
                 <tr>
                   
                     <td>
-                      <Link to={"/order/details/" + order.id } >
+                      <Link to={"/order/details/" + order.id } className="order-id-link">
                         {order.id} 
                       </Link>
                     </td>

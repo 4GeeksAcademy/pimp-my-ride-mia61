@@ -54,11 +54,11 @@ function Navbar() {
                                 Home
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <Link to="/services" className="nav-links" onClick={closeMobileMenu}>
                                 Our Advanteges
                             </Link>
-                        </li>
+                        </li> */}
                         {/* <li className="nav-item">
                             <Link to="/products" className="nav-links" onClick={closeMobileMenu}>
                                 Products

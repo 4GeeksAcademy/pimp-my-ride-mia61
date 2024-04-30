@@ -169,11 +169,21 @@ const NewWorkOrder = () => {
 
 
   return (
-    <div className="form-container">
+    <div className="form-container" style={{
+      width: '100%',
+      maxWidth: '98%',
+      margin: '50px auto',
+      padding: '20px',
+      backgroundColor: '#f3f2f2',
+      borderRadius: '5px',
+      boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
+      textAlign: 'center',
+      color: '#fff'
+    }}>
       <SearchBar setCustomer={setCustomer} />
 
-      <form onSubmit={handleNewWorkOrder}>
-        <div className="row input-group mb-3">
+      <form onSubmit={handleNewWorkOrder} >
+        <div className="row input-group mb-3 mt-3">
           <div className="col-md-6">
             <input
               type="text"
@@ -392,9 +402,9 @@ const NewWorkOrder = () => {
         <div className="mb-3"></div>
 
         <div className="input-group">
-          <span className="input-group-text">Notes:</span>
+          <span className="input-group-text mb-3">Notes:</span>
           <textarea
-            className="form-control"
+            className="form-control mb-3"
             name="text_area"
             placeholder="Comments"
             onChange={(event) => setComments(event.target.value)}
@@ -402,7 +412,7 @@ const NewWorkOrder = () => {
           ></textarea>
         </div>
         <div className="input-group">
-          <span className="input-group-text">Notes:</span>
+          <span className="input-group-text">Completion date:</span>
           <input
             className="form-control"
             name="est_completion"
@@ -424,7 +434,7 @@ const NewWorkOrder = () => {
 
         <div>
           <button
-            type="submit" className="btn btn-primary"
+            type="submit" className="btn btn-primary mt-3"
             onClick={handleNewWorkOrder}>
             Create new order
           </button>

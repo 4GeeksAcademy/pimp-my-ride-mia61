@@ -10,7 +10,7 @@ export const SearchBar = ({ setCustomer }) => {
 
     return (
         <div>
-            <form className="d-flex" role="search">
+            <form className="d-flex mb-3" role="search">
                 <input className="form-control me-2" onChange={(e) => setQuery(e.target.value)} type="search" placeholder="Search" aria-label="Search" />
 
             </form>

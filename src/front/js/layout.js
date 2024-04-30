@@ -53,7 +53,7 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                         <Route path="/reset-password" element={<ResetPassword />} />
-                        <Route path='/services' exact element={ <Services />}></Route>
+                        {/* <Route path='/services' exact element={ <Services />}></Route> */}
                         {/* <Route path='/products' exact element={ <Products />}></Route> */}
                         <Route path='/sign-up' exact element={ <SignUp />}></Route>
                     </Routes>

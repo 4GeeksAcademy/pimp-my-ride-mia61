@@ -118,7 +118,8 @@ export const CustomerSignup = (props) => {
                                 <button
                                     type="button"
                                     style={{
-                                        backgroundColor: '#007bff',
+                                        backgroundColor: '#6c757d',
+                                        marginBottom: '10px',
                                         color: '#fff',
                                         border: 'none',
                                         borderRadius: '5px',
@@ -134,7 +135,9 @@ export const CustomerSignup = (props) => {
                                     Submit
                                 </button>
                             </div>
-                            <div><Link to='/customer-log-in'>Already have an account? Please Log-In</Link></div>
+                            <div>
+                                <Link to='/customer-log-in' className="customer-login-link">Already have an account?</Link>
+                            </div>
                         </div>
                     </div>
                 </div>

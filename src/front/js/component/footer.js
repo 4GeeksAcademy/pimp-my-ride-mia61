@@ -27,14 +27,14 @@ function Footer() {
       </section>
       <div className='footer-links'>
         <div className='footer-link-wrapper'>
-          <div className='footer-link-items'>
+          {/* <div className='footer-link-items'>
             <h2>About Us</h2>
             <Link to='/services'>Why Us</Link>
-            {/* <Link to='/products'>Products</Link> */}
-          </div>
+            <Link to='/products'>Products</Link>
+          </div> */}
           <div className='footer-link-items'>
             <h2>Quick Links</h2>
-            <Link to='/user-log-in'>Business Login</Link>
+            <Link to='/user-log-in'>Owner Login</Link>
             <Link to='/customer-dashboard'>Customer Dashboard</Link>
             <Link to='/customer-signup'>Customer Sign Up</Link>
           </div>
@@ -47,7 +47,7 @@ function Footer() {
           </div>
           <div className='footer-link-items'>
             <h2>Follow Us</h2>
-            {/* Replace # with your actual social media links */}
+            {/* Replace # with actual social media links */}
             <Link to='https://www.instagram.com/mechanicsdoingthings/'>Instagram</Link>
             <Link to='https://www.facebook.com/groups/350896951721690/'>Facebook</Link>
             <Link to='https://www.youtube.com/watch?v=igQE5YnFV7g'>YouTube</Link>
