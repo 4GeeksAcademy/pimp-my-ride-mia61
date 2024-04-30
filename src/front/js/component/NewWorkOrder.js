@@ -161,7 +161,7 @@ const NewWorkOrder = () => {
       document.querySelector("#imageInput").value=null
       // alert("Work Order Created Successfully!");
     } else {
-      alert("something went wrong");
+      alert("Something went wrong");
     }
 
   }

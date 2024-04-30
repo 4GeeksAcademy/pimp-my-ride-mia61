@@ -1,6 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect} from "react";
 import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import '../../styles/CustomerSignUp.css';
 
 export const CustomerSignup = (props) => {
     const navigate = useNavigate();
@@ -47,7 +48,8 @@ export const CustomerSignup = (props) => {
             event.preventDefault();
             handleSignup();
         }}>
-            <div className="container pt-5 bg-black ">
+            {/* <div className="container pt-5 bg-black "> */}
+            <div style={{width: '100%', maxWidth: '1000px', margin: '100px auto', padding: '30px', backgroundColor: '#2b2a2a', borderRadius: '10px', boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)', textAlign: 'center'}}>
                 <div className="row justify-content-center">
                     <div className="col-md-6 pb-5 text-light" >
                         <div style={{ padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(255, 255, 255, 0.2)', border: '1px solid white' }}>
@@ -132,6 +134,7 @@ export const CustomerSignup = (props) => {
                                     Submit
                                 </button>
                             </div>
+                            <div><Link to='/customer-log-in'>Already have an account? Please Log-In</Link></div>
                         </div>
                     </div>
                 </div>

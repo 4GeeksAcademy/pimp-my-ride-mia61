@@ -17,8 +17,7 @@ const UserDashboard = () => {
 
     return (
         <div>
-            <h1>Welcome to the Business Owner Home Page</h1>
-
+            <h1>Welcome to the Business Owner Home Page!</h1>
             <div>
                 <h2>Create New Work Order</h2>
                 <NewWorkOrder />
