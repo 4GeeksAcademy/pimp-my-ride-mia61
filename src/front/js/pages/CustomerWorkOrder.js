@@ -75,8 +75,8 @@ export const CustomerWorkOrder = () => {
                                             </button>
                                             <p>{selectedOrder.wo_stages[index]}</p>
                                         </div>
-                                        
-                                        
+
+
                                         {index < 8 && (
                                             <div
                                                 className={`stepConnector ${index + 1 < activeStep ? "completed" : ""}`}
@@ -105,7 +105,7 @@ export const CustomerWorkOrder = () => {
                         <p>VIN: {selectedOrder.vin}</p>
                         <p>License Plate: {selectedOrder.license_plate}</p>
                         <p>Status: {selectedOrder.current_stage}</p>
-                        <p>Status: {formatTimeNoHours(new Date((selectedOrder.est_completion)))}</p>
+                        <p>Car Ready date: {formatTimeNoHours(new Date((selectedOrder.est_completion)))}</p>
                     </div>
                 )}
             </div>
