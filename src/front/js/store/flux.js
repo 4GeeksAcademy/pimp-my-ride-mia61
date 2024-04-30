@@ -257,6 +257,17 @@ const getState = ({ getStore, getActions, setStore }) => {
         actions: {
             // Use getActions to call a function within a fuction
 
+            checkIfTokenInSessionStorage: () => {
+				if (sessionStorage.getItem("token")) {
+					setStore({
+						token: sessionStorage.getItem("token")
+					});
+				};
+				setStore({
+					sessionStorageChecked: true
+				});
+			},
+
             logInUser: async (user) => {
                 const response = await fetch(
                     process.env.BACKEND_URL + "/api/user/login", {
