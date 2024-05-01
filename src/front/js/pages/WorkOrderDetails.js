@@ -289,7 +289,8 @@ export const WorkOrderDetails = () => {
                                             <button className="btn btn-secondary" onClick={handleEdit}>Edit Details</button>
                                         </>
                                     )}
-
+                                </div>
+                            </div>
                             <div className="container-flex mx-auto border d-felx flex-column">
                                 <div className="div align-items-center fs-4 mx-auto p-5" style={{ textShadow: '0px 10px 10px #234D3C' }}>
                                     <div className="div border p-5" style={{
