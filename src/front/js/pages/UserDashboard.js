@@ -16,6 +16,7 @@ const UserDashboard = () => {
     // }, [store.token, navigate]);
 
 
+
     useEffect(() => {
         if (!store.token) {
             setOrders([]);
@@ -31,6 +32,15 @@ const UserDashboard = () => {
             });
         }
     }, [store.token, actions])
+
+
+    useEffect(() => {
+        actions.checkIfTokenInSessionStorage();
+        if(!store.token) {
+            navigate("/user-log-in");
+        }
+    }, [store.token])
+
 
     return (
         <div>
