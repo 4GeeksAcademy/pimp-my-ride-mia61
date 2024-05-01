@@ -14,7 +14,7 @@ export const ValidateEmail = (email, setInvalidItems) => {
 };
 
 export const ValidatePhone = (phone, setInvalidItems) => {
-    if (phone.trim() === "" || phone.length <= 9 || phone.length > 15) {
+    if (phone.trim() === "" || phone.length < 10 || phone.length > 15) {
         setInvalidItems(prevInvalidItems => [...prevInvalidItems, "phone"]);
         return false;
     }
@@ -46,7 +46,7 @@ export const ValidatePassword = (password, setInvalidItems) => {
 };
 
 export const ValidateAddress = (address, setInvalidItems) => {
-    if (address.trim() === "" || address.length <= 6 || address.length > 20) {
+    if (address.trim() === "" || address.length <= 6 || address.length > 80) {
         setInvalidItems(prevInvalidItems => [...prevInvalidItems, "address"]);
         return false;
     }
@@ -124,7 +124,7 @@ export const ValidateWoStages = (woStages, setInvalidItems) => {
 };
 
 export const ValidateComments = (comments, setInvalidItems) => {
-    if (comments === "" || comments.length <= 2 || comments.length > 20) {
+    if (comments === "" || comments.length <= 2 || comments.length > 500) {
         setInvalidItems(prevInvalidItems => [...prevInvalidItems, "comments"]);
         return false;
     }

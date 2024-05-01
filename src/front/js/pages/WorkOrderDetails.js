@@ -188,10 +188,10 @@ export const WorkOrderDetails = () => {
                                                 >
                                                     {index + 1}
                                                 </button>
-                                                <p style={{ margin: "4px 0", color: 'gray', fontSize: '14px' }}>{workOrder.wo_stages[index]}</p>
+                                                {activeStep != index + 1 ? (<p style={{ margin: "4px 0", color: 'gray', fontSize: '14px' }}>{workOrder.wo_stages[index]}</p>):""}
                                             </div>
                                             {index < lengthOfWorkOrderWoStages - 1 && (
-                                                <div style={{ width: "50px", height: "2px", background: index + 1 < activeStep ? "#28a745" : "#ccc", margin: "0 10px" }}></div>
+                                                <div style={{ width: "70px", height: "2px", background: index + 1 < activeStep ? "#28a745" : "#ccc", margin: "22px 10px" }}></div>
                                             )}
                                             {activeStep === index + 1 && (
                                                 <div className="stepDescription text-center" style={{ margin: "10px 0" }}>
@@ -207,7 +207,7 @@ export const WorkOrderDetails = () => {
                             </div>
                         </div>
                         <h2 style={{ backgroundColor: "#343a40", color: "white", padding: "10px 0" }}>Current Stage: {workOrder.wo_stages[activeStep - 1]}</h2>
-                        <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)}> Add Steps to the progressbar </button>
+                        {/* <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)}> Update Progressbar </button> */}
                     </div>
                     <div className="container-flex mx-auto d-flex  justify-content-between" style={{ width: "100%", marginTop: "20px" }}>
                         <div className="container" style={{ width: "45%", background: '#fff', padding: "20px", boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
@@ -291,37 +291,7 @@ export const WorkOrderDetails = () => {
                                     )}
                                 </div>
                             </div>
-                            <div className="container-flex mx-auto border d-felx flex-column">
-                                <div className="div align-items-center fs-4 mx-auto p-5" style={{ textShadow: '0px 10px 10px #234D3C' }}>
-                                    <div className="div border p-5" style={{
-                                        background: '#fff',
-                                        boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)',
-                                        padding: '0px'
-                                    }}  >
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Make: </label> <input onChange={(e) => setWorkOrder({ ...workOrder, make: e.target.value })} value={workOrder.make} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Model: </label><input onChange={(e) => setWorkOrder({ ...workOrder, model: e.target.value })} value={workOrder.model} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Year: </label><input onChange={(e) => setWorkOrder({ ...workOrder, year: e.target.value })} value={workOrder.year} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">VIN: </label><input onChange={(e) => setWorkOrder({ ...workOrder, vin: e.target.value })} value={workOrder.vin} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">License: </label><input onChange={(e) => setWorkOrder({ ...workOrder, license_plate: e.target.value })} value={workOrder.license_plate} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Color: </label><input onChange={(e) => setWorkOrder({ ...workOrder, color: e.target.value })} value={workOrder.color} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Date Created: </label><input disabled value={formatTimeNoHours(new Date(workOrder.time_created))} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Estimated Completion Date: </label><input disabled value={formatTimeNoHours(new Date(workOrder.est_completion))} /></div>
-                                        <div className="d-flex mb-1"><label className="pt-2 bg-dark text-light">Edit Estimated Completion Date: </label>
-                                            {/* Show stored date in an editable input */}
-                                            <input
-                                                className="form-control"
-                                                name="est_completion"
-                                                type="date"
-                                                onChange={(event) => setWorkOrder({ ...workOrder, est_completion: event.target.value })}
-                                                value={workOrder.est_completion}
-                                            />
-                                        </div>
-
-
-                                        <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)} > Edit Work Order Button </button>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div className="container-flex mx-auto noteBook bg-white flex-column">
                             <div className="div align-items-center fs-4 mx-auto p-5" style={{ textShadow: '0px 10px 10px #234D3C' }}>
