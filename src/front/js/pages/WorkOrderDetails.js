@@ -206,11 +206,11 @@ export const WorkOrderDetails = () => {
                                 </div>
                             </div>
                         </div>
-                        <h2 style={{ backgroundColor: "#343a40", color: "white", padding: "10px 0" }}>Current Stage: {workOrder.wo_stages[activeStep - 1]}</h2>
+                        {/* <h5 style={{ backgroundColor: "#343a40", color: "white", padding: "10px 0" }}>Current Stage: {workOrder.wo_stages[activeStep - 1]}</h5> */}
                         {/* <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)}> Update Progressbar </button> */}
                     </div>
                     <div className="container-flex mx-auto d-flex  justify-content-between" style={{ width: "100%", marginTop: "20px" }}>
-                        <div className="container" style={{ width: "45%", background: '#fff', padding: "20px", boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
+                        <div className="container" style={{ width: "60%", background: '#fff', padding: "20px", boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
                             {/* Editing for customer */}
                             <div className="mb-3">
                                 <label className="form-label">First Name: </label>
@@ -233,11 +233,11 @@ export const WorkOrderDetails = () => {
                                 <label className="form-label">Address: </label>
                                 <input className="form-control" name="address" value={customer.address} onChange={handleInputChangeCustomer} />
                             </div>
-                            <button className="btn btn-primary" onClick={handleSaveCustomerDetails}>Save Customer Details</button>
+                            <button className="btn btn-primary" onClick={handleSaveCustomerDetails} style={{paddingBottom: "8px", marginBottom:"10px", borderRadius: "5px", backgroundColor: "#343a40",}}>Save Customer Details</button>
 
 
-                            <div className="container-flex mx-auto border d-flex flex-column" style={{ padding: "20px", boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)' }}>
-                                <div className="align-items-center fs-4 mx-auto" style={{ textShadow: '0px 10px 10px #234D3C' }}>
+                            <div className="container-flex mx-auto border d-flex flex-column" style={{ padding: "20px" }}>
+                                <div className="align-items-center fs-4 mx-auto">
                                     {editMode ? (
                                         <>
                                             {/* Editable fields */}
@@ -273,11 +273,11 @@ export const WorkOrderDetails = () => {
                                                 <label className="form-label">Estimated Completion Date: </label>
                                                 <input className="form-control" disabled value={formatTimeNoHours(new Date(workOrder.est_completion))} />
                                             </div>
-                                            <button className="btn btn-primary" onClick={handleSave}>Save Changes</button>
+                                            <button className="btn btn-primary" onClick={handleSave} style={{paddingBottom: "8px", marginBottom:"10px", borderRadius: "5px", backgroundColor: "#343a40",}}>Save Changes</button>
                                         </>
                                     ) : (
                                         <>
-                                            {/* Display fields */}
+                                        <div className="selected-order-info">{/* Display fields */}
                                             <p>Make: {workOrder.make}</p>
                                             <p>Model: {workOrder.model}</p>
                                             <p>Year: {workOrder.year}</p>
@@ -285,32 +285,23 @@ export const WorkOrderDetails = () => {
                                             <p>License Plate: {workOrder.license_plate}</p>
                                             <p>Color: {workOrder.color}</p>
                                             <p>Date Created: {formatTime(new Date(workOrder.time_created))}</p>
-                                            <p>Estimated Completion Date: {formatTimeNoHours(new Date(workOrder.est_completion))}</p>
-                                            <button className="btn btn-secondary" onClick={handleEdit}>Edit Details</button>
+                                            <p>Estimated Completion Date: {formatTimeNoHours(new Date(workOrder.est_completion))}</p></div>
+                                            
+                                            <button className="btn btn-secondary" onClick={handleEdit} style={{paddingBottom: "8px", marginBottom:"10px", borderRadius: "5px", backgroundColor: "#343a40",}}>Edit Details</button>
                                         </>
                                     )}
                                 </div>
                             </div>
-                            
-                        </div>
-                        <div className="container-flex mx-auto noteBook bg-white flex-column">
-                            <div className="div align-items-center fs-4 mx-auto p-5" style={{ textShadow: '0px 10px 10px #234D3C' }}>
-                                <div className="div border p-5" style={{
-                                    background: '#fff',
-                                    boxShadow: '0 1px 1px rgba(0,0,0,0.15), 0 10px 0 -5px #eee, 0 10px 1px -4px rgba(0,0,0,0.15), 0 20px 0 -10px #eee, 0 20px 1px -9px rgba(0,0,0,0.15)',
-                                    padding: '0px'
-                                }}  >
+                            <div className="container-flex mx-auto noteBook bg-white flex-column">
+                                <div className="div align-items-center fs-4 mx-auto p-5">
                                     <WorkOrderComments
                                         formatTime={formatTime}
                                         refreshWorkOrder={fetchData}
                                         comments={workOrder.comments}
                                         creationDate={workOrder.time_created}
                                         woId={workOrder.id} />
-
                                 </div>
                             </div>
-
-                          
                         </div>
                     </div>
                     <div style={{ width: "100%", textAlign: "center", padding: "20px" }}>

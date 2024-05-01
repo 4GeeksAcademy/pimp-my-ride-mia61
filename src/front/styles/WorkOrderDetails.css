@@ -1,0 +1,22 @@
+.dashboard-edit-mode input[type="text"] {
+    width: calc(100% - 20px);
+    margin-bottom: 15px;
+    padding: 12px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    background: #222;
+    color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.selected-order-info {
+    width: 100%;
+    max-width: 95%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #2b2a2a;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0.5);
+    text-align: center;
+    color: #fff;
+}
