@@ -23,16 +23,6 @@ const UserDashboard = () => {
         }
     }, [store.token]);
 
-    // useEffect(() => {
-    //     if (store.token) {
-    //         actions.getAllWorkOrders().then(data => {
-    //             setOrders(data);
-    //         }).catch(error => {
-    //             console.error("Error fetching orders", error)
-    //         });
-    //     }
-    // }, [store.token, actions])
-
 
     useEffect(() => {
         actions.checkIfTokenInSessionStorage();
