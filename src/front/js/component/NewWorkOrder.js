@@ -183,7 +183,7 @@ const NewWorkOrder = () => {
       <SearchBar setCustomer={setCustomer} />
 
       <form onSubmit={handleNewWorkOrder} >
-        <div className="row input-group mb-3 mt-3">
+        <div className="row input-group mb-3 mt-3 ">
           <div className="col-md-6">
             <input
               type="text"
@@ -445,8 +445,3 @@ const NewWorkOrder = () => {
 };
 
 export default NewWorkOrder;
-
-//  for picutrse send 2 fourmat fields,,
-//  second request to send a file 
-
-//  Flux and make a new fetch that takes a arr []

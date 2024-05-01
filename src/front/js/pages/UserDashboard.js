@@ -8,18 +8,35 @@ const UserDashboard = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
-    
+
     // useEffect(() => {
     //     if (!store.token) {
     //         navigate("/user-log-in");
     //     }
     // }, [store.token, navigate]);
 
+
+    useEffect(() => {
+        if (!store.token) {
+            setOrders([]);
+        }
+    }, [store.token]);
+
+    useEffect(() => {
+        if (store.token) {
+            actions.getAllWorkOrders().then(data => {
+                setOrders(data);
+            }).catch(error => {
+                console.error("Error fetching orders", error)
+            });
+        }
+    }, [store.token, actions])
+
     return (
         <div>
             <h1>Welcome to the Business Owner Home Page!</h1>
             <div>
-                <h2>Create New Work Order</h2>
+                <h4 style={{ textAlign: 'center', marginTop: '10px' }}>Create New Work Order</h4>
                 <NewWorkOrder />
             </div>
             <div>

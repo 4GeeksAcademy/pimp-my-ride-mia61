@@ -53,7 +53,7 @@ export const CustomerSignup = (props) => {
                 <div className="row justify-content-center">
                     <div className="col-md-6 pb-5 text-light" >
                         <div style={{ padding: '20px', borderRadius: '10px', boxShadow: '0px 0px 50px rgba(255, 255, 255, 0.2)', border: '1px solid white' }}>
-                            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Sign Up</h2>
+                            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Welcome!</h2>
                             <div style={{ marginBottom: '20px' }}>
                                 <input
                                     type="email"

@@ -1,0 +1,77 @@
+/* .new-work-order .dashboard-container {
+    width: 100% !important;
+    max-width: 1600px !important;
+    margin: 50px auto !important;
+    padding: 20px !important;
+    background-color: #686868 !important;
+    border-radius: 5px !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5) !important;
+    text-align: center !important;
+    color: #fff !important;
+}
+
+.new-work-order .form-control, .new-work-order .form-select {
+    background: #fff !important;
+    border: 2px solid #333 !important;
+    color: #222 !important;
+    margin-bottom: 15px !important;
+}
+
+.new-work-order .form-control:focus, .new-work-order .form-select:focus {
+    border-color: #f0ad4e !important;
+}
+
+.new-work-order .btn-primary {
+    background: linear-gradient(to right, #575757, #6c757d) !important;
+    border-color: #333 !important;
+}
+
+.new-work-order .btn-primary:hover {
+    background: linear-gradient(to right, #6c757d, #575757) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.new-work-order .input-group{
+    margin-bottom: 20px !important;
+}
+
+.new-work-order input[type="text"],
+.new-work-order input[type="email"],
+.new-work-order input[type="file"],
+.new-work-order select {
+    width: 100% !important;
+    padding: 10px !important;
+}
+
+.new-work-order .row > div {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+
+.new-work-order .btn-primary {
+    margin-top: 20px !important;
+}
+
+.new-work-order .form-select {
+    -webkit-appearance: menulist-button;
+    appearance: menulist-button;
+    background: #fff !important;
+    border: 2px solid #333 !important;
+    color: #222 !important;
+    margin-bottom: 15px !important;
+}
+
+.new-work-order .input-group-text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.new-work-order .input-group input,
+.new-work-order .input-group select,
+.new-work-order .input-group textarea {
+    flex: 3; 
+    padding: 10px; 
+}
+ */
