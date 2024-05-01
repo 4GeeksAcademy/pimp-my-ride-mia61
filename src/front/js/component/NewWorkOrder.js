@@ -155,6 +155,7 @@ const NewWorkOrder = () => {
         images: uploadedImages,
         estCompletion: estCompletion
       });
+
       if (success) {
         await actions.getAllWorkOrders()
         setCustomer({
@@ -183,6 +184,7 @@ const NewWorkOrder = () => {
 
     }else {
       console.log("Invalid inputs:", invalidItems);
+
     }
 
     
@@ -190,34 +192,33 @@ const NewWorkOrder = () => {
 
 
 
-    return (
-      <div className="form-container">
-        <SearchBar setCustomer={setCustomer} />
+  return (
+    <div className="form-container" style={{
+      width: '100%',
+      maxWidth: '98%',
+      margin: '50px auto',
+      padding: '20px',
+      backgroundColor: '#f3f2f2',
+      borderRadius: '5px',
+      boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
+      textAlign: 'center',
+      color: '#fff'
+    }}>
+      <SearchBar setCustomer={setCustomer} />
 
-        <form onSubmit={handleNewWorkOrder}>
-          <div className="row input-group mb-3">
-            <div className="col-md-6">
-              <input
-                type="text"
-                className="form-control"
-                name="first_name"
-                value={customer.first_name}
-                placeholder="First name *"
-                onChange={() => setCustomer({ firstName: event.target.value })}
-                required
-              />
-            </div>
-            <div className="col-md-6">
-              <input
-                type="text"
-                className="form-control"
-                value={customer.last_name}
-                name="last_name"
-                placeholder="Last name *"
-                onChange={() => setCustomer({ lastName: event.target.value })}
-                required
-              />
-            </div>
+      <form onSubmit={handleNewWorkOrder} >
+        <div className="row input-group mb-3 mt-3 ">
+          <div className="col-md-6">
+            <input
+              type="text"
+              className="form-control"
+              name="first_name"
+              value={customer.first_name}
+              placeholder="First name *"
+              onChange={() => setCustomer({ firstName: event.target.value })}
+              required
+            />
+
           </div>
 
           <div className="row input-group mb-3">
@@ -455,21 +456,52 @@ const NewWorkOrder = () => {
             {invalidItems.includes("woStages") && <label className="error-label">Invalid woStages format</label>}
           </div>
 
-          <div>
-            <button
-              type="submit" className="btn btn-primary"
-              onClick={handleNewWorkOrder}>
-              Create new order
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  };
+        )}
 
-  export default NewWorkOrder;
+        <div className="mb-3"></div>
 
-//  for picutrse send 2 fourmat fields,,
-//  second request to send a file 
+        <div className="input-group">
+          <span className="input-group-text mb-3">Notes:</span>
+          <textarea
+            className="form-control mb-3"
+            name="text_area"
+            placeholder="Comments"
+            onChange={(event) => setComments(event.target.value)}
+            value={comments}
+          ></textarea>
+        </div>
+        <div className="input-group">
+          <span className="input-group-text">Completion date:</span>
+          <input
+            className="form-control"
+            name="est_completion"
+            placeholder="est_completion"
+            type="date"
+            onChange={(event) => {
+              const newDate = event.target.value;
+              setEstCompletion(newDate)
+            } }
+            value={estCompletion}
+          ></input>
+        </div>
 
-//  Flux and make a new fetch that takes a arr []
+        <div className="mb-3"></div>
+
+        <div>
+          <GenerateWoSteps setWoStages={setWoStages} woStages={woStages} />
+        </div>
+
+        <div>
+          <button
+            type="submit" className="btn btn-primary mt-3"
+            onClick={handleNewWorkOrder}>
+            Create new order
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default NewWorkOrder;
+

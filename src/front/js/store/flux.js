@@ -203,7 +203,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     "Titan",
                     "Versa",
                 ],
-                Porshe: ["911", "Boxster", "Cayenne", "Cayman", "Macan", "Panamera"],
+                Porsche: ["911", "Boxster", "Cayenne", "Cayman", "Macan", "Panamera"],
                 Ram: ["1500", "2500", "3500"],
                 "Rolls-Royce": ["Phantom", "Ghost", "Wraith", "Dawn", "Cullinan"],
                 Subaru: [

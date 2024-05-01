@@ -37,21 +37,22 @@ export const GenerateWoSteps = ({ woStages, setWoStages }) => {
             <div className="accordion-item">
                 <h2 className="accordion-header" id="headingOne">
                     <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Progress Bar Steps Included
+                        Please select work order stages:
                     </button>
                 </h2>
                 <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div className="accordion-body">
                         {stepDescriptions.map((step, index) => (
-                            <div key={index} className="form-check">
+                            <div key={index} className="form-check" style={{ display: 'flex', alignItems: 'center' }}>
                                 <input
                                     className="form-check-input"
                                     type="checkbox"
                                     id={`custom-checkbox-${index}`}
                                     checked={woStages.includes(step)}
                                     onChange={() => handleCheckboxChange(step)}
+                                    style={{ marginRight: '5px' }}
                                 />
-                                <label className="form-check-label" htmlFor={`custom-checkbox-${index}`}>
+                                <label className="form-check-label" htmlFor={`custom-checkbox-${index}`} style={{ color: 'black' }}>
                                     {step}
                                 </label>
                             </div>

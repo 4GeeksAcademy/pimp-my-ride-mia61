@@ -1,0 +1,8 @@
+.customer-login-link {
+    color: #fff;
+    text-decoration: underline;
+  }
+
+.customer-login-link:hover {
+    color: #ccc;
+  }

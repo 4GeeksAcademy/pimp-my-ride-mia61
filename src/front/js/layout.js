@@ -24,10 +24,8 @@ import { WorkOrderDetails } from "./pages/WorkOrderDetails";
 import QuickSearchModal from "./component/QuickSearchModal";
 import ResetPassword from "./pages/ResetPassword";
 
-//create your first component
 const Layout = () => {
-    //the basename is used when your project is published in a subdirectory and not in the root of the domain
-    // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
+    
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const basename = process.env.BASENAME || "";
 
@@ -46,9 +44,6 @@ const Layout = () => {
                         <Route element={<CustomerDashboard />} path="/customer-dashboard" />
                         <Route element={<CustomerWorkOrder />} path="/customer-work-order/:workOrderId" />
                         <Route element={<CustomerSignup />} path="/customer-signup" />
-                        {/* <Route element={<Progressbar />} path="/progressbar" />
-                        <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" /> */}
-                        {/* <Route element={<GenerateWoSteps />} path="/generate-wo-steps" /> */}
                         <Route element={<UserDashboard />} path="/user-dashboard" /> 
                         <Route element={<QuickSearchModal />} path="/quick-search" />
                         <Route element={<WorkOrderDetails />} path="/order/details/:theid" />
@@ -56,7 +51,7 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                         <Route path="/reset-password" element={<ResetPassword />} />
-                        <Route path='/services' exact element={ <Services />}></Route>
+                        {/* <Route path='/services' exact element={ <Services />}></Route> */}
                         {/* <Route path='/products' exact element={ <Products />}></Route> */}
                         <Route path='/sign-up' exact element={ <SignUp />}></Route>
                     </Routes>
