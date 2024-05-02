@@ -3,27 +3,16 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
-import Home from "./pages/home";
-
+import { Home } from "./pages/home";
+import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
-
+import { Login } from "./pages/Login";
+import { Profile } from "./pages/Profile";
 import { Progressbar } from "./component/Progressbar";
-import { ProgressbarDropdown } from "./component/ProgressbarDropdown";
-import { GenerateProgressbar } from "./component/GenerateProgressbar";
 
-import Navbar from "./component/navbar";
-import Footer from "./component/footer";
-import Services from './pages/Services';
-import Products from './pages/Products';
-import SignUp from './pages/SignUp';
-import UserDashboard from "./pages/UserDashboard";
-import { UserLogin } from "./pages/UserLogin";
-import { CustomerLogin } from "./pages/CustomerLogin";
-import { CustomerProfile } from "./pages/CustomerProfile";
-import { CustomerSignup } from "./pages/CustomerSignup";
-
-// import { NewWorkOrder} from "./component/NewWorkOrder";
+import { Navbar } from "./component/navbar";
+import { Footer } from "./component/footer";
 
 //create your first component
 const Layout = () => {
@@ -40,19 +29,12 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<UserLogin />} path="/user-log-in" />
-                        <Route element={<CustomerLogin />} path="/customer-log-in" />
-                        <Route element={<CustomerProfile />} path="/customer-profile" />
-                        <Route element={<CustomerSignup />} path="/customer-signup" />
+                        <Route element={<Login />} path="/log-in" />
+                        <Route element={<Profile />} path="/profile" />
                         <Route element={<Progressbar />} path="/progressbar" />
-                        <Route element={<ProgressbarDropdown />} path="/progressbar-dropdown" />
-                        <Route element={<GenerateProgressbar />} path="/generate-progressbar" />
-                        <Route element={<UserDashboard />} path="/user-dashboard" />
+                        <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
-                        <Route path='/services' exact element={ <Services />}></Route>
-                        <Route path='/products' exact element={ <Products />}></Route>
-                        <Route path='/sign-up' exact element={ <SignUp />}></Route>
                     </Routes>
                     <Footer />
                 </ScrollToTop>
