@@ -7,9 +7,6 @@ import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
-import { Login } from "./pages/Login";
-import { Profile } from "./pages/Profile";
-import { Progressbar } from "./component/Progressbar";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -29,9 +26,6 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Login />} path="/log-in" />
-                        <Route element={<Profile />} path="/profile" />
-                        <Route element={<Progressbar />} path="/progressbar" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
