@@ -29,9 +29,11 @@ const QuickSearchForm = () => {
       setIsCodeSent(true);
       const data = await response.json();
       console.log('Verification code sent:', data);
+      alert("Verification email has been sent");
     } else {
       const error = await response.json();
       console.error("Failed to send verification code:", error.msg);
+      alert("Somethhing went wrong, please try again");
     }
   };
 
@@ -50,11 +52,13 @@ const QuickSearchForm = () => {
       navigate(`/customer-work-order/${data.work_order_id}`);
     } else {
       console.error("Verification failed");
+      alert("Verification failed, please try again");
     }
   };
 
   return (
     <div className="container-fluid pt-5 quick-search-container">
+      <div style={{ color: 'white', fontSize: '20px' }}> QUICK ORDER SEARCH</div>
       <div className="row justify-content-center">
         <div className="col-8 quick-search-form">
           <input

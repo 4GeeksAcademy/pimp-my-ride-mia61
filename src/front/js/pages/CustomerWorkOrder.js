@@ -66,26 +66,32 @@ export const CustomerWorkOrder = () => {
                             <div className="progressBarContainer">
                                 {selectedOrder && [...Array(selectedOrder.wo_stages.length).keys()].map((index) => (
                                     <React.Fragment key={index}>
-                                        <div>
+                                        <div style={{ textAlign: 'center' }}>
                                             <button
-                                                className={`stepButton ${index + 1 <= activeStep ? "completed" : ""}`}
+                                                style={{
+                                                    background: index + 1 <= activeStep ? "#28a745" : "#6c757d",
+                                                    color: "white",
+                                                    border: "none",
+                                                    borderRadius: "50%",
+                                                    width: "40px",
+                                                    height: "40px",
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}
+                                            // onClick={() => handleClick(index + 1)}
                                             >
                                                 {index + 1}
-                                                {/* {selectedOrder.wo_stages[index]} */}
                                             </button>
-                                            <p>{selectedOrder.wo_stages[index]}</p>
+                                            {activeStep != index + 1 ? (<p style={{ margin: "4px 0", color: 'gray', fontSize: '14px' }}>{selectedOrder.wo_stages[index]}</p>) : ""}
                                         </div>
-
-
-                                        {index < 8 && (
-                                            <div
-                                                className={`stepConnector ${index + 1 < activeStep ? "completed" : ""}`}
-                                            ></div>
+                                        {index < selectedOrder.wo_stages.length - 1 && (
+                                            <div style={{ width: "70px", height: "2px", background: index + 1 < activeStep ? "#28a745" : "#ccc", margin: "22px 10px" }}></div>
                                         )}
                                         {activeStep === index + 1 && (
-                                            <div className="stepDescription text-center">
-                                                <img src="https://res.cloudinary.com/dufs8hbca/image/upload/v1713900729/progress_bar_car_qa6han.png" className="img-fluid" alt="..." style={{ height: "50px" }} />
-                                                {/* <p>{selectedOrder.wo_stages[index]}</p> */}
+                                            <div className="stepDescription text-center" style={{ margin: "10px 0" }}>
+                                                <img src="https://res.cloudinary.com/dufs8hbca/image/upload/v1713900729/progress_bar_car_qa6han.png" alt="Progress Stage" style={{ height: "50px" }} />
+                                                <p>{selectedOrder.wo_stages[index]}</p>
                                             </div>
                                         )}
                                     </React.Fragment>
@@ -105,11 +111,11 @@ export const CustomerWorkOrder = () => {
                         <p>VIN: {selectedOrder.vin}</p>
                         <p>License Plate: {selectedOrder.license_plate}</p>
                         <p>Status: {selectedOrder.current_stage}</p>
-                        <p>Car Ready date: {formatTimeNoHours(new Date((selectedOrder.est_completion)))}</p>
+                        <p>Estimated completion date: {formatTimeNoHours(new Date((selectedOrder.est_completion)))}</p>
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 };
 

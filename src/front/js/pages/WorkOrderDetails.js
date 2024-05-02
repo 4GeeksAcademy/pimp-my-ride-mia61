@@ -131,7 +131,12 @@ export const WorkOrderDetails = () => {
     };
 
 
-    function formatTime(time) { return `${time.getMonth()}/${time.getDate()}/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()} ${parseInt(time.getHours()) < 12 ? "AM" : "PM"}` }
+    function formatTime(time) {
+        const date = new Date(time);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()} ${hours}:${minutes < 10 ? '0' + minutes : minutes} ${hours < 12 ? "AM" : "PM"}`;
+    }
     function formatTimeNoHours(time) {
         const oneDayMilliseconds = 24 * 60 * 60 * 1000; // Number of milliseconds in one day
         const nextDay = new Date(time.getTime() + oneDayMilliseconds); // Add one day to the provided time
@@ -188,7 +193,7 @@ export const WorkOrderDetails = () => {
                                                 >
                                                     {index + 1}
                                                 </button>
-                                                {activeStep != index + 1 ? (<p style={{ margin: "4px 0", color: 'gray', fontSize: '14px' }}>{workOrder.wo_stages[index]}</p>):""}
+                                                {activeStep != index + 1 ? (<p style={{ margin: "4px 0", color: 'gray', fontSize: '14px' }}>{workOrder.wo_stages[index]}</p>) : ""}
                                             </div>
                                             {index < lengthOfWorkOrderWoStages - 1 && (
                                                 <div style={{ width: "70px", height: "2px", background: index + 1 < activeStep ? "#28a745" : "#ccc", margin: "22px 10px" }}></div>
@@ -201,7 +206,7 @@ export const WorkOrderDetails = () => {
                                             )}
                                         </React.Fragment>
                                     ))}
-                              
+
 
                                 </div>
                             </div>
@@ -209,99 +214,107 @@ export const WorkOrderDetails = () => {
                         {/* <h5 style={{ backgroundColor: "#343a40", color: "white", padding: "10px 0" }}>Current Stage: {workOrder.wo_stages[activeStep - 1]}</h5> */}
                         {/* <button className="btn-large pt-2 bg-dark text-light" onClick={() => actions.editWorkOrder(workOrder)}> Update Progressbar </button> */}
                     </div>
-                    <div className="container-flex mx-auto d-flex  justify-content-between" style={{ width: "100%", marginTop: "20px" }}>
-                        <div className="container" style={{ width: "60%", background: '#fff', padding: "20px", boxShadow: '0px 0px 10px rgba(0,0,0,0.1)' }}>
-                            {/* Editing for customer */}
-                            <div className="mb-3">
-                                <label className="form-label">First Name: </label>
-                                <input className="form-control" name="first_name" value={customer.first_name} onChange={handleInputChangeCustomer} />
-                            </div>
-
-                            <div className="mb-3">
-                                <label className="form-label">Last Name: </label>
-                                <input className="form-control" name="last_name" value={customer.last_name} onChange={handleInputChangeCustomer} />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Email: </label>
-                                <input className="form-control" name="email" value={customer.email} onChange={handleInputChangeCustomer} />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Phone Number: </label>
-                                <input className="form-control" name="phone" value={customer.phone} onChange={handleInputChangeCustomer} />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Address: </label>
-                                <input className="form-control" name="address" value={customer.address} onChange={handleInputChangeCustomer} />
-                            </div>
-                            <button className="btn btn-primary" onClick={handleSaveCustomerDetails} style={{paddingBottom: "8px", marginBottom:"10px", borderRadius: "5px", backgroundColor: "#343a40",}}>Save Customer Details</button>
-
-
-                            <div className="container-flex mx-auto border d-flex flex-column" style={{ padding: "20px" }}>
-                                <div className="align-items-center fs-4 mx-auto">
-                                    {editMode ? (
-                                        <>
-                                            {/* Editable fields */}
-                                            <div className="mb-3">
-                                                <label className="form-label">Make: </label>
-                                                <input className="form-control" name="make" value={workOrder.make} onChange={handleInputChange} />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">Model: </label>
-                                                <input className="form-control" name="model" value={workOrder.model} onChange={handleInputChange} />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">Year: </label>
-                                                <input className="form-control" name="year" value={workOrder.year} onChange={handleInputChange} />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">VIN: </label>
-                                                <input className="form-control" name="vin" value={workOrder.vin} onChange={handleInputChange} />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">License Plate: </label>
-                                                <input className="form-control" name="license_plate" value={workOrder.license_plate} onChange={handleInputChange} />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">Color: </label>
-                                                <input className="form-control" name="color" value={workOrder.color} onChange={handleInputChange} />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">Date Created: </label>
-                                                <input className="form-control" disabled value={formatTime(new Date(workOrder.time_created))} />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">Estimated Completion Date: </label>
-                                                <input className="form-control" disabled value={formatTimeNoHours(new Date(workOrder.est_completion))} />
-                                            </div>
-                                            <button className="btn btn-primary" onClick={handleSave} style={{paddingBottom: "8px", marginBottom:"10px", borderRadius: "5px", backgroundColor: "#343a40",}}>Save Changes</button>
-                                        </>
-                                    ) : (
-                                        <>
-                                        <div className="selected-order-info">{/* Display fields */}
-                                            <p>Make: {workOrder.make}</p>
-                                            <p>Model: {workOrder.model}</p>
-                                            <p>Year: {workOrder.year}</p>
-                                            <p>VIN: {workOrder.vin}</p>
-                                            <p>License Plate: {workOrder.license_plate}</p>
-                                            <p>Color: {workOrder.color}</p>
-                                            <p>Date Created: {formatTime(new Date(workOrder.time_created))}</p>
-                                            <p>Estimated Completion Date: {formatTimeNoHours(new Date(workOrder.est_completion))}</p></div>
-                                            
-                                            <button className="btn btn-secondary" onClick={handleEdit} style={{paddingBottom: "8px", marginBottom:"10px", borderRadius: "5px", backgroundColor: "#343a40",}}>Edit Details</button>
-                                        </>
-                                    )}
+                    <div className="container-flex mx-auto" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                        <div className="forms-container" style={{ display: 'flex', width: '100%', gap: '18px', justifyContent: 'center', marginTop: '18px' }}>
+                            {/* Customer Details Form */}
+                            <div style={{ width: '30%', background: '#fff', padding: '20px', boxShadow: '0px 0px 10px rgba(0,0,0,0.4)', borderRadius:'5px' }}>
+                                <div className="mb-3">
+                                    <label className="form-label">First Name: </label>
+                                    <input className="form-control" name="first_name" value={customer.first_name} onChange={handleInputChangeCustomer} />
                                 </div>
-                            </div>
-                            <div className="container-flex mx-auto noteBook bg-white flex-column">
-                                <div className="div align-items-center fs-4 mx-auto p-5">
-                                    <WorkOrderComments
-                                        formatTime={formatTime}
-                                        refreshWorkOrder={fetchData}
-                                        comments={workOrder.comments}
-                                        creationDate={workOrder.time_created}
-                                        woId={workOrder.id} />
+                                <div className="mb-3">
+                                    <label className="form-label">Last Name: </label>
+                                    <input className="form-control" name="last_name" value={customer.last_name} onChange={handleInputChangeCustomer} />
                                 </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Email: </label>
+                                    <input className="form-control" name="email" value={customer.email} onChange={handleInputChangeCustomer} />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Phone Number: </label>
+                                    <input className="form-control" name="phone" value={customer.phone} onChange={handleInputChangeCustomer} />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Address: </label>
+                                    <input className="form-control" name="address" value={customer.address} onChange={handleInputChangeCustomer} />
+                                </div>
+                                <button className="btn btn-primary" onClick={handleSaveCustomerDetails}>Save Customer Details</button>
                             </div>
+
+                            {/* Work Details Form */}
+                            <div style={{
+                                width: '30%',
+                                background: '#fff',
+                                padding: '20px',
+                                boxShadow: '0px 0px 10px rgba(0,0,0,0.1)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'space-between',
+                                borderRadius:'5px'
+                            }}>
+                                {editMode ? (
+                                    <>
+                                        <div className="mb-3">
+                                            <label className="form-label">Make: </label>
+                                            <input className="form-control" name="make" value={workOrder.make} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Model: </label>
+                                            <input className="form-control" name="model" value={workOrder.model} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Year: </label>
+                                            <input className="form-control" name="year" value={workOrder.year} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">VIN: </label>
+                                            <input className="form-control" name="vin" value={workOrder.vin} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">License Plate: </label>
+                                            <input className="form-control" name="license_plate" value={workOrder.license_plate} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Color: </label>
+                                            <input className="form-control" name="color" value={workOrder.color} onChange={handleInputChange} />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Date Created: </label>
+                                            <input className="form-control" disabled value={formatTime(new Date(workOrder.time_created))} />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Estimated Completion Date: </label>
+                                            <input className="form-control" disabled value={formatTimeNoHours(new Date(workOrder.est_completion))} />
+                                        </div>
+                                        <button className="btn btn-primary" onClick={handleSave}>Save Changes</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        {/* Display fields */}
+                                        <p>Make: {workOrder.make}</p>
+                                        <p>Model: {workOrder.model}</p>
+                                        <p>Year: {workOrder.year}</p>
+                                        <p>VIN: {workOrder.vin}</p>
+                                        <p>License Plate: {workOrder.license_plate}</p>
+                                        <p>Color: {workOrder.color}</p>
+                                        <p>Date Created: {formatTime(new Date(workOrder.time_created))}</p>
+                                        <p>Estimated Completion Date: {formatTimeNoHours(new Date(workOrder.est_completion))}</p>
+                                        <button className="btn btn-secondary" onClick={handleEdit}>Edit Details</button>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+
+                        {/* Comments Section */}
+                        <div style={{ width: '60%', padding: '20px', boxShadow: '0 1px 1px rgba(0,0,0,0.15)' }}>
+                            <WorkOrderComments
+                                formatTime={formatTime}
+                                refreshWorkOrder={fetchData}
+                                comments={workOrder.comments}
+                                creationDate={workOrder.time_created}
+                                woId={workOrder.id}
+                            />
                         </div>
                     </div>
                     <div style={{ width: "100%", textAlign: "center", padding: "20px" }}>

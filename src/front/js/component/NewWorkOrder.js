@@ -444,7 +444,7 @@ const NewWorkOrder = () => {
               ></textarea>
               {invalidItems.includes("comments") && <label className="error-label text-dark">Invalid comments format</label>}
             </div>
-            <div className="input-group">
+            <div className="mt-3 input-group">
               <span className="input-group-text">Estimated Completion Date:</span>
               <input
                 className="form-control"
