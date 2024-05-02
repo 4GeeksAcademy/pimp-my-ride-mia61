@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import '../../styles/CustomerWorkOrder.css';
+import 'react-tooltip/dist/react-tooltip.css'  
+import { Tooltip } from 'react-tooltip'
+
 
 export const CustomerWorkOrder = () => {
     const { workOrderId } = useParams();
@@ -68,6 +71,9 @@ export const CustomerWorkOrder = () => {
                                     <React.Fragment key={index}>
                                         <div style={{ textAlign: 'center' }}>
                                             <button
+                                                data-tooltip-id="my-tooltip"
+                                                data-tooltip-content={activeStep != index + 1 ? selectedOrder.wo_stages[index]: ""}
+                                                data-tooltip-place="top"
                                                 style={{
                                                     background: index + 1 <= activeStep ? "#28a745" : "#6c757d",
                                                     color: "white",
@@ -83,7 +89,8 @@ export const CustomerWorkOrder = () => {
                                             >
                                                 {index + 1}
                                             </button>
-                                            {activeStep != index + 1 ? (<p style={{ margin: "4px 0", color: 'gray', fontSize: '14px' }}>{selectedOrder.wo_stages[index]}</p>) : ""}
+                                            <Tooltip id="my-tooltip" />
+                                            {/* {activeStep != index + 1 ? (<p style={{ margin: "4px 0", color: 'gray', fontSize: '14px' }}>{selectedOrder.wo_stages[index]}</p>) : ""} */}
                                         </div>
                                         {index < selectedOrder.wo_stages.length - 1 && (
                                             <div style={{ width: "70px", height: "2px", background: index + 1 < activeStep ? "#28a745" : "#ccc", margin: "22px 10px" }}></div>
