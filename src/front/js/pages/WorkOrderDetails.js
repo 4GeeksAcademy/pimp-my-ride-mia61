@@ -149,22 +149,27 @@ export const WorkOrderDetails = () => {
                     paddingTop: '10px',
                     minHeight: '50vh'
                 }}>
-                    <div style={{ width: "100%", overflowX: "auto" }}>
-                        {pictures.map((image, index) => (
-                            <img
-                                key={image.id}
-                                src={image.image_url}
-                                alt="Random"
-                                style={{
-                                    maxHeight: "500px",
-                                    width: "auto",
-                                    objectFit: "cover",
-                                    margin: "0 5px"
-                                }}
-                            />
-                        ))}
+                    <div className="container-flex">
+                        <div style={{ width: "900px", overflowY: "hidden" }}>
+                            <div style={{ display: "flex", flexWrap: "nowrap", overflowX: "scroll" }}>
+                                <div style={{ display: "flex" }}>
+                                    {pictures.map((image, index) => {
+                                        return <img
+                                            key={image.id}
+                                            src={image.image_url}
+                                            alt="Random"
+                                            style={{
+                                                maxHeight: "500px",
+                                                width: "auto",
+                                                objectFit: "cover"
+                                            }}
+                                        />
+                                    })}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div style={{ width: "100%", background: "#f8f9fa", padding: "20px", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}>
+                    <div style={{ width: "900px", background: "#f8f9fa", padding: "20px", boxShadow: "0 0 10px rgba(0,0,0,0.1)" }}>
                         <div className="container-fluid">
                             <div className="row">
 
